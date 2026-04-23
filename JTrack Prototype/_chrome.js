@@ -104,4 +104,146 @@
       if (tb) tb.outerHTML = renderTopbar(crumbs || []);
     }
   };
+
+  // =========================================================================
+  // DEMO NAV BAR — floating pill with Prev/Next/Navigator + keyboard shortcuts
+  // Auto-injects on every prototype page (except demo.html itself).
+  // Order matches the demo flow recommended for JKR 27 Apr 2026 presentation.
+  // =========================================================================
+  const DEMO_FLOW = [
+    ['Log Masuk.html',                'Log Masuk'],
+    ['Daftar Akaun.html',             'Daftar Akaun'],
+    ['Pengesahan Emel.html',          'Pengesahan Emel'],
+    ['Profil Pengguna.html',          'Profil Pengguna'],
+    ['Dashboard.html',                'Dashboard'],
+    ['Senarai Projek.html',           'Senarai Projek'],
+    ['Detail Projek.html',            'Detail Projek'],
+    ['Pilih Projek.html',             'Pilih Projek'],
+    ['Modal Kunci Maklumat.html',     'Modal Kunci Maklumat'],
+    ['Pra-Intervensi.html',           'Pra-Intervensi'],
+    ['Tarikh Intervensi.html',        'Tarikh Intervensi'],
+    ['Tetapkan Pasukan.html',         'Tetapkan Pasukan'],
+    ['Tindakan Pengesyoran.html',     'Tindakan Pengesyoran'],
+    ['Laporan Intervensi.html',       'Laporan Intervensi'],
+    ['Laporan Intervensi Form.html',  'Laporan Intervensi (Borang)'],
+    ['Semakan Pengesah.html',         'Semakan Pengesah'],
+    ['Muktamadkan Laporan.html',      'Muktamadkan Laporan'],
+    ['Laporan Diluluskan.html',       'Laporan Diluluskan'],
+    ['Jana Surat.html',               'Jana Surat'],
+    ['Ruang Catatan.html',            'Ruang Catatan'],
+    ['Penilaian Prestasi.html',       'Penilaian Prestasi'],
+    ['Mesyuarat Penutup.html',        'Mesyuarat Penutup'],
+    ['Workflow Visualizer.html',      'Workflow Visualizer'],
+    ['Pusat Amaran.html',             'Pusat Amaran'],
+    ['Email Notification.html',       'Email Notification'],
+    ['Laporan Kemajuan Bulanan.html', 'Laporan Kemajuan Bulanan'],
+    ['Log Audit.html',                'Log Jejak Audit'],
+    ['Pengurusan Pengguna.html',      'Pengurusan Pengguna'],
+  ];
+
+  function injectDemoNav() {
+    try {
+      const path = decodeURIComponent((location.pathname.split('/').pop() || '').replace(/^\/+/, ''));
+      // skip on demo navigator itself or empty
+      if (!path || path === 'demo.html' || path === 'index.html') return;
+      const idx = DEMO_FLOW.findIndex(([f]) => f === path);
+      if (idx === -1) return;  // page not in demo flow
+
+      const total = DEMO_FLOW.length;
+      const prev = idx > 0 ? DEMO_FLOW[idx - 1] : null;
+      const next = idx < total - 1 ? DEMO_FLOW[idx + 1] : null;
+      const cur  = DEMO_FLOW[idx];
+
+      const bar = document.createElement('div');
+      bar.id = 'jt-demo-nav';
+      bar.innerHTML = `
+        <style>
+          #jt-demo-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; display: flex; align-items: center; gap: 4px;
+            background: #13253E; color: #fff; border-radius: 999px; padding: 6px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.08);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Arial, sans-serif;
+            font-size: 12px; user-select: none;
+            transition: opacity 0.2s ease;
+          }
+          #jt-demo-nav.jt-hidden { opacity: 0.15; }
+          #jt-demo-nav.jt-hidden:hover { opacity: 1; }
+          #jt-demo-nav a, #jt-demo-nav button {
+            display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px;
+            color: inherit; text-decoration: none; border-radius: 999px;
+            background: transparent; border: 0; cursor: pointer; font: inherit;
+            transition: background 0.12s ease;
+          }
+          #jt-demo-nav a:hover, #jt-demo-nav button:hover { background: rgba(255,255,255,0.08); }
+          #jt-demo-nav .jt-dn-home { background: #D4A017; color: #13253E; font-weight: 600; }
+          #jt-demo-nav .jt-dn-home:hover { background: #F2C94C; }
+          #jt-demo-nav .jt-dn-step { padding: 0 10px; color: rgba(255,255,255,0.6);
+            font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Consolas", monospace;
+            font-size: 10.5px; letter-spacing: 0.5px; min-width: 58px; text-align: center;
+          }
+          #jt-demo-nav .jt-dn-title { font-weight: 600; white-space: nowrap; max-width: 260px;
+            overflow: hidden; text-overflow: ellipsis;
+          }
+          #jt-demo-nav .jt-dn-disabled { opacity: 0.28; pointer-events: none; }
+          #jt-demo-nav svg { width: 14px; height: 14px; flex-shrink: 0; }
+          #jt-demo-nav .jt-dn-kbd { font-family: "JetBrains Mono", monospace; font-size: 9.5px;
+            padding: 1px 4px; border-radius: 4px; background: rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.72); margin-left: 6px;
+          }
+          @media print { #jt-demo-nav { display: none !important; } }
+        </style>
+        <a class="jt-dn-home" href="demo.html" title="Kembali ke Demo Navigator (Esc)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          <span>Navigator</span>
+        </a>
+        <a class="${prev ? '' : 'jt-dn-disabled'}" href="${prev ? encodeURI(prev[0]) : '#'}" title="Sebelum (←)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <span class="jt-dn-step">${String(idx + 1).padStart(2,'0')} / ${total}</span>
+        <span class="jt-dn-title">${cur[1]}</span>
+        <a class="${next ? '' : 'jt-dn-disabled'}" href="${next ? encodeURI(next[0]) : '#'}" title="Seterusnya (→)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        <button id="jt-dn-toggle" title="Sorok / Paparkan (H)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      `;
+      document.body.appendChild(bar);
+
+      // toggle hide/show
+      document.getElementById('jt-dn-toggle').addEventListener('click', () => {
+        bar.classList.toggle('jt-hidden');
+      });
+
+      // keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // ignore when typing in input/textarea/contenteditable
+        const t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+        if (e.key === 'ArrowLeft' && prev)  { e.preventDefault(); location.href = encodeURI(prev[0]); }
+        if (e.key === 'ArrowRight' && next) { e.preventDefault(); location.href = encodeURI(next[0]); }
+        if (e.key === 'Escape')             { e.preventDefault(); location.href = 'demo.html'; }
+        if (e.key === 'h' || e.key === 'H') { bar.classList.toggle('jt-hidden'); }
+      });
+    } catch (err) {
+      // never break the page because of demo nav
+      console && console.warn && console.warn('demo-nav inject failed', err);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectDemoNav);
+  } else {
+    injectDemoNav();
+  }
 })();
