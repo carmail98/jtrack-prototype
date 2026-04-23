@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J-TRACK — Demo Navigator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-dark: #13253E;
+    --gold: #D4A017;
+    --gold-light: #F2C94C;
+    --orange: #C7561D;
+    --text: #1A1A2E;
+    --muted: #5A6B7E;
+    --border: #EEF1F5;
+    --bg: #F5F7FA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    color: white;
+    padding: 40px 48px 48px;
+    border-bottom: 4px solid var(--gold);
+  }
+  .brand {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 6px;
+  }
+  .meta {
+    margin-top: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+  }
+  .meta strong { color: var(--gold-light); font-weight: 600; }
+
+  main { padding: 40px 48px 80px; max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: 48px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: "Consolas", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 1.5px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .section-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    display: block;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--navy);
+    box-shadow: 0 8px 20px rgba(30, 58, 95, 0.12);
+  }
+  .card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+    background: var(--bg);
+  }
+  .card-body { padding: 12px 14px 14px; }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  footer {
+    padding: 24px 48px;
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    font-size: 11.5px;
+    text-align: center;
+  }
+  footer a { color: var(--gold-light); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Demo Navigator</div>
+  <h1>Sistem J-TRACK — Prototaip UI/UX</h1>
+  <p>Sistem Pemantauan Program Intervensi Projek Sakit/Bermasalah · JKR Malaysia</p>
+  <div class="meta">
+    <span><strong>28</strong> skrin prototaip</span>
+    <span><strong>6</strong> modul utama</span>
+    <span><strong>Fasa</strong> workflow PSG (end-to-end)</span>
+    <span style="margin-left:auto;">Pembentangan · 27 April 2026</span>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A1</span>
+    <span class="section-title">Autentikasi & Akaun</span>
+    <span class="section-desc">Log masuk, pendaftaran, pengesahan emel, profil pengguna</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Log Masuk.html"><img src="thumbnails/Log_Masuk.png" alt=""><div class="card-body"><div class="card-title">Log Masuk</div><div class="card-desc">Portal akses rasmi dengan JDN SSO</div></div></a>
+    <a class="card" href="Daftar Akaun.html"><img src="thumbnails/Daftar_Akaun.png" alt=""><div class="card-body"><div class="card-title">Daftar Akaun</div><div class="card-desc">Pendaftaran pengguna baharu</div></div></a>
+    <a class="card" href="Pengesahan Emel.html"><img src="thumbnails/Pengesahan_Emel.png" alt=""><div class="card-body"><div class="card-title">Pengesahan Emel</div><div class="card-desc">OTP pengesahan akaun</div></div></a>
+    <a class="card" href="Profil Pengguna.html"><img src="thumbnails/Profil_Pengguna.png" alt=""><div class="card-body"><div class="card-title">Profil Pengguna</div><div class="card-desc">Maklumat & tetapan pengguna</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A2</span>
+    <span class="section-title">Pendaftaran & Papan Pemuka</span>
+    <span class="section-desc">Dashboard, senarai, detail projek</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Dashboard.html"><img src="thumbnails/Dashboard.png" alt=""><div class="card-body"><div class="card-title">Dashboard</div><div class="card-desc">KPI & status projek masa nyata</div></div></a>
+    <a class="card" href="Senarai Projek.html"><img src="thumbnails/Senarai_Projek.png" alt=""><div class="card-body"><div class="card-title">Senarai Projek</div><div class="card-desc">247 projek aktif — tarikan dari SKALA</div></div></a>
+    <a class="card" href="Detail Projek.html"><img src="thumbnails/Detail_Projek.png" alt=""><div class="card-body"><div class="card-title">Detail Projek</div><div class="card-desc">Maklumat lengkap projek terpilih</div></div></a>
+    <a class="card" href="Pilih Projek.html"><img src="thumbnails/Pilih_Projek.png" alt=""><div class="card-body"><div class="card-title">Pilih Projek</div><div class="card-desc">Cadangan projek untuk intervensi</div></div></a>
+    <a class="card" href="Modal Kunci Maklumat.html"><img src="thumbnails/Modal_Kunci_Maklumat.png" alt=""><div class="card-body"><div class="card-title">Modal Kunci Maklumat</div><div class="card-desc">Tambah maklumat penting projek</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A3</span>
+    <span class="section-title">Fasa 1–2: Pra-Intervensi & Pengesyoran</span>
+    <span class="section-desc">Persediaan intervensi sebelum tindakan tapak</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Pra-Intervensi.html"><img src="thumbnails/Pra-Intervensi.png" alt=""><div class="card-body"><div class="card-title">Pra-Intervensi</div><div class="card-desc">Kajian awal projek bermasalah</div></div></a>
+    <a class="card" href="Tarikh Intervensi.html"><img src="thumbnails/Tarikh_Intervensi.png" alt=""><div class="card-body"><div class="card-title">Tarikh Intervensi</div><div class="card-desc">Penjadualan lawatan tapak</div></div></a>
+    <a class="card" href="Tetapkan Pasukan.html"><img src="thumbnails/Tetapkan_Pasukan.png" alt=""><div class="card-body"><div class="card-title">Tetapkan Pasukan</div><div class="card-desc">Pelantikan Ketua Penilai & ahli</div></div></a>
+    <a class="card" href="Tindakan Pengesyoran.html"><img src="thumbnails/Tindakan_Pengesyoran.png" alt=""><div class="card-body"><div class="card-title">Tindakan Pengesyoran</div><div class="card-desc">Cadangan tindakan untuk projek</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A4</span>
+    <span class="section-title">Fasa 3: Pelaporan Intervensi</span>
+    <span class="section-desc">Penjanaan & semakan laporan intervensi</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Laporan Intervensi.html"><img src="thumbnails/Laporan_Intervensi.png" alt=""><div class="card-body"><div class="card-title">Laporan Intervensi</div><div class="card-desc">Paparan laporan format rasmi</div></div></a>
+    <a class="card" href="Laporan Intervensi Form.html"><img src="thumbnails/Laporan_Intervensi_Form.png" alt=""><div class="card-body"><div class="card-title">Laporan Intervensi — Borang</div><div class="card-desc">Input Punca Kelewatan & Analisis</div></div></a>
+    <a class="card" href="Semakan Pengesah.html"><img src="thumbnails/Semakan_Pengesah.png" alt=""><div class="card-body"><div class="card-title">Semakan Pengesah</div><div class="card-desc">Review & komen sebelum kelulusan</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A5</span>
+    <span class="section-title">Fasa 4: Kelulusan & Surat Rasmi</span>
+    <span class="section-desc">Muktamadkan laporan, paparan diluluskan, penjanaan surat</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Muktamadkan Laporan.html"><img src="thumbnails/Muktamadkan_Laporan.png" alt=""><div class="card-body"><div class="card-title">Muktamadkan Laporan</div><div class="card-desc">Proses persetujuan laporan akhir</div></div></a>
+    <a class="card" href="Laporan Diluluskan.html"><img src="thumbnails/Laporan_Diluluskan.png" alt=""><div class="card-body"><div class="card-title">Laporan Diluluskan</div><div class="card-desc">Laporan sah untuk edaran</div></div></a>
+    <a class="card" href="Jana Surat.html"><img src="thumbnails/Jana_Surat.png" alt=""><div class="card-body"><div class="card-title">Jana Surat</div><div class="card-desc">Surat pelantikan & makluman rasmi</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A6</span>
+    <span class="section-title">Fasa 5: Susulan & Penutup Projek</span>
+    <span class="section-desc">Kemas kini kemajuan, penilaian prestasi, mesyuarat penutup</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Ruang Catatan.html"><img src="thumbnails/Ruang_Catatan.png" alt=""><div class="card-body"><div class="card-title">Ruang Catatan</div><div class="card-desc">Log tapak + muat naik gambar kemajuan</div></div></a>
+    <a class="card" href="Penilaian Prestasi.html"><img src="thumbnails/Penilaian_Prestasi.png" alt=""><div class="card-body"><div class="card-title">Penilaian Prestasi</div><div class="card-desc">Trend 3 bulan + skor metrik</div></div></a>
+    <a class="card" href="Mesyuarat Penutup.html"><img src="thumbnails/Mesyuarat_Penutup.png" alt=""><div class="card-body"><div class="card-title">Mesyuarat Penutup</div><div class="card-desc">Agenda & pengesyoran penutupan</div></div></a>
+    <a class="card" href="Workflow Visualizer.html"><img src="thumbnails/Workflow_Visualizer.png" alt=""><div class="card-body"><div class="card-title">Workflow Visualizer</div><div class="card-desc">Carta alir 5 fasa end-to-end</div></div></a>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">A7</span>
+    <span class="section-title">Amaran Tambahan & Pentadbiran</span>
+    <span class="section-desc">Notifikasi emel, pengurusan pengguna sistem</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Pusat Amaran.html"><img src="thumbnails/Pusat_Amaran.png" alt=""><div class="card-body"><div class="card-title">Pusat Amaran</div><div class="card-desc">In-app notification centre</div></div></a>
+    <a class="card" href="Email Notification.html"><img src="thumbnails/Email_Notification.png" alt=""><div class="card-body"><div class="card-title">Email Notification</div><div class="card-desc">Contoh notifikasi yang dihantar</div></div></a>
+    <a class="card" href="Laporan Kemajuan Bulanan.html"><img src="thumbnails/Laporan_Kemajuan_Bulanan.png" alt=""><div class="card-body"><div class="card-title">Laporan Kemajuan Bulanan</div><div class="card-desc">Sample output pelaporan automatik</div></div></a>
+    <a class="card" href="Log Audit.html"><img src="thumbnails/Log_Audit.png" alt=""><div class="card-body"><div class="card-title">Log Jejak Audit</div><div class="card-desc">Audit trail — Dasar Keselamatan ICT</div></div></a>
+    <a class="card" href="Pengurusan Pengguna.html"><img src="thumbnails/Pengurusan_Pengguna.png" alt=""><div class="card-body"><div class="card-title">Pengurusan Pengguna</div><div class="card-desc">RBAC & kebenaran akses</div></div></a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Prototaip Sistem J-TRACK · Interactive UI/UX Mockup · SULIT ·
+  <a href="Log Masuk.html">Mulakan demo →</a>
+</footer>
+
+</body>
+</html>
