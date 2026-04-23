@@ -160,22 +160,40 @@
         }
 
         /* ===== Grid → stack on mobile ===== */
-        .grid.grid-cols-4, .grid.grid-cols-3 {
-          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        }
-        .grid.grid-cols-2 {
+        .grid.grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        .grid.grid-cols-3, .grid.grid-cols-2,
+        .grid.grid-cols-5, .grid.grid-cols-6 {
           grid-template-columns: 1fr !important;
         }
         /* Responsive variants that lock wide layouts on small */
-        [class*="md:grid-cols-"], [class*="lg:grid-cols-"] {
+        [class*="md:grid-cols-"], [class*="lg:grid-cols-"], [class*="xl:grid-cols-"] {
           grid-template-columns: 1fr !important;
         }
 
         /* ===== Flex containers: allow wrap so cards don't overflow ===== */
-        main .flex.gap-4, main .flex.gap-6, main .flex.gap-8,
-        main .flex.items-start.gap-4, main .flex.items-stretch.gap-4 {
-          flex-wrap: wrap !important;
+        /* aggressive — every flex inside main wraps on mobile, EXCEPT small util
+           flex groups (pill bars, icon rows) detected by no gap / small gap. */
+        main .flex[class*="gap-"] { flex-wrap: wrap !important; }
+        main .flex.items-start:not([class*="gap-1"]):not([class*="gap-2"]),
+        main .flex.items-stretch { flex-wrap: wrap !important; }
+        /* 2-column primary split (content + sidebar panel) → stack */
+        main [class*="flex"][class*="gap-6"] > *,
+        main [class*="flex"][class*="gap-8"] > * {
+          flex: 1 1 100% !important;
+          min-width: 0 !important;
+          max-width: 100% !important;
         }
+        /* Cards with fixed minimums force to full width */
+        main [class*="min-w-"] { min-width: 0 !important; }
+        /* Right-side panels (Amaran Terkini etc.) — common pattern */
+        main [class*="w-80"], main [class*="w-[320px]"], main [class*="w-[300px]"],
+        main [class*="w-96"], main [class*="w-72"] {
+          width: 100% !important;
+          max-width: 100% !important;
+          flex-basis: 100% !important;
+        }
+        /* Cards that should keep vertical ordering — stack at the 1-col level */
+        main .grid { gap: 0.75rem !important; }
 
         /* ===== Tables → horizontal scroll container ===== */
         main table { font-size: 11px !important; }
