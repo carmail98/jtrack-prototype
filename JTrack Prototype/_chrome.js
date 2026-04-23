@@ -74,8 +74,13 @@
         : `<a class="hover:text-navy cursor-pointer">${c}</a><span>/</span>`;
     }).join('');
     return `
-      <header class="h-14 bg-white border-b border-border px-6 flex items-center justify-between flex-shrink-0">
-        <div class="flex items-center gap-2 text-[12.5px] text-muted-foreground">${crumbHtml}</div>
+      <header class="jt-topbar h-14 bg-white border-b border-border px-6 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2 text-[12.5px] text-muted-foreground">
+          <button class="jt-hamburger p-1.5 -ml-1 rounded-md hover:bg-muted text-slate-700" aria-label="Menu">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          ${crumbHtml}
+        </div>
         <div class="flex items-center gap-2">
           <div class="relative">
             <svg class="w-4 h-4 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -96,14 +101,169 @@
     `;
   }
 
+  // =========================================================================
+  // MOBILE RESPONSIVE LAYER — CSS overrides + sidebar drawer toggle
+  // =========================================================================
+  function injectMobileCSS() {
+    if (document.getElementById('jt-mobile-css')) return;
+    const style = document.createElement('style');
+    style.id = 'jt-mobile-css';
+    style.textContent = `
+      /* Hamburger button — hidden on desktop, visible on mobile */
+      .jt-hamburger { display: none; }
+
+      @media (max-width: 767px) {
+        /* ===== Page shell ===== */
+        html, body { overflow-x: hidden; }
+        .min-h-screen.flex { position: relative; }
+
+        /* ===== Sidebar → Drawer ===== */
+        aside.w-60 {
+          position: fixed !important;
+          top: 0; left: 0; bottom: 0;
+          width: 260px !important;
+          z-index: 45;
+          transform: translateX(-100%);
+          transition: transform 0.22s ease;
+          box-shadow: 2px 0 24px rgba(0,0,0,0.22);
+        }
+        body.jt-drawer-open aside.w-60 { transform: translateX(0); }
+
+        /* Backdrop */
+        .jt-drawer-backdrop {
+          position: fixed; inset: 0; z-index: 40;
+          background: rgba(19, 37, 62, 0.5);
+          opacity: 0; pointer-events: none;
+          transition: opacity 0.22s ease;
+        }
+        body.jt-drawer-open .jt-drawer-backdrop { opacity: 1; pointer-events: auto; }
+
+        /* ===== Hamburger shown ===== */
+        .jt-hamburger { display: inline-flex !important; }
+
+        /* ===== Topbar ===== */
+        header.jt-topbar { padding-left: 12px !important; padding-right: 12px !important; }
+        /* Hide big desktop search input */
+        header.jt-topbar > div:last-child > div.relative { display: none; }
+        /* Hide BM/EN switcher on very narrow to save space */
+        header.jt-topbar > div:last-child > div.flex.items-center.gap-1 { display: none; }
+
+        /* ===== Main content ===== */
+        main.flex-1 { overflow-x: hidden; }
+        main section[class*="px-6"] {
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+        main section[class*="px-8"] {
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+
+        /* ===== Grid → stack on mobile ===== */
+        .grid.grid-cols-4, .grid.grid-cols-3 {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+        .grid.grid-cols-2 {
+          grid-template-columns: 1fr !important;
+        }
+        /* Responsive variants that lock wide layouts on small */
+        [class*="md:grid-cols-"], [class*="lg:grid-cols-"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* ===== Flex containers: allow wrap so cards don't overflow ===== */
+        main .flex.gap-4, main .flex.gap-6, main .flex.gap-8,
+        main .flex.items-start.gap-4, main .flex.items-stretch.gap-4 {
+          flex-wrap: wrap !important;
+        }
+
+        /* ===== Tables → horizontal scroll container ===== */
+        main table { font-size: 11px !important; }
+        main .overflow-auto, main .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+        /* ===== Fixed-width utilities → flex ===== */
+        main [class*="w-72"], main [class*="w-80"], main [class*="w-96"] {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        /* ===== Headings: slightly smaller on mobile ===== */
+        main h1 { font-size: 22px !important; line-height: 1.25 !important; }
+        main h2 { font-size: 18px !important; }
+        main .text-\\[26px\\] { font-size: 20px !important; }
+        main .text-\\[22px\\] { font-size: 18px !important; }
+
+        /* ===== Demo nav bar — shrink and tuck ===== */
+        #jt-demo-nav {
+          bottom: 12px !important;
+          padding: 4px !important;
+          gap: 2px !important;
+          font-size: 11px !important;
+          max-width: calc(100vw - 24px);
+        }
+        #jt-demo-nav a, #jt-demo-nav button { height: 30px !important; padding: 0 10px !important; }
+        #jt-demo-nav .jt-dn-title { max-width: 110px !important; font-size: 11px !important; }
+        #jt-demo-nav .jt-dn-home span { display: none !important; }
+        #jt-demo-nav .jt-dn-home { padding: 0 8px !important; }
+        #jt-demo-nav .jt-dn-step { min-width: 44px !important; font-size: 9.5px !important; }
+
+        /* ===== Login / auth pages (full-bleed) ===== */
+        body.jt-auth main > section,
+        .min-h-screen.grid.grid-cols-2 { grid-template-columns: 1fr !important; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function setupDrawer() {
+    // Add backdrop element once
+    if (!document.querySelector('.jt-drawer-backdrop')) {
+      const bd = document.createElement('div');
+      bd.className = 'jt-drawer-backdrop';
+      bd.addEventListener('click', () => document.body.classList.remove('jt-drawer-open'));
+      document.body.appendChild(bd);
+    }
+    // Wire up hamburger buttons (there may be multiple if topbar re-rendered)
+    document.querySelectorAll('.jt-hamburger').forEach(btn => {
+      if (btn.dataset.jtBound) return;
+      btn.dataset.jtBound = '1';
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.body.classList.toggle('jt-drawer-open');
+      });
+    });
+    // Close drawer when clicking a sidebar link (so navigation feels right)
+    document.querySelectorAll('aside.w-60 a').forEach(a => {
+      if (a.dataset.jtBound) return;
+      a.dataset.jtBound = '1';
+      a.addEventListener('click', () => document.body.classList.remove('jt-drawer-open'));
+    });
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.body.classList.contains('jt-drawer-open')) {
+        document.body.classList.remove('jt-drawer-open');
+      }
+    });
+  }
+
   window.JTRACK = {
     mountChrome(active, crumbs) {
       const sb = document.getElementById('jt-sidebar');
       const tb = document.getElementById('jt-topbar');
       if (sb) sb.outerHTML = renderSidebar(active);
       if (tb) tb.outerHTML = renderTopbar(crumbs || []);
+      // Re-bind after re-render
+      setupDrawer();
     }
   };
+
+  // Inject mobile CSS immediately and wire drawer once DOM ready
+  injectMobileCSS();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupDrawer);
+  } else {
+    setupDrawer();
+  }
 
   // =========================================================================
   // DEMO NAV BAR — floating pill with Prev/Next/Navigator + keyboard shortcuts
