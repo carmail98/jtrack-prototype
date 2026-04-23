@@ -1,0 +1,51 @@
+Design: "Profil Pengguna" page with account settings.
+
+Header: User banner with avatar (large), name, role, cawangan
+- Avatar upload button
+- Name: Ir. Rafidah Ahmad
+- Role badges: [Pengesah] [Admin Cawangan UKAT]
+- Email: rafidah.ahmad@jkr.gov.my
+- Member since: Januari 2025
+
+Tabs: [Profil] [Keselamatan] [Notifikasi] [Bahasa & Rantau] [API Akses]
+
+TAB: Profil (active):
+
+Form sections:
+
+Maklumat Peribadi:
+- Nama Penuh
+- No. KP
+- No. Telefon Bimbit
+- No. Pejabat
+- Alamat Pejabat (textarea)
+
+Maklumat Kerjaya:
+- Jawatan (dropdown)
+- Gred Jawatan
+- Cawangan/Negeri (searchable)
+- Unit/Seksyen
+- Tarikh Lantikan
+
+TAB: Keselamatan (preview):
+- Tukar Kata Laluan (3 fields)
+- Pengesahan 2-Faktor (2FA): Toggle
+- Log masuk aktif (senarai session dengan device, IP, masa)
+- Sejarah log masuk (last 20 entries)
+
+TAB: Notifikasi:
+- Preferensi per kategori (toggle):
+  - Email real-time
+  - Email harian digest
+  - Mobile push
+  - SMS (untuk Kritikal sahaja)
+
+TAB: Bahasa & Rantau:
+- Bahasa Sistem: ● Bahasa Malaysia  ○ English
+- Zon Masa: Asia/Kuala_Lumpur (UTC+8)
+- Format Tarikh: DD/MM/YYYY
+- Minggu Mula: Isnin
+- Format Mata Wang: RM 1,234.56
+
+Bottom actions: [Batal] [Simpan Perubahan] [Padam Akaun]
+(danger zone at bottom collapsed)

@@ -1,0 +1,228 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Profil Pengguna</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .input{height:38px;border:1px solid #e2e8f0;border-radius:6px;padding:0 10px;font-size:13px;background:#fff;width:100%}
+  .input:focus{outline:none;border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,.15)}
+  .label{display:block;font-size:11.5px;font-weight:600;color:#475569;margin-bottom:5px}
+  .tab{height:40px;padding:0 16px;border-bottom:2px solid transparent;font-size:12.5px;font-weight:600;color:#64748b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .tab.active{color:#1e3a8a;border-color:#1e3a8a}
+  .tab:not(.active):hover{color:#0f172a;background:#f8fafc}
+  .chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:600}
+  .tog{width:36px;height:20px;border-radius:999px;background:#cbd5e1;position:relative;cursor:pointer;transition:.15s;flex-shrink:0}
+  .tog::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:999px;background:#fff;transition:.15s}
+  .tog.on{background:#1e3a8a}.tog.on::after{left:18px}
+  .radcard{padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12.5px}
+  .radcard.active{border-color:#1e3a8a;background:#eff6ff;font-weight:600}
+  .sh{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+  .sh .dot{width:5px;height:18px;border-radius:2px;background:#1e3a8a}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+
+      <!-- Banner -->
+      <section class="border-b border-border bg-gradient-to-br from-navy via-navy-800 to-[#2a4fa0] text-white relative overflow-hidden">
+        <svg class="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 800 200" preserveAspectRatio="none"><defs><pattern id="gp" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff"/></pattern></defs><rect width="800" height="200" fill="url(#gp)"/></svg>
+        <div class="px-6 py-6 relative">
+          <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-white/70 mb-2">Pentadbiran / Profil</div>
+          <div class="flex items-end gap-5">
+            <div class="relative">
+              <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-white/30 to-white/10 border-4 border-white/90 flex items-center justify-center text-[32px] font-bold text-white shadow-xl">RA</div>
+              <button class="absolute -bottom-1 -right-1 w-8 h-8 bg-navy text-white rounded-full border-2 border-white flex items-center justify-center hover:bg-navy-700"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+            </div>
+            <div class="flex-1 pb-1">
+              <h1 class="text-[26px] font-bold tracking-tight leading-tight">Ir. Rafidah Ahmad</h1>
+              <div class="mt-1.5 flex items-center gap-2 flex-wrap">
+                <span class="chip bg-white/20 text-white border border-white/30">Pengesah</span>
+                <span class="chip bg-white/20 text-white border border-white/30">Admin Cawangan UKAT</span>
+                <span class="chip bg-success-50 text-success-700 border border-success-100"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>Aktif</span>
+              </div>
+              <div class="mt-2 text-[12.5px] text-white/80 flex items-center gap-4 flex-wrap">
+                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>rafidah.ahmad@jkr.gov.my</span>
+                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Ahli sejak Januari 2025</span>
+                <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Cawangan UKAT, Kuala Lumpur</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 pb-1">
+              <button class="h-9 px-3 rounded-md bg-white/15 text-white text-[12px] font-semibold hover:bg-white/25 border border-white/30 inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifikasi</button>
+              <button class="h-9 px-3 rounded-md bg-white text-navy text-[12px] font-bold hover:bg-white/90">Log Keluar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <section class="bg-white border-b border-border px-6 sticky top-0 z-10">
+        <div class="flex items-center gap-1">
+          <div class="tab active"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</div>
+          <div class="tab"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Keselamatan</div>
+          <div class="tab"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>Notifikasi</div>
+          <div class="tab"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Bahasa &amp; Rantau</div>
+          <div class="tab"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>API Akses</div>
+        </div>
+      </section>
+
+      <!-- Content: two-col, Profil tab active + previews below -->
+      <section class="px-6 py-5 grid grid-cols-[1fr_300px] gap-5">
+        <div class="space-y-4">
+
+          <!-- Maklumat Peribadi -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="sh"><span class="dot"></span>Maklumat Peribadi</div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="label">Nama Penuh <span class="text-critical">*</span></label><input class="input" value="Ir. Rafidah binti Ahmad"/></div>
+              <div><label class="label">No. Kad Pengenalan</label><input class="input mono tabular" value="801215-10-5672"/></div>
+              <div><label class="label">No. Telefon Bimbit</label><input class="input mono tabular" value="+60 12-345 6789"/></div>
+              <div><label class="label">No. Pejabat</label><input class="input mono tabular" value="+60 3-2612 3456 ext. 2041"/></div>
+              <div class="col-span-2"><label class="label">Alamat Pejabat</label><textarea class="input pt-2" style="height:auto;min-height:64px">Aras 9, Menara JKR Malaysia, Jalan Sultan Salahuddin, 50580 Kuala Lumpur</textarea></div>
+            </div>
+          </div>
+
+          <!-- Maklumat Kerjaya -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="sh"><span class="dot"></span>Maklumat Kerjaya</div>
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="label">Jawatan</label>
+                <div class="input flex items-center justify-between cursor-pointer"><span>Jurutera Awam Kanan</span><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+              </div>
+              <div><label class="label">Gred Jawatan</label>
+                <div class="input flex items-center gap-2"><span class="chip bg-navy text-white mono">J54</span><span class="text-[11.5px] text-muted-foreground">Jurutera Awam Kanan</span></div>
+              </div>
+              <div><label class="label">Cawangan / Negeri</label>
+                <div class="input flex items-center gap-2"><svg class="w-3.5 h-3.5 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Cawangan UKAT — Ibu Pejabat, KL</span></div>
+              </div>
+              <div><label class="label">Unit / Seksyen</label><input class="input" value="Unit Penilaian Kemajuan Projek"/></div>
+              <div><label class="label">Tarikh Lantikan</label><input class="input mono tabular" value="15 Januari 2025"/></div>
+              <div><label class="label">Penyelia Langsung</label>
+                <div class="input flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-navy text-[9px]">MR</div><span class="text-[12.5px]">Ir. Hj. Mohd Razali · Pengarah UKAT</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview: Keselamatan -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="sh mb-0"><span class="dot" style="background:#dc2626"></span>Keselamatan <span class="text-[10px] font-normal normal-case tracking-normal text-muted-foreground ml-1">· pratonton</span></div>
+              <a class="text-[11.5px] font-semibold text-navy hover:underline cursor-pointer">Buka tab →</a>
+            </div>
+            <div class="grid grid-cols-[1.2fr_1fr] gap-5">
+              <div>
+                <label class="label">Tukar Kata Laluan</label>
+                <div class="space-y-2">
+                  <input type="password" class="input" placeholder="Kata laluan semasa" value="••••••••••••"/>
+                  <input type="password" class="input" placeholder="Kata laluan baharu"/>
+                  <input type="password" class="input" placeholder="Ulang kata laluan baharu"/>
+                </div>
+                <div class="mt-2 grid grid-cols-4 gap-1"><div class="h-1 bg-success rounded"></div><div class="h-1 bg-success rounded"></div><div class="h-1 bg-success rounded"></div><div class="h-1 bg-slate-200 rounded"></div></div>
+                <div class="mt-1.5 text-[10.5px] text-success-700 font-semibold">Kukuh · min 12 aksara, campur simbol &amp; angka</div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between p-3 rounded-md border border-success-100 bg-success-50/40 mb-3">
+                  <div><div class="text-[12.5px] font-bold text-success-700">Pengesahan 2-Faktor (2FA)</div><div class="text-[10.5px] text-slate-600">MyGov-ID · aktif sejak 20/02/2025</div></div>
+                  <div class="tog on"></div>
+                </div>
+                <div class="text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2">Log Masuk Aktif</div>
+                <div class="space-y-1.5 text-[11.5px]">
+                  <div class="flex items-center gap-2 p-2 rounded bg-slate-50/60"><svg class="w-3.5 h-3.5 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><div class="flex-1"><div class="font-semibold">MacBook Pro · Chrome</div><div class="text-[10px] text-muted-foreground mono">10.45.23.12 · Sekarang</div></div><span class="chip bg-success-50 text-success-700">Ini</span></div>
+                  <div class="flex items-center gap-2 p-2 rounded bg-slate-50/60"><svg class="w-3.5 h-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg><div class="flex-1"><div class="font-semibold">iPhone · Mobile App</div><div class="text-[10px] text-muted-foreground mono">60.54.128.4 · 2 jam lalu</div></div><button class="text-[10.5px] text-critical font-semibold hover:underline">Tamatkan</button></div>
+                </div>
+                <a class="mt-2 inline-block text-[11px] font-semibold text-navy hover:underline cursor-pointer">Lihat 20 log masuk terakhir →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview: Notifikasi + Bahasa row -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white border border-border rounded-[12px] p-5">
+              <div class="flex items-center justify-between mb-3"><div class="sh mb-0"><span class="dot"></span>Notifikasi</div><a class="text-[11px] font-semibold text-navy hover:underline cursor-pointer">Tab →</a></div>
+              <div class="space-y-2.5 text-[12px]">
+                <div class="flex items-center justify-between"><div><div class="font-semibold">Emel real-time</div><div class="text-[10.5px] text-muted-foreground">Amaran kritikal &amp; kuiri</div></div><div class="tog on"></div></div>
+                <div class="flex items-center justify-between"><div><div class="font-semibold">Emel digest harian</div><div class="text-[10.5px] text-muted-foreground">Ringkasan 17:00</div></div><div class="tog"></div></div>
+                <div class="flex items-center justify-between"><div><div class="font-semibold">Push mudah alih</div><div class="text-[10.5px] text-muted-foreground">J-Track mobile</div></div><div class="tog on"></div></div>
+                <div class="flex items-center justify-between"><div><div class="font-semibold">SMS (kritikal sahaja)</div><div class="text-[10.5px] text-muted-foreground">&gt;60 hari lewat · PSG</div></div><div class="tog on"></div></div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-border rounded-[12px] p-5">
+              <div class="flex items-center justify-between mb-3"><div class="sh mb-0"><span class="dot"></span>Bahasa &amp; Rantau</div><a class="text-[11px] font-semibold text-navy hover:underline cursor-pointer">Tab →</a></div>
+              <div class="space-y-3 text-[12.5px]">
+                <div>
+                  <div class="label">Bahasa Sistem</div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <label class="radcard active"><span class="w-3 h-3 rounded-full border-[4px] border-navy"></span>Bahasa Malaysia</label>
+                    <label class="radcard"><span class="w-3 h-3 rounded-full border border-slate-300"></span>English</label>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div><div class="label">Zon Masa</div><div class="input flex items-center justify-between text-[12px]"><span class="mono">Asia/KL · UTC+8</span><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div><div class="label">Format Tarikh</div><div class="input flex items-center justify-between text-[12px]"><span class="mono">DD/MM/YYYY</span><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div><div class="label">Minggu Mula</div><div class="input flex items-center justify-between text-[12px]"><span>Isnin</span><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div><div class="label">Mata Wang</div><div class="input flex items-center justify-between text-[12px]"><span class="mono">RM 1,234.56</span><svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Danger zone collapsed -->
+          <details class="bg-critical-50/20 border border-critical-100 rounded-[12px] p-4">
+            <summary class="cursor-pointer flex items-center gap-2 text-[12.5px] font-bold text-critical-700"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>Zon Bahaya<span class="text-[10.5px] font-medium text-muted-foreground ml-auto">Klik untuk buka</span></summary>
+            <div class="mt-3 p-3 rounded-md bg-white border border-critical-100 flex items-center justify-between">
+              <div><div class="text-[12.5px] font-bold">Padam Akaun</div><div class="text-[11px] text-muted-foreground">Tindakan ini tidak boleh dibatalkan. Data audit akan kekal disimpan.</div></div>
+              <button class="h-9 px-3 rounded-md bg-critical text-white text-[11.5px] font-bold hover:bg-critical-700">Padam Akaun</button>
+            </div>
+          </details>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between sticky bottom-0 bg-white border border-border rounded-[12px] px-5 py-3 shadow-[0_-4px_16px_-8px_rgba(15,23,42,.12)]">
+            <div class="text-[11.5px] text-muted-foreground">Perubahan akan dijejak dalam Log Audit &amp; memerlukan pengesahan 2FA jika melibatkan data sensitif.</div>
+            <div class="flex items-center gap-2">
+              <button class="h-9 px-4 rounded-md border border-border bg-white text-[12px] font-semibold hover:bg-muted">Batal</button>
+              <button class="h-9 px-4 rounded-md bg-navy text-white text-[12px] font-semibold hover:bg-navy-700">Simpan Perubahan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right rail -->
+        <aside class="space-y-4">
+          <div class="sticky top-[60px] space-y-4">
+            <div class="bg-white border border-border rounded-[12px] p-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Ringkasan Aktiviti</div>
+              <div class="space-y-2.5 text-[12px]">
+                <div class="flex items-center justify-between"><span class="text-slate-600">Laporan disahkan</span><span class="font-bold mono tabular text-navy">84</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-600">Kuiri dikeluarkan</span><span class="font-bold mono tabular">37</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-600">Lawatan tapak</span><span class="font-bold mono tabular">22</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-600">Projek dipantau</span><span class="font-bold mono tabular text-success-700">14</span></div>
+              </div>
+            </div>
+            <div class="bg-white border border-border rounded-[12px] p-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Kelulusan Akses</div>
+              <div class="space-y-2 text-[11.5px]">
+                <div class="flex items-center gap-2"><svg class="w-3 h-3 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Modul Intervensi</div>
+                <div class="flex items-center gap-2"><svg class="w-3 h-3 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Modul Laporan (penuh)</div>
+                <div class="flex items-center gap-2"><svg class="w-3 h-3 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Dashboard Eksekutif</div>
+                <div class="flex items-center gap-2 text-slate-400"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Pengurusan Pengguna</div>
+                <div class="flex items-center gap-2 text-slate-400"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Log Audit</div>
+              </div>
+              <a class="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-navy hover:underline cursor-pointer">Minta akses tambahan →</a>
+            </div>
+            <div class="bg-navy-50/50 border border-navy-100 rounded-[12px] p-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-navy-800 mb-1">Keselamatan Akaun</div>
+              <div class="flex items-center gap-2 mt-1.5"><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-success" style="width:92%"></div></div><span class="mono font-bold text-success-700 text-[12px]">92%</span></div>
+              <div class="mt-2 text-[10.5px] text-slate-600">Kata laluan kukuh · 2FA aktif · Sesi dipantau</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+</div>
+<script>window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('profil', ['Pentadbiran','Profil Saya']));</script>
+</body></html>

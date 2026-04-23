@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Pengesahan Emel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'], mono: ['JetBrains Mono','ui-monospace','monospace'] },
+        colors: {
+          border: '#e2e8f0',
+          foreground: '#0f172a',
+          muted: { DEFAULT: '#f1f5f9', foreground: '#64748b' },
+          navy: { DEFAULT:'#1e3a8a', 50:'#eff6ff', 100:'#dbeafe', 700:'#1e40af', 800:'#1e3a8a' },
+          orange: { DEFAULT:'#f97316', 50:'#fff7ed' },
+          success: { DEFAULT:'#16a34a', 50:'#f0fdf4', 100:'#dcfce7', 700:'#15803d' },
+          warning: { DEFAULT:'#f59e0b', 50:'#fffbeb', 100:'#fef3c7', 700:'#b45309' },
+          critical: { DEFAULT:'#dc2626', 50:'#fef2f2', 100:'#fee2e2', 700:'#b91c1c' },
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html, body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #0f172a; background: #f8fafc; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .ring-dash { background: repeating-conic-gradient(#e2e8f0 0 6deg, transparent 6deg 10deg); border-radius: 50%; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- Page chrome -->
+<div class="min-h-screen flex flex-col">
+
+  <!-- Top stripe -->
+  <div class="flex"><div class="h-1 flex-1 bg-orange"></div><div class="h-1 flex-1 bg-navy"></div><div class="h-1 flex-1 bg-success"></div></div>
+
+  <!-- Header strip -->
+  <header class="px-8 py-5 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-md bg-orange flex items-center justify-center text-white font-bold text-[13px]">JT</div>
+      <div>
+        <div class="text-[13px] font-bold tracking-tight">J-TRACK</div>
+        <div class="text-[10.5px] text-muted-foreground -mt-0.5">JKR Malaysia</div>
+      </div>
+    </div>
+    <div class="text-[11.5px] text-muted-foreground">Pratonton: <span class="font-semibold text-foreground">3 keadaan Pengesahan Emel</span></div>
+  </header>
+
+  <!-- 3 states side-by-side -->
+  <main class="flex-1 flex items-center justify-center px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full max-w-[1240px]">
+
+      <!-- =============== STATE A: SUCCESS =============== -->
+      <article class="bg-white border border-border rounded-[12px] shadow-sm overflow-hidden flex flex-col">
+        <div class="px-3 pt-3">
+          <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-success-700 bg-success-50 border border-success-100 px-2 py-0.5 rounded">
+            <span class="w-1.5 h-1.5 rounded-full bg-success"></span> State A · Success
+          </div>
+        </div>
+
+        <div class="flex-1 px-8 py-8 flex flex-col items-center text-center">
+          <!-- Icon -->
+          <div class="relative mb-6">
+            <div class="absolute inset-0 rounded-full bg-success/10 blur-xl"></div>
+            <div class="relative w-24 h-24 rounded-full bg-success-50 border-4 border-success-100 flex items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-success flex items-center justify-center shadow-lg shadow-success/30">
+                <svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="text-[22px] font-bold tracking-tight text-foreground leading-tight">Akaun Berjaya Diaktifkan</h2>
+          <p class="mt-3 text-[13.5px] text-muted-foreground leading-relaxed max-w-[320px]">
+            Terima kasih, <span class="font-semibold text-foreground">Ahmad Faisal</span>. Anda kini boleh log masuk ke J-TRACK.
+          </p>
+
+          <!-- account summary card -->
+          <div class="mt-6 w-full border border-border rounded-md bg-muted/40 p-3 flex items-center gap-3 text-left">
+            <div class="w-9 h-9 rounded-full bg-navy text-white text-[11px] font-semibold flex items-center justify-center">AF</div>
+            <div class="min-w-0 flex-1">
+              <div class="text-[12.5px] font-semibold text-foreground truncate">Ahmad Faisal bin Omar</div>
+              <div class="text-[11px] text-muted-foreground mono truncate">ahmad.faisal@jkr.gov.my</div>
+            </div>
+            <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-success-50 text-success-700 border border-success-100">AKTIF</span>
+          </div>
+
+          <button class="mt-6 w-full h-11 rounded-md bg-navy hover:bg-navy-700 text-white text-[14px] font-semibold shadow-sm inline-flex items-center justify-center gap-2">
+            Log Masuk Sekarang
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+
+          <p class="mt-4 text-[11.5px] text-muted-foreground">Akan dialihkan ke halaman log masuk dalam <span class="mono font-semibold text-foreground">5s</span></p>
+        </div>
+      </article>
+
+      <!-- =============== STATE B: PENDING =============== -->
+      <article class="bg-white border border-border rounded-[12px] shadow-sm overflow-hidden flex flex-col">
+        <div class="px-3 pt-3">
+          <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-warning-700 bg-warning-50 border border-warning-100 px-2 py-0.5 rounded">
+            <span class="w-1.5 h-1.5 rounded-full bg-warning"></span> State B · Pending
+          </div>
+        </div>
+
+        <div class="flex-1 px-8 py-8 flex flex-col items-center text-center">
+          <div class="relative mb-6">
+            <div class="absolute inset-0 rounded-full bg-warning/10 blur-xl"></div>
+            <div class="relative w-24 h-24 rounded-full bg-warning-50 border-4 border-warning-100 flex items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-warning flex items-center justify-center shadow-lg shadow-warning/30 relative">
+                <svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <polyline points="22 6 12 13 2 6"/>
+                </svg>
+                <!-- pulsing badge -->
+                <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-critical ring-2 ring-white flex items-center justify-center text-white text-[9px] font-bold">1</span>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="text-[22px] font-bold tracking-tight text-foreground leading-tight">Semak Emel Anda</h2>
+          <p class="mt-3 text-[13.5px] text-muted-foreground leading-relaxed">
+            Kami telah menghantar pautan pengesahan ke
+          </p>
+          <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-navy-50 border border-navy-100">
+            <svg class="w-3.5 h-3.5 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+            <span class="mono text-[12.5px] font-semibold text-navy-800">ahmad@jkr.gov.my</span>
+          </div>
+          <p class="mt-3 text-[13px] text-muted-foreground leading-relaxed max-w-[320px]">
+            Klik pautan tersebut untuk mengaktifkan akaun anda. Pautan sah selama <span class="font-semibold text-foreground">24 jam</span>.
+          </p>
+
+          <!-- Step checklist -->
+          <ol class="mt-5 w-full space-y-2 text-left">
+            <li class="flex items-center gap-2.5 text-[12.5px]">
+              <span class="w-5 h-5 rounded-full bg-success text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span class="text-muted-foreground">Buka aplikasi emel anda</span>
+            </li>
+            <li class="flex items-center gap-2.5 text-[12.5px]">
+              <span class="w-5 h-5 rounded-full bg-warning text-white flex items-center justify-center text-[10px] font-bold">2</span>
+              <span class="text-foreground font-medium">Cari emel daripada <span class="mono">J-TRACK</span></span>
+            </li>
+            <li class="flex items-center gap-2.5 text-[12.5px]">
+              <span class="w-5 h-5 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-[10px] font-bold">3</span>
+              <span class="text-muted-foreground">Klik butang "Sahkan Akaun"</span>
+            </li>
+          </ol>
+
+          <div class="mt-6 pt-5 border-t border-border w-full text-center">
+            <p class="text-[12px] text-muted-foreground">Tidak menerima emel?</p>
+            <button class="mt-2 text-[13px] font-semibold text-navy hover:text-navy-700 inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>
+              Hantar semula emel pengesahan
+            </button>
+            <p class="mt-1.5 text-[10.5px] text-muted-foreground mono">Boleh hantar semula dalam <span class="font-semibold">00:47</span></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- =============== STATE C: EXPIRED =============== -->
+      <article class="bg-white border border-border rounded-[12px] shadow-sm overflow-hidden flex flex-col">
+        <div class="px-3 pt-3">
+          <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-critical-700 bg-critical-50 border border-critical-100 px-2 py-0.5 rounded">
+            <span class="w-1.5 h-1.5 rounded-full bg-critical"></span> State C · Expired
+          </div>
+        </div>
+
+        <div class="flex-1 px-8 py-8 flex flex-col items-center text-center">
+          <div class="relative mb-6">
+            <div class="absolute inset-0 rounded-full bg-critical/10 blur-xl"></div>
+            <div class="relative w-24 h-24 rounded-full bg-critical-50 border-4 border-critical-100 flex items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-critical flex items-center justify-center shadow-lg shadow-critical/30">
+                <svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12" y2="17"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="text-[22px] font-bold tracking-tight text-foreground leading-tight">Pautan Telah Tamat Tempoh</h2>
+          <p class="mt-3 text-[13.5px] text-muted-foreground leading-relaxed max-w-[320px]">
+            Pautan pengesahan sah untuk <span class="font-semibold text-foreground">24 jam</span> sahaja. Sila minta pautan baharu untuk meneruskan pengaktifan.
+          </p>
+
+          <!-- Expired meta -->
+          <div class="mt-5 w-full border border-critical-100 bg-critical-50/60 rounded-md p-3 text-left">
+            <div class="flex items-center justify-between text-[11.5px]">
+              <span class="text-critical-700 font-semibold uppercase tracking-wider">Pautan Tamat</span>
+              <span class="mono text-critical-700">22/04/2026, 09:14</span>
+            </div>
+            <div class="mt-2 flex items-center justify-between text-[11.5px]">
+              <span class="text-muted-foreground">Emel</span>
+              <span class="mono font-semibold text-foreground">ahmad@jkr.gov.my</span>
+            </div>
+            <div class="mt-1 flex items-center justify-between text-[11.5px]">
+              <span class="text-muted-foreground">Ref. Token</span>
+              <span class="mono text-muted-foreground">tok_8a3f…c921</span>
+            </div>
+          </div>
+
+          <button class="mt-6 w-full h-11 rounded-md bg-critical hover:bg-critical-700 text-white text-[14px] font-semibold shadow-sm inline-flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>
+            Hantar Pautan Baharu
+          </button>
+
+          <p class="mt-4 text-[11.5px] text-muted-foreground">
+            Masalah berterusan? <a href="#" class="text-navy font-semibold hover:underline">Hubungi Meja Bantuan</a>
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <footer class="px-8 py-4 border-t border-border bg-white flex items-center justify-between text-[11px] text-muted-foreground">
+    <div>© 2026 JKR Malaysia · Sistem J-TRACK v4.2</div>
+    <div class="mono">BPPK · CPAB · JKR MALAYSIA</div>
+  </footer>
+</div>
+
+</body>
+</html>

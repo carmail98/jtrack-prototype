@@ -1,0 +1,139 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Muktamadkan Laporan</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange mb-1">Langkah Akhir Penyediaan</div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Muktamadkan Laporan Intervensi</h1>
+            <p class="mt-1 text-[13.5px] text-muted-foreground">Semak senarai kelengkapan sebelum menghantar untuk pengesahan Ketua Pasukan.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-[11px] text-muted-foreground uppercase tracking-wider">Kelengkapan</div>
+            <div class="text-[24px] font-bold mono tabular text-success">94<span class="text-[16px] text-muted-foreground">%</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 pb-6 grid grid-cols-[1fr_360px] gap-4">
+        <div class="space-y-4">
+          <!-- Checklist -->
+          <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+            <div class="px-4 py-3 border-b border-border flex items-center justify-between">
+              <div class="text-[12.5px] font-bold">Senarai Kelengkapan Laporan</div>
+              <span class="text-[11px] text-muted-foreground">15 / 16 item</span>
+            </div>
+            <div class="divide-y divide-border" id="chk"></div>
+          </div>
+
+          <!-- Word count & metrics -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[12.5px] font-bold mb-3">Metrik Dokumen</div>
+            <div class="grid grid-cols-4 gap-3">
+              <div class="p-3 rounded border border-border bg-slate-50/50"><div class="text-[10.5px] text-muted-foreground">Halaman</div><div class="text-[22px] font-bold mono tabular">42</div></div>
+              <div class="p-3 rounded border border-border bg-slate-50/50"><div class="text-[10.5px] text-muted-foreground">Patah perkataan</div><div class="text-[22px] font-bold mono tabular">6,840</div></div>
+              <div class="p-3 rounded border border-border bg-slate-50/50"><div class="text-[10.5px] text-muted-foreground">Bukti lampiran</div><div class="text-[22px] font-bold mono tabular">28</div></div>
+              <div class="p-3 rounded border border-border bg-slate-50/50"><div class="text-[10.5px] text-muted-foreground">Saiz fail (est)</div><div class="text-[22px] font-bold mono tabular">64<span class="text-[13px] text-muted-foreground">MB</span></div></div>
+            </div>
+          </div>
+
+          <!-- Preview thumbnail grid -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-3"><div class="text-[12.5px] font-bold">Pratonton Laporan</div><button class="text-[11.5px] font-semibold text-navy hover:underline">Buka pratonton penuh →</button></div>
+            <div class="grid grid-cols-6 gap-2">
+              ${Array.from({length:6}).map((_,i) => `<div class="aspect-[3/4] rounded border border-border bg-white p-1.5 shadow-sm"><div class="h-2 bg-navy/80 rounded mb-1.5"></div><div class="space-y-0.5"><div class="h-0.5 bg-slate-200 rounded"></div><div class="h-0.5 bg-slate-200 rounded w-5/6"></div><div class="h-0.5 bg-slate-200 rounded w-3/4"></div></div></div>`).join('')}
+            </div>
+            <div id="thumbs" class="grid grid-cols-6 gap-2"></div>
+          </div>
+
+          <!-- Submit panel -->
+          <div class="bg-gradient-to-br from-navy-50 to-white border-2 border-navy/20 rounded-[12px] p-4">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-md bg-navy text-white flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+              <div class="flex-1">
+                <div class="text-[13.5px] font-bold">Hantar untuk Semakan Ketua Pasukan</div>
+                <p class="text-[12px] text-muted-foreground mt-0.5">Selepas dihantar, laporan dikunci dari penyediaan. Ketua Pasukan akan terima notifikasi &amp; 7 hari untuk ulasan.</p>
+                <div class="mt-3 flex items-center gap-2">
+                  <button class="h-9 px-4 rounded-md bg-navy text-white text-[12.5px] font-semibold hover:bg-navy-700 inline-flex items-center gap-2">Hantar ke Pengesah <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="h-9 px-3 rounded-md border border-border bg-white text-[12.5px] font-semibold hover:bg-muted">Simpan &amp; keluar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: signoff info -->
+        <div class="space-y-4">
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Disediakan Oleh</div>
+            <div class="flex items-center gap-2 p-2 rounded bg-slate-50"><div class="avatar w-9 h-9 rounded-full bg-navy text-[11px]">MM</div><div><div class="text-[13px] font-semibold">Ts. Marlinah Mohamad</div><div class="text-[11px] text-muted-foreground">Penyedia Utama · PMO N9</div></div></div>
+            <div class="mt-2 flex items-center gap-2 p-2 rounded"><div class="avatar w-7 h-7 rounded-full bg-[#0f766e] text-[10px]">NR</div><div><div class="text-[12px] font-semibold">Nor'Izzati Rahman</div><div class="text-[10.5px] text-muted-foreground">Penyumbang</div></div></div>
+          </div>
+
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-3">Timeline Semakan</div>
+            <div class="space-y-3">
+              <div class="flex items-start gap-2.5"><div class="w-5 h-5 rounded-full bg-success text-white flex items-center justify-center flex-shrink-0 text-[10px] font-bold">✓</div><div class="flex-1"><div class="text-[12px] font-semibold">Draf disiapkan</div><div class="text-[10.5px] text-muted-foreground mono">2 Dis 2025, 10:14</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="w-5 h-5 rounded-full bg-navy text-white flex items-center justify-center flex-shrink-0 text-[10px] font-bold animate-pulse">●</div><div class="flex-1"><div class="text-[12px] font-semibold text-navy">Semakan Ketua Pasukan</div><div class="text-[10.5px] text-muted-foreground">Anggaran: 7 hari</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center flex-shrink-0 text-[10px] text-muted-foreground">3</div><div class="flex-1"><div class="text-[12px] font-semibold text-slate-500">Kelulusan Pengarah</div><div class="text-[10.5px] text-muted-foreground">Anggaran: 3 hari</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center flex-shrink-0 text-[10px] text-muted-foreground">4</div><div class="flex-1"><div class="text-[12px] font-semibold text-slate-500">Edaran Rasmi</div><div class="text-[10.5px] text-muted-foreground">Anggaran: 1 hari</div></div></div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Nota Akhir</div>
+            <textarea rows="4" class="w-full px-3 py-2 rounded-md border border-input bg-white text-[12px] resize-none field-focus" placeholder="Nota kepada Ketua Pasukan sebelum semakan…"></textarea>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const chk = [
+  {d:true, n:"Bahagian A: Maklumat Projek lengkap", s:"Auto dari SKALA · 10 medan"},
+  {d:true, n:"Bahagian B: Status Semasa dikemaskini", s:"Kemas kini: 2 Dis 2025"},
+  {d:true, n:"Bahagian C: Senarai Isu dilog", s:"9 isu, 3 ditanda kritikal"},
+  {d:true, n:"Bahagian D: Analisis Punca Kelewatan", s:"163 patah perkataan, 5 faktor diagih"},
+  {d:true, n:"Bahagian E: Pengesyoran ditulis", s:"7 pengesyoran, semua bertag"},
+  {d:true, n:"Bahagian F: Pelan Tindakan 3 bulan", s:"14 tindakan, PIC ditetapkan"},
+  {d:false, n:"Bahagian G: Lampiran — 1 item mandatori belum", s:"Laporan Kewangan Kontraktor belum dimuat naik", warn:true},
+  {d:true, n:"Minit Mesyuarat Penutup ditandatangan", s:"3/3 penandatangan selesai"},
+  {d:true, n:"Komitmen kontraktor direkod", s:"3 komitmen rasmi"},
+  {d:true, n:"Foto bukti (min. 10)", s:"42 foto disertakan"},
+  {d:true, n:"Transkrip temu bual", s:"3 sesi temu bual"},
+  {d:true, n:"Pematuhan format laporan standard UKAT", s:"Templat v3.2"},
+  {d:true, n:"Semakan ejaan &amp; tatabahasa", s:"Tiada isu dikesan"},
+  {d:true, n:"Pengesahan snapshot SKALA", s:"Dikunci 10 Nov 2025"},
+  {d:true, n:"Tiada maklumat sulit terdedah", s:"Auto-imbas lulus"},
+  {d:true, n:"Pasukan penilai mengesahkan kandungan", s:"3/3 ahli"},
+];
+document.getElementById('chk').innerHTML = chk.map(c => `
+  <div class="px-4 py-3 flex items-center gap-3 ${c.warn ? 'bg-warning-50/40' : ''}">
+    ${c.d ? '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-success text-white flex-shrink-0"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>'
+        : '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-warning text-white flex-shrink-0"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg></span>'}
+    <div class="flex-1 min-w-0">
+      <div class="text-[12.5px] font-semibold">${c.n}</div>
+      <div class="text-[11px] text-muted-foreground">${c.s}</div>
+    </div>
+    ${c.d ? '<span class="text-[10.5px] font-semibold text-success-700">LENGKAP</span>' : '<button class="text-[11px] font-semibold text-warning-700 hover:underline">Selesaikan →</button>'}
+  </div>
+`).join('');
+// page thumbnails
+document.getElementById('thumbs').innerHTML = Array.from({length:12}).map((_,i) => {
+  const f = i>7 ? 'opacity-60' : '';
+  return `<div class="aspect-[3/4] rounded border border-border bg-white p-1.5 shadow-sm ${f}"><div class="h-1.5 bg-navy/80 rounded mb-1"></div><div class="h-1 bg-navy/40 rounded mb-1.5 w-2/3"></div><div class="space-y-0.5">${Array.from({length:12}).map(()=>'<div class="h-[1.5px] bg-slate-200 rounded"></div>').join('')}</div><div class="mt-1 text-[7px] mono text-muted-foreground text-right">${i+1}</div></div>`;
+}).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','SMK Kuala Pilah','Muktamad']));
+</script>
+</body></html>

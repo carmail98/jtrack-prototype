@@ -1,0 +1,165 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Tetapkan Pasukan</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;font-size:11.5px;font-weight:500}</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange mb-1">Intervensi · Langkah 2 / 4</div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Tetapkan Penyedia &amp; Pengesah</h1>
+            <p class="mt-1 text-[13.5px] text-muted-foreground">Lantik pegawai untuk laporan intervensi. Pelantikan akan dihantar melalui emel rasmi.</p>
+          </div>
+          <div class="flex items-center gap-1.5 text-[11.5px]">
+            <span class="mono px-2 py-1 rounded bg-success-50 text-success-700 border border-success-100">① Pilih Projek ✓</span>
+            <span class="mono px-2 py-1 rounded bg-navy-50 text-navy-800 border border-navy-100 font-semibold">② Lantik Pasukan</span>
+            <span class="mono px-2 py-1 rounded bg-muted text-muted-foreground border border-border">③ Tarikh</span>
+            <span class="mono px-2 py-1 rounded bg-muted text-muted-foreground border border-border">④ Jana Surat</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 pb-6 grid grid-cols-[340px_1fr] gap-4">
+        <!-- LEFT: Senarai Pegawai -->
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden flex flex-col max-h-[calc(100vh-220px)]">
+          <div class="p-3 border-b border-border">
+            <div class="text-[12px] font-bold tracking-tight mb-2">Senarai Pegawai Di Bawah Seliaan</div>
+            <div class="relative">
+              <svg class="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input placeholder="Cari pegawai…" class="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-white text-[12px] field-focus"/>
+            </div>
+            <div class="flex items-center gap-1 mt-2">
+              <button class="text-[10.5px] font-semibold px-2 py-1 rounded bg-navy-50 text-navy-800 border border-navy-100">Semua (13)</button>
+              <button class="text-[10.5px] font-medium px-2 py-1 rounded border border-border text-slate-600 hover:bg-muted">Aktif (9)</button>
+              <button class="text-[10.5px] font-medium px-2 py-1 rounded border border-border text-slate-600 hover:bg-muted">Sibuk (4)</button>
+            </div>
+          </div>
+          <div id="officerList" class="flex-1 overflow-auto scrollbar divide-y divide-border"></div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="space-y-4">
+          <!-- Projek dipilih -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-[12px] font-bold tracking-tight">Projek Dipilih</div>
+              <span class="text-[10.5px] font-semibold text-navy">3 projek</span>
+            </div>
+            <div class="border border-border rounded-md p-3 bg-muted/40">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-[13px] font-semibold">Pembinaan SMK Kuala Pilah</div>
+                  <div class="text-[11.5px] text-muted-foreground mono">PRJ-N9-2024-0042 · N. Sembilan · 30.40% Fizikal</div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-critical text-white uppercase tracking-wider">Kritikal</span>
+              </div>
+              <div class="mt-2 text-[11.5px] text-muted-foreground"><span class="font-semibold text-foreground">Tarikh Intervensi:</span> <span class="mono">17–18 November 2025</span></div>
+            </div>
+          </div>
+
+          <!-- Ketua Pasukan -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-1">
+              <div class="text-[12px] font-bold tracking-tight uppercase tracking-wider">Ketua Pasukan Intervensi</div>
+              <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-50 text-orange-600 border border-orange-100">PENGESAH</span>
+            </div>
+            <p class="text-[11.5px] text-muted-foreground mb-3">1 pegawai diperlukan. Hanya Jurutera Awam Penguasa (J52) ke atas layak.</p>
+            <div class="p-3 border border-navy-100 bg-navy-50/40 rounded-md flex items-center gap-3">
+              <div class="avatar w-10 h-10 rounded-full bg-navy text-[12px]">RA</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">Ir. Rafidah Ahmad</div>
+                <div class="text-[11.5px] text-muted-foreground">Jurutera Awam Penguasa (J52) · UKAT CPAB</div>
+              </div>
+              <button class="text-[11.5px] font-semibold text-navy hover:underline">Tukar</button>
+            </div>
+          </div>
+
+          <!-- Penyedia Laporan -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-1">
+              <div class="text-[12px] font-bold tracking-tight uppercase tracking-wider">Penyedia Laporan</div>
+              <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-success-50 text-success-700 border border-success-100">PENYEDIA</span>
+            </div>
+            <p class="text-[11.5px] text-muted-foreground mb-3">Minimum 1, boleh pilih lebih satu.</p>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <span class="chip bg-navy-50 text-navy-800 border border-navy-100">
+                <div class="avatar w-4 h-4 rounded-full bg-navy text-[8px]">MM</div> Ts. Marlinah Mohamad · PMO N9
+                <svg class="w-3 h-3 cursor-pointer opacity-60 hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </span>
+              <span class="chip bg-navy-50 text-navy-800 border border-navy-100">
+                <div class="avatar w-4 h-4 rounded-full bg-[#0f766e] text-[8px]">NR</div> Nor'Izzati Rahman · UKAT
+                <svg class="w-3 h-3 cursor-pointer opacity-60 hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </span>
+              <button class="chip border border-dashed border-border text-muted-foreground hover:border-navy hover:text-navy">+ Tambah pegawai</button>
+            </div>
+          </div>
+
+          <!-- Ahli Tambahan -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-1">
+              <div class="text-[12px] font-bold tracking-tight uppercase tracking-wider">Ahli Pasukan Tambahan</div>
+              <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border">OPSIONAL</span>
+            </div>
+            <p class="text-[11.5px] text-muted-foreground mb-3">Pakar teknikal atau pegawai sokongan.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="chip bg-muted text-slate-700 border border-border">Hjh. Fairuzzah Ismail · Arkitek <svg class="w-3 h-3 cursor-pointer opacity-60 hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+              <span class="chip bg-muted text-slate-700 border border-border">Ir. Aznen Abdullah · JA Kanan <svg class="w-3 h-3 cursor-pointer opacity-60 hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+              <span class="chip bg-muted text-slate-700 border border-border">Muhammad Nasri · Juruukur Bahan <svg class="w-3 h-3 cursor-pointer opacity-60 hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+              <button class="chip border border-dashed border-border text-muted-foreground hover:border-navy hover:text-navy">+ Tambah ahli</button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between sticky bottom-0 bg-gradient-to-t from-[#f8fafc] via-[#f8fafc] to-transparent pt-4 pb-2">
+            <button class="h-10 px-4 rounded-md border border-border bg-white text-[13px] font-semibold text-slate-700 hover:bg-muted">Kembali</button>
+            <button class="h-10 px-5 rounded-md bg-navy hover:bg-navy-700 text-white text-[13px] font-semibold shadow-sm inline-flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+              Simpan Pelantikan &amp; Emel Notifikasi
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const officers = [
+  {n:"Ir. Ahmad Kamil Osman", j:"Jurutera Awam (J44)", s:"Aktif", c:"#b45309", i:"AK", load:"1 laporan"},
+  {n:"Ts. Siti Noraini", j:"Pegawai Teknologi (F41)", s:"Sibuk", c:"#7c2d12", i:"SN", load:"2 laporan aktif"},
+  {n:"Nor'Izzati Rahman", j:"Juruteknik (JA29)", s:"Aktif", c:"#0f766e", i:"NR", load:"0 laporan", picked:true},
+  {n:"Ts. Marlinah Mohamad", j:"Peg. Teknologi (F41)", s:"Aktif", c:"#1e3a8a", i:"MM", load:"1 laporan", picked:true},
+  {n:"Hjh. Fairuzzah Ismail", j:"Arkitek (J41)", s:"Aktif", c:"#334155", i:"FI", load:"0 laporan"},
+  {n:"Ir. Aznen Abdullah", j:"JA Kanan (J48)", s:"Aktif", c:"#1e3a8a", i:"AA", load:"0 laporan"},
+  {n:"Muhammad Nasri", j:"Juruukur Bahan (J41)", s:"Aktif", c:"#0f766e", i:"MN", load:"0 laporan"},
+  {n:"Ir. Hasrul Mahmud", j:"JA Kanan (J48)", s:"Sibuk", c:"#7c2d12", i:"HM", load:"3 laporan aktif"},
+  {n:"Chin Wei Ling", j:"Juruukur Bahan (J41)", s:"Aktif", c:"#334155", i:"CL", load:"0 laporan"},
+  {n:"Farid Hassan", j:"Jurutera Awam (J41)", s:"Sibuk", c:"#7c2d12", i:"FH", load:"2 laporan aktif"},
+  {n:"Tan Mei Yee", j:"Juruteknik (JA29)", s:"Aktif", c:"#334155", i:"TY", load:"1 laporan"},
+  {n:"Ir. Zaiton Hamid", j:"JA Kanan (J48)", s:"Aktif", c:"#1e3a8a", i:"ZH", load:"1 laporan"},
+  {n:"Rosli Bakar", j:"Juruteknik (JA29)", s:"Aktif", c:"#0f766e", i:"RB", load:"0 laporan"},
+];
+document.getElementById('officerList').innerHTML = officers.map(o => `
+  <div class="p-3 flex items-center gap-2.5 row-hover cursor-pointer ${o.picked ? 'bg-navy-50/40' : ''}">
+    <div class="avatar w-9 h-9 rounded-full text-[11px]" style="background:${o.c}">${o.i}</div>
+    <div class="min-w-0 flex-1">
+      <div class="text-[12.5px] font-semibold truncate flex items-center gap-1.5">${o.n} ${o.picked ? '<svg class="w-3 h-3 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}</div>
+      <div class="text-[11px] text-muted-foreground truncate">${o.j}</div>
+      <div class="text-[10.5px] mt-0.5 ${o.s==='Aktif'?'text-success-700':'text-warning-700'} font-semibold">● ${o.s} · <span class="text-muted-foreground font-normal">${o.load}</span></div>
+    </div>
+    <button class="p-1.5 rounded hover:bg-muted text-muted-foreground">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+  </div>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','Tetapkan Pasukan']));
+</script>
+</body></html>

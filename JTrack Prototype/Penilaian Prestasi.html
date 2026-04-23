@@ -1,0 +1,321 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Penilaian Prestasi Pasca-Intervensi</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .input{height:36px;border:1px solid #e2e8f0;border-radius:6px;padding:0 10px;font-size:13px;background:#fff;width:100%}
+  .input:focus{outline:none;border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,.15)}
+  .ta{border:1px solid #e2e8f0;border-radius:6px;padding:10px 12px;font-size:13px;width:100%;min-height:90px;background:#fff;font-family:inherit;line-height:1.55;resize:vertical}
+  .ta:focus{outline:none;border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,.15)}
+  .rad{appearance:none;width:16px;height:16px;border:1.5px solid #cbd5e1;border-radius:999px;position:relative;cursor:pointer;flex-shrink:0;background:#fff}
+  .rad:checked{border-color:#1e3a8a;border-width:4.5px}
+  .rad.crit:checked{border-color:#dc2626}
+  .rad.warn:checked{border-color:#b45309}
+  .rad.ok:checked{border-color:#16a34a}
+  .q-opt{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:12.5px;transition:.12s}
+  .q-opt:hover{background:#f8fafc}
+  .q-opt.active{border-color:#1e3a8a;background:#eff6ff;font-weight:600}
+  .sh{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+  .sh .num{width:22px;height:22px;border-radius:5px;background:#1e3a8a;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';font-size:11px}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+
+      <section class="px-6 pt-5 pb-4 border-b border-border bg-white">
+        <div class="flex items-start justify-between gap-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-bold text-white bg-navy px-2 py-[3px] rounded">PERAKU · PENILAIAN AKHIR</span>
+              <span class="mono text-[10.5px] text-muted-foreground">KEMAJUAN / PENILAIAN-PP / 2026-014</span>
+            </div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Penilaian Prestasi Kemajuan Projek</h1>
+            <div class="mt-1 text-[13px] text-muted-foreground flex items-center gap-2 flex-wrap">
+              <span class="mono font-semibold text-slate-700">PRJ-N9-2024-0042</span><span>·</span>
+              <span>Pembinaan SMK Kuala Pilah</span><span>·</span>
+              <span>Selepas 3 bulan pemantauan (Dis 2025 – Feb 2026)</span>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-[10.5px] text-muted-foreground uppercase tracking-wider font-semibold">Dinilai Oleh</div>
+            <div class="flex items-center gap-2 mt-1 justify-end"><div class="avatar w-8 h-8 rounded-full bg-navy text-[11px]">AK</div><div class="text-left"><div class="text-[13px] font-bold">Ir. Ahmad Kamil</div><div class="text-[10.5px] text-muted-foreground">Pegawai Penguasa · J54</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 py-5 grid grid-cols-[1fr_340px] gap-5">
+        <div class="space-y-5">
+
+          <!-- 3-month trend big chart -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="sh"><span class="num">1</span>Analisis Trend 3 Bulan</div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-[12px] text-slate-600">Perbandingan kemajuan fizikal sebenar vs Recovery Plan</div>
+              <div class="flex items-center gap-4 text-[11px]">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-success"></span>Sebenar</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border-2 border-warning-700"></span>Recovery Plan</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-300"></span>Jadual Asal</span>
+              </div>
+            </div>
+
+            <svg viewBox="0 0 900 260" class="w-full h-[260px]">
+              <defs>
+                <linearGradient id="fillG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#16a34a" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="gapG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#b45309" stop-opacity=".14"/>
+                  <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- gridlines -->
+              <g stroke="#e2e8f0"><line x1="60" y1="30" x2="860" y2="30"/><line x1="60" y1="86" x2="860" y2="86"/><line x1="60" y1="142" x2="860" y2="142"/><line x1="60" y1="198" x2="860" y2="198"/><line x1="60" y1="230" x2="860" y2="230"/></g>
+              <g fill="#94a3b8" font-family="JetBrains Mono" font-size="10"><text x="52" y="34" text-anchor="end">70%</text><text x="52" y="90" text-anchor="end">55%</text><text x="52" y="146" text-anchor="end">40%</text><text x="52" y="202" text-anchor="end">25%</text><text x="52" y="233" text-anchor="end">%</text></g>
+
+              <!-- pre-intervention baseline -->
+              <g opacity=".55">
+                <line x1="60" y1="210" x2="250" y2="200" stroke="#cbd5e1" stroke-width="1.6" stroke-dasharray="3 3"/>
+                <text x="65" y="222" font-family="Inter" font-size="9" fill="#64748b" font-style="italic">Pra-intervensi (1.2%/bln)</text>
+              </g>
+
+              <!-- vertical intervention line -->
+              <line x1="250" y1="24" x2="250" y2="230" stroke="#f97316" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <rect x="200" y="10" width="100" height="16" rx="2" fill="#f97316"/>
+              <text x="250" y="21" text-anchor="middle" font-family="Inter" font-size="10" fill="#fff" font-weight="700">INTERVENSI 18 NOV</text>
+
+              <!-- gap fill between recovery and actual -->
+              <path d="M 350 150 L 580 105 L 810 60 L 810 82 L 580 122 L 350 166 Z" fill="url(#gapG)"/>
+
+              <!-- fill under actual -->
+              <path d="M 350 166 L 580 122 L 810 82 L 810 230 L 350 230 Z" fill="url(#fillG)"/>
+
+              <!-- Jadual asal (plan) -->
+              <path d="M60 200 L250 180 L350 160 L580 110 L810 50" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 4"/>
+
+              <!-- Recovery plan -->
+              <path d="M350 150 L580 105 L810 60" fill="none" stroke="#b45309" stroke-width="2.2" stroke-dasharray="6 3"/>
+              <circle cx="350" cy="150" r="4" fill="#b45309"/><circle cx="580" cy="105" r="4" fill="#b45309"/><circle cx="810" cy="60" r="4" fill="#b45309"/>
+              <text x="340" y="142" font-family="JetBrains Mono" font-size="10" fill="#b45309" font-weight="700" text-anchor="end">40%</text>
+              <text x="570" y="97" font-family="JetBrains Mono" font-size="10" fill="#b45309" font-weight="700" text-anchor="end">52%</text>
+              <text x="820" y="54" font-family="JetBrains Mono" font-size="10" fill="#b45309" font-weight="700">65%</text>
+
+              <!-- Actual (green) -->
+              <path d="M350 166 L580 122 L810 82" fill="none" stroke="#16a34a" stroke-width="3.2" stroke-linecap="round"/>
+              <circle cx="350" cy="166" r="6" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
+              <circle cx="580" cy="122" r="6" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
+              <circle cx="810" cy="82" r="7" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
+              <text x="350" y="182" font-family="JetBrains Mono" font-size="11" fill="#16a34a" font-weight="800" text-anchor="middle">38.2%</text>
+              <text x="580" y="138" font-family="JetBrains Mono" font-size="11" fill="#16a34a" font-weight="800" text-anchor="middle">45.5%</text>
+              <text x="810" y="98" font-family="JetBrains Mono" font-size="11" fill="#16a34a" font-weight="800" text-anchor="middle">58.3%</text>
+
+              <!-- x-axis -->
+              <line x1="60" y1="230" x2="860" y2="230" stroke="#cbd5e1"/>
+              <g fill="#475569" font-family="Inter" font-size="11" text-anchor="middle" font-weight="600">
+                <text x="350" y="252">Bulan 1 · Dis '25</text>
+                <text x="580" y="252">Bulan 2 · Jan '26</text>
+                <text x="810" y="252">Bulan 3 · Feb '26</text>
+              </g>
+              <!-- gap annotation -->
+              <rect x="640" y="85" width="86" height="20" rx="3" fill="#fff" stroke="#b45309" stroke-width="1"/>
+              <text x="683" y="99" font-family="Inter" font-size="10" fill="#b45309" font-weight="700" text-anchor="middle">Jurang -6.7%</text>
+            </svg>
+
+            <div class="mt-2 pt-3 border-t border-border text-[12px] text-slate-700"><span class="font-semibold">Pemerhatian:</span> Kadar progres sebenar konsisten dengan corak pemulihan. Jurang dengan Recovery Plan mengecil setiap bulan (−1.8% → −6.5% → −6.7%), menunjukkan projek stabil &amp; konvergen.</div>
+          </div>
+
+          <!-- 3 comparison cards -->
+          <div class="grid grid-cols-3 gap-4">
+            <div class="bg-white border border-success-100 rounded-[12px] p-4 relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-success/10 rounded-full -translate-y-6 translate-x-6"></div>
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-success-700 mb-1">Kadar Peningkatan Purata</div>
+              <div class="flex items-baseline gap-1.5 mt-1.5"><div class="text-[30px] font-bold mono tabular text-success-700 leading-none">10.05%</div><div class="text-[11px] text-slate-600 font-medium">/ bulan</div></div>
+              <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11.5px]">
+                <div class="flex items-center justify-between text-slate-600"><span>Pra-intervensi</span><span class="mono tabular">1.2% / bln</span></div>
+                <div class="flex items-center justify-between font-semibold text-success-700"><span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Peningkatan</span><span class="mono tabular">+737%</span></div>
+              </div>
+              <div class="mt-3 inline-flex items-center gap-1 text-[10.5px] font-bold text-success-700 bg-success-50 px-2 py-1 rounded"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>SIHAT</div>
+            </div>
+
+            <div class="bg-white border border-navy-100 rounded-[12px] p-4 relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-navy/10 rounded-full -translate-y-6 translate-x-6"></div>
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-navy mb-1">Pematuhan Recovery Plan</div>
+              <div class="flex items-baseline gap-1.5 mt-1.5"><div class="text-[30px] font-bold mono tabular text-navy leading-none">89%</div><div class="text-[11px] text-slate-600 font-medium">pematuhan</div></div>
+              <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5 text-[11.5px]">
+                <div class="flex items-center justify-between"><span class="text-slate-600">Milestone tercapai</span><span class="font-semibold text-success-700 mono tabular">3 / 4</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-600">Milestone terlewat</span><span class="font-semibold text-warning-700 mono tabular">1</span></div>
+              </div>
+              <div class="mt-2.5 grid grid-cols-4 gap-1">
+                <div class="h-1.5 rounded-full bg-success"></div><div class="h-1.5 rounded-full bg-success"></div><div class="h-1.5 rounded-full bg-success"></div><div class="h-1.5 rounded-full bg-warning"></div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-warning-100 rounded-[12px] p-4 relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-warning/10 rounded-full -translate-y-6 translate-x-6"></div>
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-warning-700 mb-1">Risiko Semasa</div>
+              <div class="flex items-baseline gap-1.5 mt-1.5"><div class="text-[24px] font-bold text-warning-700 leading-none">SEDERHANA</div></div>
+              <div class="mt-3 pt-3 border-t border-slate-100 text-[11.5px]">
+                <div class="flex items-start gap-1.5 text-slate-700">
+                  <svg class="w-3.5 h-3.5 text-warning-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <div>EOT 3 (+38 hari) masih menunggu kelulusan Mesyuarat Kontrak</div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-success"></span><span class="w-6 h-2 rounded-full bg-warning"></span><span class="w-2 h-2 rounded-full bg-slate-200"></span><span class="text-[10px] text-muted-foreground ml-1">Risk meter</span></div>
+            </div>
+          </div>
+
+          <!-- Critical questions -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="sh"><span class="num">2</span>Soalan Penilaian Kritikal</div>
+            <div class="space-y-5">
+              <div>
+                <div class="text-[12.5px] font-semibold text-slate-800 mb-2"><span class="mono text-[10.5px] text-muted-foreground mr-2">Q1</span>Adakah projek menunjukkan pemulihan yang ketara selepas intervensi?</div>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="q-opt"><input type="radio" name="q1" class="rad"/>Tidak</label>
+                  <label class="q-opt active"><input type="radio" name="q1" class="rad ok" checked/>Ya, signifikan</label>
+                  <label class="q-opt"><input type="radio" name="q1" class="rad"/>Ya, sedikit</label>
+                </div>
+              </div>
+              <div>
+                <div class="text-[12.5px] font-semibold text-slate-800 mb-2"><span class="mono text-[10.5px] text-muted-foreground mr-2">Q2</span>Adakah kontraktor mematuhi Recovery Plan yang dipersetujui?</div>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="q-opt active"><input type="radio" name="q2" class="rad ok" checked/>Ya, sepenuhnya</label>
+                  <label class="q-opt"><input type="radio" name="q2" class="rad"/>Sebahagian</label>
+                  <label class="q-opt"><input type="radio" name="q2" class="rad"/>Tidak</label>
+                </div>
+              </div>
+              <div>
+                <div class="text-[12.5px] font-semibold text-slate-800 mb-2"><span class="mono text-[10.5px] text-muted-foreground mr-2">Q3</span>Adakah Tarikh Siap Sebenar (TSS) 25 Januari 2026 dapat dicapai?</div>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="q-opt"><input type="radio" name="q3" class="rad"/>Ya</label>
+                  <label class="q-opt active"><input type="radio" name="q3" class="rad warn" checked/>Risiko kelewatan minor</label>
+                  <label class="q-opt"><input type="radio" name="q3" class="rad"/>Tidak</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KEPUTUSAN -->
+          <div class="bg-white border-2 border-navy rounded-[12px] p-5 shadow-[0_10px_30px_-15px_rgba(30,58,138,.4)]">
+            <div class="sh"><span class="num" style="background:#dc2626">3</span>Keputusan Utama · Pegawai Penguasa</div>
+
+            <label class="block p-4 rounded-[10px] border-2 border-success bg-success-50/40 cursor-pointer hover:bg-success-50/70 transition relative">
+              <div class="absolute top-3 right-3"><input type="radio" name="keputusan" class="rad ok" checked style="width:20px;height:20px"/></div>
+              <div class="flex items-start gap-3 pr-8">
+                <div class="w-12 h-12 rounded-full bg-success text-white flex items-center justify-center flex-shrink-0 shadow-lg"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1"><div class="text-[15px] font-bold text-success-700">PROJEK BERJAYA DIPULIHKAN</div><span class="chip bg-white border border-success-100 text-success-700 text-[9.5px] font-bold px-1.5 py-0.5 rounded mono">A · TAMAT</span></div>
+                  <p class="text-[12px] text-slate-700 leading-relaxed">Projek telah kembali ke landasan. Tiada tindakan intervensi lanjut diperlukan. Pemantauan rutin bulanan akan diteruskan sehingga CPC, dan kes ditutup dalam sistem.</p>
+                  <div class="mt-2 flex items-center gap-3 text-[10.5px] text-success-700 font-semibold">
+                    <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Kadar +10.05%/bln</span>
+                    <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Pematuhan 89%</span>
+                    <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Trend konsisten</span>
+                  </div>
+                </div>
+              </div>
+            </label>
+
+            <label class="block mt-3 p-4 rounded-[10px] border border-slate-200 bg-white cursor-pointer hover:border-critical-100 hover:bg-critical-50/20 transition relative">
+              <div class="absolute top-3 right-3"><input type="radio" name="keputusan" class="rad crit" style="width:20px;height:20px"/></div>
+              <div class="flex items-start gap-3 pr-8">
+                <div class="w-12 h-12 rounded-full bg-critical/10 text-critical flex items-center justify-center flex-shrink-0"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1"><div class="text-[15px] font-bold text-critical-700">TIDAK BERJAYA — CADANGAN PSG / CCP</div><span class="chip bg-critical-50 border border-critical-100 text-critical-700 text-[9.5px] font-bold px-1.5 py-0.5 rounded mono">B · ESKALASI</span></div>
+                  <p class="text-[12px] text-slate-700 leading-relaxed">Projek masih bermasalah walaupun selepas intervensi. Disyorkan diangkat ke Jawatankuasa PSG untuk keputusan strategik lanjut (penamatan kontrak, LAD, atau takeover).</p>
+
+                  <!-- Conditional sub-form -->
+                  <div class="mt-4 p-3 rounded-md bg-slate-50/80 border border-slate-200">
+                    <div class="text-[10.5px] uppercase tracking-wider font-bold text-slate-600 mb-2">Jika pilih opsyen ini — lengkapkan:</div>
+                    <label class="label text-[11.5px] font-semibold text-slate-700 block mb-1">Cadangan tindakan susulan</label>
+                    <textarea class="ta opacity-80" placeholder="Nyatakan justifikasi dan tindakan susulan yang dicadangkan..." disabled></textarea>
+                    <div class="text-[11.5px] font-semibold text-slate-700 mt-3 mb-1.5">Pengesyoran untuk Top Management</div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <label class="q-opt opacity-80"><input type="radio" name="tm" class="rad" disabled/>Namatkan kontrak</label>
+                      <label class="q-opt opacity-80"><input type="radio" name="tm" class="rad" disabled/>LAD (Liquidated Ascertained Damages)</label>
+                      <label class="q-opt opacity-80"><input type="radio" name="tm" class="rad" disabled/>Takeover oleh JKR</label>
+                      <label class="q-opt opacity-80"><input type="radio" name="tm" class="rad" disabled/>Lain-lain (nyatakan)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Signature -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="sh"><span class="num">4</span>Tandatangan &amp; Pengesahan Pegawai Penguasa</div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5">Nama Pegawai Penguasa</label>
+                <div class="h-10 rounded-md border border-border bg-slate-50 px-3 flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-navy text-[10px]">AK</div><span class="text-[13px] font-semibold">Ir. Ahmad Kamil Ibrahim</span></div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5 mt-3">Jawatan &amp; Gred</label>
+                <div class="h-10 rounded-md border border-border bg-slate-50 px-3 flex items-center text-[13px] font-semibold">Jurutera Awam Kanan · J54</div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5 mt-3">Tarikh penilaian</label>
+                <div class="h-10 rounded-md border border-border bg-slate-50 px-3 flex items-center text-[13px] font-semibold mono tabular">25 Februari 2026, 14:30</div>
+              </div>
+              <div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5">Tandatangan digital</label>
+                <div class="h-[172px] rounded-md border-2 border-dashed border-slate-200 bg-slate-50/50 flex flex-col items-center justify-center gap-2">
+                  <span style="font-family:cursive" class="text-[26px] italic text-navy">Ahmad Kamil I.</span>
+                  <div class="text-[10.5px] text-muted-foreground mono">SHA-256: e8c3…f92a</div>
+                  <div class="text-[10.5px] text-success-700 font-semibold flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>SAH · MyKad-JKR Auth</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right rail -->
+        <aside class="space-y-4">
+          <div class="sticky top-[92px] space-y-4">
+            <div class="bg-white border border-border rounded-[12px] p-4 shadow-[0_6px_20px_-12px_rgba(15,23,42,.2)]">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Ringkasan Keputusan</div>
+              <div class="p-3 rounded-md bg-success-50/60 border border-success-100 mb-3">
+                <div class="text-[10px] uppercase tracking-wider font-bold text-success-700 mb-0.5">Keputusan Anda</div>
+                <div class="text-[13px] font-bold text-success-700">Projek Berjaya Dipulihkan</div>
+                <div class="text-[11px] text-success-700/80 mt-0.5">Kes akan ditutup · pemantauan rutin diteruskan</div>
+              </div>
+
+              <div class="space-y-1.5 text-[11.5px] mb-3">
+                <div class="flex items-center justify-between"><span>Analisis Trend</span><svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="flex items-center justify-between"><span>Soalan penilaian (3/3)</span><svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="flex items-center justify-between"><span>Keputusan utama</span><svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="flex items-center justify-between"><span>Tandatangan PP</span><svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+              </div>
+
+              <button class="w-full h-11 rounded-md bg-critical text-white font-bold text-[13px] hover:bg-critical-700 inline-flex items-center justify-center gap-2 mb-2">Kemuka Keputusan Muktamad <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></button>
+              <button class="w-full h-9 rounded-md border border-border bg-white text-[12px] font-semibold hover:bg-muted">Simpan Draf</button>
+              <div class="mt-3 text-[10.5px] text-muted-foreground text-center">Keputusan tidak boleh diubah selepas dikemuka</div>
+            </div>
+
+            <div class="bg-white border border-border rounded-[12px] p-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Edaran Auto Selepas Hantar</div>
+              <div class="space-y-2 text-[11.5px]">
+                <div class="flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-navy text-[9px]">MR</div><div class="flex-1"><div class="font-semibold">Pengarah UKAT</div><div class="text-[10px] text-muted-foreground">Notifikasi &amp; emel</div></div></div>
+                <div class="flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-[#7c2d12] text-[9px]">ZM</div><div class="flex-1"><div class="font-semibold">Kontraktor</div><div class="text-[10px] text-muted-foreground">Surat rasmi keputusan</div></div></div>
+                <div class="flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-[#1d4ed8] text-[9px]">KH</div><div class="flex-1"><div class="font-semibold">Klien (KPM)</div><div class="text-[10px] text-muted-foreground">Makluman status</div></div></div>
+                <div class="flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full bg-slate-500 text-[9px]">SY</div><div class="flex-1"><div class="font-semibold">Sistem</div><div class="text-[10px] text-muted-foreground">Kes ditutup · dashboard kemaskini</div></div></div>
+              </div>
+            </div>
+
+            <div class="bg-navy-50/60 border border-navy-100 rounded-[12px] p-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-navy-800 mb-1">Rujukan Proses</div>
+              <div class="text-[11.5px] text-slate-700 leading-relaxed">Keputusan PP adalah muktamad pada peringkat pegawai. Kes yang dinaikkan ke PSG/CCP akan mengikuti prosedur eskalasi berasingan (SOP-UKAT-07).</div>
+              <a class="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-navy hover:underline cursor-pointer">Buka SOP-UKAT-07 <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('laporan', ['Dashboard','Laporan','SMK Kuala Pilah','Penilaian PP']));
+</script>
+</body></html>

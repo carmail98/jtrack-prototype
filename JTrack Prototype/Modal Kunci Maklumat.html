@@ -1,0 +1,93 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Kunci Maklumat Projek</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar relative">
+      <!-- Faded background context -->
+      <section class="px-6 pt-6 pb-4 opacity-40 pointer-events-none select-none">
+        <h1 class="text-[24px] font-bold tracking-tight">Laporan Intervensi — SMK Kuala Pilah</h1>
+        <p class="mt-1 text-[13px] text-muted-foreground">Draf laporan sedang dalam penyediaan.</p>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <div class="h-20 bg-white border border-border rounded-md"></div>
+          <div class="h-20 bg-white border border-border rounded-md"></div>
+          <div class="h-20 bg-white border border-border rounded-md"></div>
+        </div>
+      </section>
+
+      <!-- Overlay scrim -->
+      <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm flex items-center justify-center p-6 z-20">
+        <div class="w-full max-w-[640px] bg-white rounded-[14px] shadow-2xl border border-border overflow-hidden">
+          <!-- header -->
+          <div class="p-5 border-b border-border relative bg-gradient-to-r from-warning-50/60 to-white">
+            <div class="flex items-start gap-3">
+              <div class="w-11 h-11 rounded-md bg-warning-100 text-warning-700 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              <div class="flex-1">
+                <div class="mono text-[10.5px] uppercase tracking-[2px] text-warning-700 font-bold">Pengesahan Diperlukan</div>
+                <h2 class="text-[18px] font-bold tracking-tight mt-0.5">Kunci Maklumat Projek untuk Intervensi</h2>
+                <p class="mt-1 text-[12.5px] text-muted-foreground">Data SKALA akan dibekukan pada snapshot semasa. Sebarang perubahan selepas ini tidak akan mempengaruhi laporan ini.</p>
+              </div>
+              <button class="p-1 rounded hover:bg-muted text-muted-foreground"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            </div>
+          </div>
+
+          <!-- body -->
+          <div class="p-5 space-y-4">
+            <!-- Snapshot summary -->
+            <div class="rounded-md border border-border bg-slate-50/70 p-3">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[11px] uppercase tracking-wider font-bold text-muted-foreground">Data yang akan dikunci</div>
+                <span class="mono text-[10.5px] text-navy font-semibold">Snapshot: 10 Nov 2025, 14:32</span>
+              </div>
+              <div class="grid grid-cols-3 gap-3 text-[12px]">
+                <div><div class="text-muted-foreground text-[10.5px]">% Fizikal</div><div class="font-bold mono tabular text-[15px] text-critical">30.40%</div></div>
+                <div><div class="text-muted-foreground text-[10.5px]">% Jadual</div><div class="font-bold mono tabular text-[15px]">39.28%</div></div>
+                <div><div class="text-muted-foreground text-[10.5px]">Hari Lewat</div><div class="font-bold mono tabular text-[15px]">68</div></div>
+                <div><div class="text-muted-foreground text-[10.5px]">Nilai Kontrak</div><div class="font-bold mono tabular">RM 28.4J</div></div>
+                <div><div class="text-muted-foreground text-[10.5px]">EOT Aktif</div><div class="font-bold mono tabular">2 (78 hari)</div></div>
+                <div><div class="text-muted-foreground text-[10.5px]">Kontraktor</div><div class="font-semibold truncate">Jayamas S/B</div></div>
+              </div>
+            </div>
+
+            <!-- What happens -->
+            <div>
+              <div class="text-[11.5px] font-bold mb-2 text-foreground">Apakah yang akan berlaku?</div>
+              <ul class="space-y-1.5 text-[12px] text-slate-700">
+                <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Laporan akan merujuk snapshot ini secara rasmi.</li>
+                <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Kontraktor &amp; HOPT dimaklumkan melalui emel automatik.</li>
+                <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Audit trail merekod tarikh dan pegawai yang mengunci.</li>
+                <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-warning-700 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>Tindakan ini <span class="font-bold">tidak boleh dibatalkan</span> tanpa kelulusan Pengarah.</li>
+              </ul>
+            </div>
+
+            <!-- Confirm -->
+            <div class="rounded-md border border-navy-100 bg-navy-50/40 p-3 space-y-2">
+              <label class="flex items-start gap-2 cursor-pointer text-[12.5px]"><input type="checkbox" class="cbx mt-0.5" checked/><span class="text-slate-800">Saya sahkan snapshot data ini adalah tepat dan memahami kunci tidak boleh dibuat asal.</span></label>
+              <div>
+                <label class="text-[11px] font-semibold">Taip "<span class="mono text-critical font-bold">KUNCI</span>" untuk sahkan</label>
+                <input value="KUNCI" class="mt-1 w-40 h-9 px-3 rounded-md border-2 border-critical bg-white text-[13px] mono font-bold text-critical field-focus uppercase"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- footer -->
+          <div class="px-5 py-3 border-t border-border bg-slate-50/60 flex items-center justify-between">
+            <button class="h-9 px-4 rounded-md border border-border bg-white text-[12.5px] font-semibold text-slate-700 hover:bg-muted">Batal</button>
+            <button class="h-9 px-4 rounded-md bg-critical hover:bg-critical-700 text-white text-[12.5px] font-semibold inline-flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Kunci Maklumat Projek</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','SMK Kuala Pilah','Kunci Maklumat']));
+</script>
+</body></html>

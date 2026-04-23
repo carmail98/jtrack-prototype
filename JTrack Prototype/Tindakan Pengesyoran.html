@@ -1,0 +1,126 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Tindakan Pengesyoran</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:4px;font-size:10.5px;font-weight:600}</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4 flex items-start justify-between">
+        <div>
+          <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange mb-1">Pemantauan Pasca-Intervensi · Minggu 6 / 12</div>
+          <h1 class="text-[26px] font-bold tracking-tight leading-tight">Tindakan ke Atas Pengesyoran</h1>
+          <p class="mt-1 text-[13.5px] text-muted-foreground"><span class="mono font-semibold">SMK Kuala Pilah</span> · Laporan UKAT/LAP/INT/2025/042 · Tempoh pemantauan hingga 18 Mac 2026</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="h-8 px-3 rounded-md border border-border text-[11.5px] font-medium hover:bg-muted inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Eksport laporan kemajuan</button>
+          <button class="h-8 px-3 rounded-md bg-navy text-white text-[11.5px] font-semibold hover:bg-navy-700">+ Catat Kemas Kini</button>
+        </div>
+      </section>
+
+      <section class="px-6 pb-6 space-y-4">
+        <!-- KPI strip -->
+        <div class="grid grid-cols-5 gap-3">
+          <div class="bg-white border border-border rounded-[12px] p-4"><div class="text-[10.5px] text-muted-foreground uppercase tracking-wider font-semibold">Jumlah Pengesyoran</div><div class="mt-1 text-[24px] font-bold mono tabular">7</div><div class="text-[10.5px] text-muted-foreground">Semua ditugaskan</div></div>
+          <div class="bg-success-50/40 border border-success-100 rounded-[12px] p-4"><div class="text-[10.5px] text-success-700 uppercase tracking-wider font-semibold">Selesai</div><div class="mt-1 text-[24px] font-bold mono tabular text-success-700">3</div><div class="text-[10.5px] text-success-700/70">43% daripada pelan</div></div>
+          <div class="bg-warning-50/40 border border-warning-100 rounded-[12px] p-4"><div class="text-[10.5px] text-warning-700 uppercase tracking-wider font-semibold">Dalam Progres</div><div class="mt-1 text-[24px] font-bold mono tabular text-warning-700">3</div><div class="text-[10.5px] text-warning-700/70">Mengikut jadual</div></div>
+          <div class="bg-critical-50/40 border border-critical-100 rounded-[12px] p-4"><div class="text-[10.5px] text-critical-700 uppercase tracking-wider font-semibold">Lewat / Berisiko</div><div class="mt-1 text-[24px] font-bold mono tabular text-critical-700">1</div><div class="text-[10.5px] text-critical-700/70">Perlu intervensi</div></div>
+          <div class="bg-white border border-border rounded-[12px] p-4"><div class="text-[10.5px] text-muted-foreground uppercase tracking-wider font-semibold">Kesan pada % Fizikal</div><div class="mt-1 text-[24px] font-bold mono tabular text-success-700">+4.6%</div><div class="text-[10.5px] text-muted-foreground">Sejak 18 Dis 2025</div></div>
+        </div>
+
+        <!-- Progress mini-chart -->
+        <div class="bg-white border border-border rounded-[12px] p-5">
+          <div class="flex items-center justify-between mb-2"><div class="text-[12.5px] font-bold">Kesan Tindakan pada Kemajuan Fizikal</div><div class="flex items-center gap-4 text-[11px]"><span class="flex items-center gap-1.5"><span class="w-3 h-1.5 rounded bg-navy/30"></span>Jadual</span><span class="flex items-center gap-1.5"><span class="w-3 h-1.5 rounded bg-critical"></span>Sebelum Intervensi</span><span class="flex items-center gap-1.5"><span class="w-3 h-1.5 rounded bg-success"></span>Selepas Intervensi</span></div></div>
+          <svg viewBox="0 0 800 120" class="w-full h-[120px]">
+            <g stroke="#e2e8f0"><line x1="40" y1="20" x2="40" y2="100"/><line x1="40" y1="100" x2="790" y2="100"/></g>
+            <g fill="#94a3b8" font-family="JetBrains Mono" font-size="9"><text x="30" y="103" text-anchor="end">30</text><text x="30" y="73" text-anchor="end">35</text><text x="30" y="43" text-anchor="end">40</text><text x="30" y="13" text-anchor="end">45</text></g>
+            <g fill="#94a3b8" font-family="JetBrains Mono" font-size="9" text-anchor="middle"><text x="90" y="115">Nov</text><text x="220" y="115">Dis</text><text x="360" y="115">Jan'26</text><text x="500" y="115">Feb</text><text x="640" y="115">Mac</text><text x="760" y="115">Apr</text></g>
+            <!-- planned -->
+            <path d="M40 80 L90 72 L220 60 L360 48 L500 36 L640 24 L760 14" fill="none" stroke="#1e3a8a" stroke-opacity=".45" stroke-width="1.8" stroke-dasharray="4 3"/>
+            <!-- actual (red pre, green post intervensi at day ~220) -->
+            <path d="M40 92 L90 88 L150 83 L220 80" fill="none" stroke="#dc2626" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M220 80 L280 74 L360 66 L440 58 L500 52" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="500" cy="52" r="4" fill="#16a34a"/>
+            <!-- intervensi marker -->
+            <line x1="220" y1="20" x2="220" y2="100" stroke="#f97316" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="180" y="5" width="80" height="14" rx="2" fill="#f97316"/>
+            <text x="220" y="15" text-anchor="middle" font-family="Inter" font-size="9" fill="#fff" font-weight="700">INTERVENSI 18 NOV</text>
+          </svg>
+          <div class="mt-1 text-[11px] text-muted-foreground">Projek pulih dari -8.88% jurang kepada -4.32% dalam 6 minggu. Momentum positif berterusan.</div>
+        </div>
+
+        <!-- Recommendations table -->
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+          <div class="px-4 py-3 border-b border-border flex items-center justify-between">
+            <div><div class="text-[12.5px] font-bold">Senarai Pengesyoran &amp; Tindakan</div><div class="text-[11px] text-muted-foreground">Klik untuk lihat aktiviti terperinci</div></div>
+            <div class="flex items-center gap-1"><button class="text-[10.5px] font-semibold px-2 py-1 rounded bg-navy-50 text-navy-800 border border-navy-100">Semua (7)</button><button class="text-[10.5px] font-medium px-2 py-1 rounded border border-border hover:bg-muted">Kritikal (3)</button><button class="text-[10.5px] font-medium px-2 py-1 rounded border border-border hover:bg-muted">Lewat (1)</button></div>
+          </div>
+          <table class="w-full text-[12.5px]">
+            <thead class="bg-slate-50 text-[10.5px] uppercase tracking-wider text-muted-foreground">
+              <tr class="border-b border-border"><th class="px-4 py-2.5 text-left font-semibold w-10">#</th><th class="px-4 py-2.5 text-left font-semibold">Pengesyoran</th><th class="px-4 py-2.5 text-left font-semibold">PIC</th><th class="px-4 py-2.5 text-left font-semibold">Sasaran</th><th class="px-4 py-2.5 text-left font-semibold">% Progres</th><th class="px-4 py-2.5 text-left font-semibold">Status</th><th class="px-4 py-2.5 text-left font-semibold">Kemas Kini</th></tr>
+            </thead>
+            <tbody id="tbody" class="divide-y divide-border"></tbody>
+          </table>
+        </div>
+
+        <!-- Activity feed -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-3"><div class="text-[12.5px] font-bold">Aktiviti Terkini</div><button class="text-[11.5px] text-navy font-semibold hover:underline">Lihat semua →</button></div>
+            <div class="space-y-3">
+              <div class="flex items-start gap-2.5"><div class="avatar w-7 h-7 rounded-full bg-[#0f766e] text-[10px] flex-shrink-0">NR</div><div class="flex-1"><div class="text-[12px]"><span class="font-semibold">Nor'Izzati Rahman</span> mengemaskini <span class="font-semibold text-navy">P3</span> ke 65% progres</div><div class="text-[10.5px] text-muted-foreground mono">2 hari lalu · "Perunding hadir 2 sesi mesyuarat tapak."</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="avatar w-7 h-7 rounded-full bg-success text-[10px] flex-shrink-0">✓</div><div class="flex-1"><div class="text-[12px]"><span class="font-semibold">Sistem</span> · <span class="text-success-700 font-semibold">P4 ditanda selesai</span> — pegawai pengawal dilantik (En. Aziz Hamid)</div><div class="text-[10.5px] text-muted-foreground mono">4 hari lalu</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="avatar w-7 h-7 rounded-full bg-[#7c2d12] text-[10px] flex-shrink-0">ZM</div><div class="flex-1"><div class="text-[12px]"><span class="font-semibold">En. Zulkifli</span> memuat naik dokumen untuk <span class="font-semibold text-navy">P1</span>: <span class="text-navy underline">Recovery_Plan_v2.pdf</span></div><div class="text-[10.5px] text-muted-foreground mono">1 minggu lalu</div></div></div>
+              <div class="flex items-start gap-2.5"><div class="avatar w-7 h-7 rounded-full bg-critical text-[10px] flex-shrink-0">!</div><div class="flex-1"><div class="text-[12px]"><span class="font-semibold text-critical">Amaran auto:</span> <span class="font-semibold">P2</span> mendekati tarikh akhir (3 hari lagi) — belum bermula</div><div class="text-[10.5px] text-muted-foreground mono">2 minggu lalu</div></div></div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-3"><div class="text-[12.5px] font-bold">Semakan Susulan Akan Datang</div></div>
+            <div class="space-y-2">
+              <div class="p-3 rounded border border-navy-100 bg-navy-50/40 flex items-center gap-3"><div class="text-center flex-shrink-0"><div class="text-[10.5px] uppercase font-bold text-navy-800">Jan</div><div class="text-[22px] font-bold mono tabular text-navy leading-none">15</div></div><div class="flex-1"><div class="text-[12.5px] font-semibold">Mesyuarat Susulan Bulan 2</div><div class="text-[11px] text-muted-foreground">Semakan prestasi kontraktor · 10:00 · Bilik UKAT-01</div></div><svg class="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="p-3 rounded border border-border bg-slate-50/60 flex items-center gap-3"><div class="text-center flex-shrink-0"><div class="text-[10.5px] uppercase font-bold text-slate-500">Feb</div><div class="text-[22px] font-bold mono tabular text-slate-700 leading-none">15</div></div><div class="flex-1"><div class="text-[12.5px] font-semibold">Lawatan Tapak Susulan</div><div class="text-[11px] text-muted-foreground">Cerapan fizikal · Pasukan asal</div></div></div>
+              <div class="p-3 rounded border border-border bg-slate-50/60 flex items-center gap-3"><div class="text-center flex-shrink-0"><div class="text-[10.5px] uppercase font-bold text-slate-500">Mac</div><div class="text-[22px] font-bold mono tabular text-slate-700 leading-none">18</div></div><div class="flex-1"><div class="text-[12.5px] font-semibold">Penilaian Akhir 3 Bulan</div><div class="text-[11px] text-muted-foreground">Tutup kes atau panjang tempoh · Ketua Pasukan</div></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const recs = [
+  {id:"P1", n:"Recovery plan terperinci oleh kontraktor", pic:"Kontraktor", picC:"#7c2d12", picI:"ZM", due:"2 Dis 2025", prog:100, status:"selesai", upd:"15 Dis"},
+  {id:"P2", n:"Lantik PM Kontraktor tetap (tidak boleh tukar)", pic:"Kontraktor", picC:"#7c2d12", picI:"ZM", due:"25 Dis 2025", prog:10, status:"lewat", upd:"6 Jan"},
+  {id:"P3", n:"Perunding hadir semua mesyuarat tapak bulanan", pic:"Perunding", picC:"#0f766e", picI:"NZ", due:"Berterusan", prog:65, status:"progres", upd:"2 hari"},
+  {id:"P4", n:"Lantik pegawai pengawal JKR di tapak", pic:"UKAT / JKR", picC:"#1e3a8a", picI:"UK", due:"10 Dis 2025", prog:100, status:"selesai", upd:"12 Dis"},
+  {id:"P5", n:"Shop drawing dikemukakan 3 minggu awal", pic:"Kontraktor", picC:"#7c2d12", picI:"ZM", due:"Berterusan", prog:45, status:"progres", upd:"5 Jan"},
+  {id:"P6", n:"Laporan kewangan bulanan kepada UKAT", pic:"Kontraktor", picC:"#7c2d12", picI:"ZM", due:"Berterusan", prog:100, status:"selesai", upd:"2 Jan"},
+  {id:"P7", n:"Kajian semula CPM &amp; baseline jadual", pic:"Perunding", picC:"#0f766e", picI:"NZ", due:"31 Jan 2026", prog:30, status:"progres", upd:"7 Jan"},
+];
+function statusPill(s){
+  if(s==="selesai") return `<span class="pill bg-success-50 text-success-700 border border-success-100"><span class="w-1.5 h-1.5 rounded-full bg-success"></span>SELESAI</span>`;
+  if(s==="lewat")   return `<span class="pill bg-critical-50 text-critical-700 border border-critical-100"><span class="w-1.5 h-1.5 rounded-full bg-critical animate-pulse"></span>LEWAT</span>`;
+  return `<span class="pill bg-warning-50 text-warning-700 border border-warning-100"><span class="w-1.5 h-1.5 rounded-full bg-warning"></span>DALAM PROGRES</span>`;
+}
+function barColor(p, s){ return s==="selesai" ? 'bg-success' : s==="lewat" ? 'bg-critical' : 'bg-warning'; }
+document.getElementById('tbody').innerHTML = recs.map(r => `
+  <tr class="row-hover cursor-pointer">
+    <td class="px-4 py-3"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-navy-50 text-navy text-[11px] font-bold mono">${r.id}</span></td>
+    <td class="px-4 py-3 font-semibold max-w-[300px]">${r.n}</td>
+    <td class="px-4 py-3"><div class="flex items-center gap-1.5"><div class="avatar w-6 h-6 rounded-full text-[9px]" style="background:${r.picC}">${r.picI}</div><span>${r.pic}</span></div></td>
+    <td class="px-4 py-3 mono tabular text-[11.5px] text-slate-600">${r.due}</td>
+    <td class="px-4 py-3"><div class="min-w-[140px]"><div class="flex items-center justify-between text-[10.5px] mono tabular mb-1"><span class="font-semibold">${r.prog}%</span></div><div class="h-1.5 bg-slate-100 rounded overflow-hidden"><div class="h-full ${barColor(r.prog,r.status)}" style="width:${r.prog}%"></div></div></div></td>
+    <td class="px-4 py-3">${statusPill(r.status)}</td>
+    <td class="px-4 py-3 text-[11px] text-muted-foreground">${r.upd} lalu</td>
+  </tr>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('laporan', ['Dashboard','Laporan','SMK Kuala Pilah','Tindakan Pengesyoran']));
+</script>
+</body></html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Senarai Projek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .filter-bar { position: sticky; top: 0; z-index: 10; }
+  .sortable:hover { color: #0f172a; cursor: pointer; }
+  tr.is-selected { background: #eff6ff !important; }
+  tr.is-selected td:first-child { box-shadow: inset 3px 0 0 #1e3a8a; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar">
+      <!-- Title bar -->
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Pemantauan</span>
+              <span class="inline-flex items-center gap-1 text-[10.5px] text-muted-foreground border border-border rounded px-1.5 py-0.5 bg-white">
+                <svg class="w-3 h-3 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>
+                SKALA disegerakkan · 05:00 pagi
+              </span>
+            </div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Senarai Projek</h1>
+            <p class="mt-1 text-[13.5px] text-muted-foreground"><span class="font-semibold text-foreground mono">247</span> projek aktif — ditarik daripada <span class="mono font-semibold">SKALA</span>.</p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12.5px] font-semibold text-slate-700 hover:bg-muted inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Eksport CSV
+            </button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12.5px] font-semibold text-slate-700 hover:bg-muted inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>
+              Segarkan Data SKALA
+            </button>
+            <button class="h-9 px-3.5 rounded-md bg-navy hover:bg-navy-700 text-white text-[12.5px] font-semibold shadow-sm inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Projek Baharu
+            </button>
+          </div>
+        </div>
+
+        <!-- Status legend -->
+        <div class="mt-4 flex items-center gap-1.5 flex-wrap text-[11px]">
+          <span class="text-muted-foreground font-semibold uppercase tracking-wider text-[10px] mr-1">Status:</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-navy-50 text-navy-800 border border-navy-100 font-bold uppercase tracking-wider text-[10px]"><span class="w-1 h-1 rounded-full bg-navy"></span>Aktif</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-warning-50 text-warning-700 border border-warning-100 font-bold uppercase tracking-wider text-[10px]"><span class="w-1 h-1 rounded-full bg-warning"></span>Lewat</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-critical-50 text-critical-700 border border-critical-100 font-bold uppercase tracking-wider text-[10px]"><span class="w-1 h-1 rounded-full bg-critical"></span>Kritikal</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success-50 text-success-700 border border-success-100 font-bold uppercase tracking-wider text-[10px]"><span class="w-1 h-1 rounded-full bg-success"></span>Siap</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-50 text-orange-600 border border-orange-100 font-bold uppercase tracking-wider text-[10px]"><span class="w-1 h-1 rounded-full bg-orange"></span>Meragukan</span>
+        </div>
+      </section>
+
+      <!-- Table + filters -->
+      <section class="px-6 pb-6">
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+
+          <!-- FILTER BAR -->
+          <div class="filter-bar bg-white border-b border-border p-3 flex items-center gap-2 flex-wrap">
+            <div class="relative flex-1 min-w-[240px] max-w-[320px]">
+              <svg class="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input placeholder="Cari nama projek atau ID…" class="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-white text-[12.5px] field-focus"/>
+            </div>
+
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Negeri: Semua</option><option>N. Sembilan</option><option>Selangor</option><option>Perak</option><option>Johor</option><option>Pahang</option><option>Sabah</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Cawangan: Semua</option><option>CKP</option><option>Cawangan Jalan</option><option>Cawangan Bangunan</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Jabatan Pemilik</option><option>KPM</option><option>KKM</option><option>KDN</option><option>KPKT</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Status</option><option>Aktif</option><option>Lewat</option><option>Kritikal</option><option>Siap</option><option>Meragukan</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Kategori IBS</option><option>IBS Penuh</option><option>Separa IBS</option><option>Konvensional</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="relative"><select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus"><option>Kaedah Perolehan</option><option>Konvensional</option><option>Design &amp; Build</option><option>Tender Terbuka</option><option>Rundingan Terus</option></select><svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+
+            <div class="ml-auto flex items-center gap-2">
+              <span class="text-[11px] text-muted-foreground mono">12 / 247</span>
+              <div class="relative">
+                <select class="h-8 pl-7 pr-7 rounded-md border border-input bg-white text-[12px] font-medium text-slate-700 field-focus">
+                  <option>%Fizikal</option><option>Tarikh Siap</option><option>Kos Kontrak</option><option>Hari Lewat</option>
+                </select>
+                <svg class="w-3.5 h-3.5 text-muted-foreground absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M11 18h2"/></svg>
+                <svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="overflow-x-auto scrollbar">
+            <table class="w-full text-[12.5px]">
+              <thead class="bg-slate-50 text-[10.5px] uppercase tracking-wider text-muted-foreground">
+                <tr class="border-b border-border">
+                  <th class="px-3 py-2.5 text-left font-semibold w-[110px]"><span class="sortable inline-flex items-center gap-1">ID Projek <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span></th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Nama Projek</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Lokasi</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Kaedah</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Kontraktor</th>
+                  <th class="px-3 py-2.5 text-right font-semibold">Kos Kontrak</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">TMT</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">TSS</th>
+                  <th class="px-3 py-2.5 text-right font-semibold">%Jadual</th>
+                  <th class="px-3 py-2.5 text-right font-semibold">%Fizikal</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Status</th>
+                  <th class="px-3 py-2.5 w-10"></th>
+                </tr>
+              </thead>
+              <tbody id="tbody" class="divide-y divide-border"></tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="px-4 py-3 border-t border-border flex items-center justify-between text-[11.5px]">
+            <div class="text-muted-foreground">Papar <span class="mono font-semibold text-foreground">12</span> daripada <span class="mono font-semibold text-foreground">247</span> projek</div>
+            <div class="flex items-center gap-1">
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted text-muted-foreground">‹ Sebelum</button>
+              <button class="h-7 w-7 rounded bg-navy text-white font-semibold mono">1</button>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted mono">2</button>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted mono">3</button>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted mono">4</button>
+              <span class="px-1 text-muted-foreground">…</span>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted mono">21</button>
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted">Seterusnya ›</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="_chrome.js"></script>
+<script>
+  JTRACK.mountChrome('projek', ['Dashboard', 'Senarai Projek']);
+
+  const rows = [
+    { id:'PRJ-N9-0042',  name:'Pembinaan SMK Kuala Pilah',                loc:'N9 · Kuala Pilah',   method:'Konvensional IBS', c:'XYZ Sdn. Bhd.',        cost:'10,808,500',   tmt:'09/01/2024', tss:'25/01/2026', sched:'39.28', phys:'30.40', status:'Kritikal', detail:true },
+    { id:'PRJ-PRK-0089', name:'Naik Taraf Hospital Taiping',                loc:'Perak · Taiping',    method:'Design & Build',   c:'ABC Construction',     cost:'45,200,000',   tmt:'15/03/2023', tss:'20/02/2026', sched:'68.50', phys:'45.20', status:'Lewat' },
+    { id:'PRJ-PHG-0011', name:'Jambatan Sungai Pahang Fasa 2',              loc:'Pahang · Temerloh',  method:'Design & Build',   c:'Sri Pahang Eng.',      cost:'128,400,000',  tmt:'22/07/2022', tss:'30/11/2025', sched:'58.00', phys:'22.10', status:'Kritikal' },
+    { id:'PRJ-SBH-0127', name:'Pembinaan Kuarters Polis Sandakan',          loc:'Sabah · Sandakan',   method:'Konvensional',     c:'Borneo Build Sdn.',    cost:'18,650,000',   tmt:'01/06/2024', tss:'15/08/2026', sched:'71.00', phys:'58.30', status:'Lewat' },
+    { id:'PRJ-KDH-0203', name:'Ubah Suai Dewan Mahkamah Alor Setar',        loc:'Kedah · Alor Setar', method:'Tender Terbuka',   c:'Utara Kontraktor',     cost:'6,920,000',    tmt:'10/10/2024', tss:'30/06/2026', sched:'45.00', phys:'12.80', status:'Kritikal' },
+    { id:'PRJ-SGR-0058', name:'Pusat Kesihatan Daerah Klang',               loc:'Selangor · Klang',   method:'Konvensional IBS', c:'Delima Binaan Sdn.',   cost:'32,150,000',   tmt:'05/02/2025', tss:'15/10/2026', sched:'35.00', phys:'34.80', status:'Aktif' },
+    { id:'PRJ-JHR-0074', name:'Naik Taraf Jalan Kluang–Mersing',            loc:'Johor · Kluang',     method:'Konvensional',     c:'Selatan Road Works',   cost:'87,500,000',   tmt:'18/08/2023', tss:'28/02/2026', sched:'82.00', phys:'79.20', status:'Aktif' },
+    { id:'PRJ-MLK-0029', name:'Pembinaan Perpustakaan Awam Melaka',         loc:'Melaka · Ayer Keroh',method:'Design & Build',   c:'Historika Eng.',       cost:'22,300,000',   tmt:'12/11/2024', tss:'30/04/2026', sched:'61.00', phys:'55.10', status:'Aktif' },
+    { id:'PRJ-KTN-0017', name:'Projek Kolam Takungan Banjir Kota Bharu',    loc:'Kelantan · K. Bharu',method:'Rundingan Terus',  c:'Hidrotek (M) Sdn.',    cost:'54,800,000',   tmt:'20/02/2024', tss:'10/09/2025', sched:'95.00', phys:'72.40', status:'Kritikal' },
+    { id:'PRJ-TRG-0041', name:'Pembinaan Masjid Mukim Kuala Ibai',          loc:'Terengganu · K.Terengganu', method:'Konvensional', c:'Anbia Bina Sdn.',      cost:'9,450,000',    tmt:'03/03/2025', tss:'15/12/2026', sched:'28.00', phys:'27.60', status:'Aktif' },
+    { id:'PRJ-SWK-0055', name:'Klinik Kesihatan Betong Fasa 2',             loc:'Sarawak · Betong',   method:'Konvensional IBS', c:'Sarawak Bumi Sdn.',    cost:'14,200,000',   tmt:'25/05/2024', tss:'10/07/2026', sched:'52.00', phys:'38.90', status:'Meragukan' },
+    { id:'PRJ-PLS-0008', name:'Ubah Suai Kompleks Sukan Kangar',            loc:'Perlis · Kangar',    method:'Tender Terbuka',   c:'Utara Sukan Eng.',     cost:'5,780,000',    tmt:'14/06/2024', tss:'28/02/2026', sched:'100.00',phys:'100.0', status:'Siap' },
+  ];
+
+  const statusBadge = (s) => {
+    const map = {
+      'Aktif':     ['bg-navy-50 text-navy-800 border-navy-100', 'bg-navy'],
+      'Lewat':     ['bg-warning-50 text-warning-700 border-warning-100', 'bg-warning'],
+      'Kritikal':  ['bg-critical-50 text-critical-700 border-critical-100', 'bg-critical'],
+      'Siap':      ['bg-success-50 text-success-700 border-success-100', 'bg-success'],
+      'Meragukan': ['bg-orange-50 text-orange-600 border-orange-100', 'bg-orange'],
+    };
+    const [cls, dot] = map[s];
+    return `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${cls} uppercase tracking-wider"><span class="w-1 h-1 rounded-full ${dot}"></span>${s}</span>`;
+  };
+
+  const physCell = (phys, sched, status) => {
+    const delta = parseFloat(phys) - parseFloat(sched);
+    const colorCls = delta < -5 ? 'text-critical-700' : delta < 0 ? 'text-warning-700' : 'text-foreground';
+    const pct = Math.min(100, parseFloat(phys));
+    const barColor = status === 'Kritikal' ? 'bg-critical' : status === 'Lewat' ? 'bg-warning' : status === 'Siap' ? 'bg-success' : status === 'Meragukan' ? 'bg-orange' : 'bg-navy';
+    return `
+      <div class="mono tabular text-[12.5px] font-semibold ${colorCls}">${phys}%</div>
+      <div class="mt-0.5 h-1 w-full rounded-full bg-muted overflow-hidden"><div class="h-full ${barColor}" style="width:${pct}%"></div></div>
+    `;
+  };
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = rows.map((r, i) => `
+    <tr class="row-hover ${r.detail ? 'is-selected' : ''}">
+      <td class="px-3 py-2.5 mono tabular text-[11.5px] font-semibold text-navy-800">${r.id}</td>
+      <td class="px-3 py-2.5">
+        <a href="${r.detail ? 'Detail Projek.html' : '#'}" class="text-[12.5px] font-semibold hover:text-navy">${r.name}</a>
+      </td>
+      <td class="px-3 py-2.5 text-[11.5px] text-slate-700">${r.loc}</td>
+      <td class="px-3 py-2.5 text-[11.5px] text-slate-700">${r.method}</td>
+      <td class="px-3 py-2.5 text-[11.5px] text-slate-700">${r.c}</td>
+      <td class="px-3 py-2.5 text-right mono tabular text-[12px] font-medium">RM ${r.cost}</td>
+      <td class="px-3 py-2.5 mono tabular text-[11.5px] text-muted-foreground">${r.tmt}</td>
+      <td class="px-3 py-2.5 mono tabular text-[11.5px] text-muted-foreground">${r.tss}</td>
+      <td class="px-3 py-2.5 text-right mono tabular text-[12px] text-slate-700">${r.sched}%</td>
+      <td class="px-3 py-2.5 text-right w-[120px]">${physCell(r.phys, r.sched, r.status)}</td>
+      <td class="px-3 py-2.5">${statusBadge(r.status)}</td>
+      <td class="px-3 py-2.5 text-right">
+        <button class="p-1 rounded hover:bg-muted text-muted-foreground">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+</script>
+</body>
+</html>

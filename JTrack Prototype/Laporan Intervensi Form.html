@@ -1,0 +1,206 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Laporan Intervensi</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .sidebar-step{display:flex;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;align-items:flex-start}
+  .sidebar-step:hover{background:#f1f5f9}
+  .sidebar-step.active{background:#eff6ff}
+  .sidebar-step.active .dot{background:#1e3a8a;color:#fff;border-color:#1e3a8a}
+  .sidebar-step.done .dot{background:#16a34a;color:#fff;border-color:#16a34a}
+  .dot{width:22px;height:22px;border-radius:50%;border:1.5px solid #cbd5e1;background:#fff;color:#64748b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .input{width:100%;padding:8px 10px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px}
+  .input:focus{outline:none;border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,.12)}
+  .label{font-size:11px;font-weight:600;color:#334155;margin-bottom:4px;display:block}
+  .req::after{content:" *";color:#dc2626}
+  .seg{display:flex;gap:6px}
+  .seg button{flex:1;padding:8px 10px;border:1px solid #e2e8f0;background:#fff;border-radius:6px;font-size:12px;font-weight:500;color:#475569;cursor:pointer}
+  .seg button.on{background:#eff6ff;border-color:#1e3a8a;color:#1e3a8a;font-weight:600}
+  .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;padding:1px 5px;border-radius:3px;border:1px solid #e2e8f0;background:#f8fafc;color:#64748b}
+  .tag{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:4px;font-size:11px;font-weight:500;background:#eff6ff;color:#1e3a8a;border:1px solid #dbeafe}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-hidden flex">
+      <!-- Left: report sections -->
+      <aside class="w-[280px] border-r border-border bg-white flex-shrink-0 flex flex-col">
+        <div class="p-4 border-b border-border">
+          <div class="mono text-[10px] uppercase tracking-[2px] text-orange font-semibold">Laporan Intervensi</div>
+          <div class="text-[13px] font-bold tracking-tight mt-0.5 leading-snug">SMK Kuala Pilah</div>
+          <div class="text-[11px] text-muted-foreground mt-0.5 mono">PRJ-N9-2024-0042 · Draf</div>
+          <div class="mt-3">
+            <div class="flex items-center justify-between text-[10.5px] font-semibold mb-1"><span class="text-muted-foreground uppercase tracking-wider">Kemajuan</span><span class="text-navy">4 / 7</span></div>
+            <div class="h-1.5 bg-slate-100 rounded overflow-hidden"><div class="h-full bg-navy" style="width:57%"></div></div>
+          </div>
+        </div>
+        <nav class="flex-1 overflow-auto scrollbar p-3 space-y-1">
+          <div class="sidebar-step done"><div class="dot"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">A · Maklumat Projek</div><div class="text-[10.5px] text-muted-foreground">Auto dari SKALA</div></div></div>
+          <div class="sidebar-step done"><div class="dot"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">B · Status Semasa</div><div class="text-[10.5px] text-muted-foreground">6 kemaskini</div></div></div>
+          <div class="sidebar-step done"><div class="dot"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">C · Isu &amp; Masalah</div><div class="text-[10.5px] text-muted-foreground">12 isu dicatat</div></div></div>
+          <div class="sidebar-step active"><div class="dot">4</div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold text-navy">D · Punca Kelewatan</div><div class="text-[10.5px] text-navy/70">Sedang diisi</div></div></div>
+          <div class="sidebar-step"><div class="dot">5</div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">E · Pengesyoran</div><div class="text-[10.5px] text-muted-foreground">Belum bermula</div></div></div>
+          <div class="sidebar-step"><div class="dot">6</div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">F · Pelan Tindakan</div><div class="text-[10.5px] text-muted-foreground">Belum bermula</div></div></div>
+          <div class="sidebar-step"><div class="dot">7</div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-semibold">G · Lampiran</div><div class="text-[10.5px] text-muted-foreground">3 fail</div></div></div>
+        </nav>
+        <div class="p-3 border-t border-border bg-slate-50/60">
+          <div class="flex items-center gap-1.5 text-[10.5px] text-muted-foreground mb-2"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Auto-save: 30 saat lalu</div>
+          <div class="flex items-center gap-1.5">
+            <div class="flex -space-x-1.5">
+              <div class="avatar w-6 h-6 rounded-full bg-navy text-[9px] ring-2 ring-white">RA</div>
+              <div class="avatar w-6 h-6 rounded-full bg-[#0f766e] text-[9px] ring-2 ring-white">NR</div>
+              <div class="avatar w-6 h-6 rounded-full bg-navy text-[9px] ring-2 ring-white">MM</div>
+            </div>
+            <span class="text-[10.5px] text-muted-foreground">3 aktif</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main form area -->
+      <div class="flex-1 overflow-auto scrollbar">
+        <!-- Sticky header -->
+        <div class="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-border px-8 py-3 flex items-center justify-between">
+          <div>
+            <div class="text-[10.5px] text-muted-foreground font-semibold uppercase tracking-wider">Bahagian D</div>
+            <div class="text-[16px] font-bold tracking-tight">Punca Kelewatan &amp; Analisis</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="h-8 px-2.5 rounded border border-border text-[11.5px] font-medium text-slate-700 hover:bg-muted inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Catatan <span class="kbd">⌘M</span></button>
+            <button class="h-8 px-2.5 rounded border border-border text-[11.5px] font-medium text-slate-700 hover:bg-muted">Simpan Draf</button>
+            <button class="h-8 px-3 rounded bg-navy text-white text-[11.5px] font-semibold hover:bg-navy-700">Seterusnya →</button>
+          </div>
+        </div>
+
+        <div class="px-8 py-6 max-w-[900px] space-y-6">
+          <!-- D1: Kategori Utama -->
+          <div class="space-y-3">
+            <div>
+              <div class="text-[12.5px] font-bold mb-1">D.1 · Kategori Utama Kelewatan</div>
+              <p class="text-[11.5px] text-muted-foreground">Pilih sehingga 3 kategori yang paling ketara. Kategori mengikut taksonomi standard UKAT.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex items-start gap-2 p-3 rounded-md border-2 border-navy bg-navy-50/40 cursor-pointer"><input type="checkbox" class="cbx mt-0.5" checked/><div><div class="text-[12.5px] font-semibold">Prestasi Kontraktor</div><div class="text-[11px] text-muted-foreground mt-0.5">Perancangan, sumber, kewangan kontraktor</div></div><span class="ml-auto text-[10px] font-bold text-navy">PRIMER</span></label>
+              <label class="flex items-start gap-2 p-3 rounded-md border border-border hover:bg-muted cursor-pointer"><input type="checkbox" class="cbx mt-0.5" checked/><div><div class="text-[12.5px] font-semibold">Reka Bentuk &amp; Kelulusan</div><div class="text-[11px] text-muted-foreground mt-0.5">Shop drawing, ubah suai skop</div></div></label>
+              <label class="flex items-start gap-2 p-3 rounded-md border border-border hover:bg-muted cursor-pointer"><input type="checkbox" class="cbx mt-0.5"/><div><div class="text-[12.5px] font-semibold">Isu Tapak</div><div class="text-[11px] text-muted-foreground mt-0.5">Geoteknik, pengambilan tanah</div></div></label>
+              <label class="flex items-start gap-2 p-3 rounded-md border border-border hover:bg-muted cursor-pointer"><input type="checkbox" class="cbx mt-0.5"/><div><div class="text-[12.5px] font-semibold">Cuaca &amp; Bencana</div><div class="text-[11px] text-muted-foreground mt-0.5">Banjir, hujan lebat, COVID-19</div></div></label>
+              <label class="flex items-start gap-2 p-3 rounded-md border border-border hover:bg-muted cursor-pointer"><input type="checkbox" class="cbx mt-0.5"/><div><div class="text-[12.5px] font-semibold">Bekalan Bahan</div><div class="text-[11px] text-muted-foreground mt-0.5">Kekurangan, kenaikan harga</div></div></label>
+              <label class="flex items-start gap-2 p-3 rounded-md border border-border hover:bg-muted cursor-pointer"><input type="checkbox" class="cbx mt-0.5"/><div><div class="text-[12.5px] font-semibold">Pengurusan Projek</div><div class="text-[11px] text-muted-foreground mt-0.5">Pertukaran pegawai, SOP</div></div></label>
+            </div>
+          </div>
+
+          <!-- D2: Narrative editor -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="label req">D.2 · Naratif Penilaian Pasukan</label>
+                <p class="text-[11px] text-muted-foreground -mt-1">Ringkasan penemuan utama di tapak (minimum 150 patah perkataan).</p>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button class="h-7 px-2 text-[11px] rounded border border-border hover:bg-muted font-medium text-slate-700">B</button>
+                <button class="h-7 px-2 text-[11px] italic rounded border border-border hover:bg-muted font-medium text-slate-700">I</button>
+                <button class="h-7 px-2 text-[11px] rounded border border-border hover:bg-muted font-medium text-slate-700">•</button>
+                <button class="h-7 px-2 text-[11px] rounded border border-border hover:bg-muted font-medium text-slate-700 inline-flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.3 4.7 5.2.8-3.8 3.7.9 5.2L12 14l-4.6 2.4.9-5.2L4.5 7.5l5.2-.8L12 2z"/></svg>AI</button>
+              </div>
+            </div>
+            <div class="rounded-md border border-border bg-white p-4 text-[12.5px] leading-[1.7] min-h-[200px]">
+              <p>Berdasarkan cerapan di tapak pada <span class="tag">17–18 Nov 2025</span>, pasukan mendapati kemajuan fizikal projek berada pada <span class="tag">30.40%</span> berbanding jadual <span class="tag">39.28%</span>, menghasilkan jurang <span class="bg-critical-50 text-critical-700 font-semibold px-1 rounded">-8.88%</span>. Faktor utama yang menyumbang kepada keadaan ini adalah:</p>
+              <ol class="ml-5 mt-2 list-decimal space-y-1">
+                <li><span class="font-semibold">Perancangan kontraktor lemah:</span> Jadual CPM tidak disemak semula sejak EOT-2, mengakibatkan lag 28 hari pada kerja tiang blok A.</li>
+                <li><span class="font-semibold">Pertukaran personel tapak kerap:</span> 4 Pengurus Projek Kontraktor telah ditukar dalam 14 bulan, menjejaskan kesinambungan kerja.</li>
+                <li class="text-muted-foreground italic opacity-60">Sedang menaip…<span class="inline-block w-[1.5px] h-[12px] bg-navy ml-0.5 animate-pulse"></span></li>
+              </ol>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-muted-foreground">
+              <span class="mono">163 / 150 patah perkataan · Auto-save 30s lalu</span>
+              <span>Disediakan oleh <span class="font-semibold text-navy">Ts. Marlinah Mohamad</span></span>
+            </div>
+          </div>
+
+          <!-- D3: Faktor breakdown -->
+          <div class="space-y-2">
+            <div>
+              <div class="text-[12.5px] font-bold">D.3 · Sumbangan Faktor (Analisis Kuantitatif)</div>
+              <p class="text-[11.5px] text-muted-foreground">Agihkan 100 mata di antara faktor utama mengikut berat sumbangan.</p>
+            </div>
+            <div id="fac" class="space-y-2"></div>
+            <div class="flex items-center justify-between p-2 rounded bg-muted text-[11.5px]"><span class="font-semibold text-slate-700">Jumlah Sumbangan</span><span class="mono font-bold text-navy">100 / 100</span></div>
+          </div>
+
+          <!-- D4: Lampiran ref -->
+          <div class="space-y-2">
+            <div class="text-[12.5px] font-bold">D.4 · Rujukan Bukti</div>
+            <div class="rounded-md border border-dashed border-border p-4 flex items-center justify-between hover:border-navy hover:bg-navy-50/30 cursor-pointer">
+              <div class="flex items-center gap-2.5 text-slate-500 text-[12px]"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Seret fail ke sini atau <span class="text-navy font-semibold underline">pilih</span> — foto, laporan, minit</div>
+              <span class="text-[10.5px] text-muted-foreground mono">.pdf .jpg .png · max 20MB</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <span class="tag">IMG-0428.jpg <svg class="w-2.5 h-2.5 cursor-pointer opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+              <span class="tag">Minit-28.pdf <svg class="w-2.5 h-2.5 cursor-pointer opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+              <span class="tag">CPM-nov25.mpp <svg class="w-2.5 h-2.5 cursor-pointer opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+            </div>
+          </div>
+
+          <div class="h-4"></div>
+        </div>
+      </div>
+
+      <!-- Right: context panel -->
+      <aside class="w-[320px] border-l border-border bg-slate-50/60 flex-shrink-0 overflow-auto scrollbar">
+        <div class="p-4 border-b border-border bg-white">
+          <div class="flex items-center justify-between mb-2"><div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Pasukan Aktif</div><button class="text-[10.5px] text-navy font-semibold">Urus →</button></div>
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2 p-1.5 rounded bg-navy-50/60"><div class="avatar w-7 h-7 rounded-full bg-navy text-[10px]">MM</div><div class="flex-1 min-w-0"><div class="text-[12px] font-semibold truncate">Ts. Marlinah (Anda)</div><div class="text-[10.5px] text-muted-foreground">Menaip D.2…</div></div><span class="w-1.5 h-1.5 rounded-full bg-success"></span></div>
+            <div class="flex items-center gap-2 p-1.5"><div class="avatar w-7 h-7 rounded-full bg-[#0f766e] text-[10px]">NR</div><div class="flex-1 min-w-0"><div class="text-[12px] font-semibold truncate">Nor'Izzati</div><div class="text-[10.5px] text-muted-foreground">Melihat Bahagian C</div></div><span class="w-1.5 h-1.5 rounded-full bg-success"></span></div>
+            <div class="flex items-center gap-2 p-1.5"><div class="avatar w-7 h-7 rounded-full bg-navy text-[10px]">RA</div><div class="flex-1 min-w-0"><div class="text-[12px] font-semibold truncate">Ir. Rafidah (Pengesah)</div><div class="text-[10.5px] text-muted-foreground">Idle 12m</div></div><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span></div>
+          </div>
+        </div>
+
+        <div class="p-4 border-b border-border">
+          <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Data SKALA Terkini</div>
+          <div class="space-y-2">
+            <div class="p-2.5 rounded bg-white border border-border"><div class="text-[10.5px] text-muted-foreground">% Fizikal (auto)</div><div class="text-[16px] font-bold mono text-critical">30.40%</div><div class="text-[10.5px] text-muted-foreground">Dikemaskini: 9 Nov 2025</div></div>
+            <div class="p-2.5 rounded bg-white border border-border"><div class="text-[10.5px] text-muted-foreground">EOT Aktif</div><div class="text-[16px] font-bold mono">2 <span class="text-[11px] font-semibold text-muted-foreground">(78 hari)</span></div><div class="text-[10.5px] text-muted-foreground">Terakhir: 12 Jul 2025</div></div>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-2"><div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Komen di Bahagian D</div><span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange text-white">3</span></div>
+          <div class="space-y-2.5">
+            <div class="p-2.5 rounded bg-white border border-border"><div class="flex items-center gap-1.5 mb-1"><div class="avatar w-5 h-5 rounded-full bg-navy text-[8px]">RA</div><span class="text-[11px] font-semibold">Ir. Rafidah</span><span class="ml-auto text-[10px] text-muted-foreground">2j lalu</span></div><p class="text-[11.5px] text-slate-700">Tolong sertakan salinan laporan kewangan kontraktor (sec. 5) sebagai bukti.</p><div class="mt-1.5 text-[10.5px] text-orange font-semibold flex items-center gap-1">● Belum dijawab</div></div>
+            <div class="p-2.5 rounded bg-white border border-border"><div class="flex items-center gap-1.5 mb-1"><div class="avatar w-5 h-5 rounded-full bg-[#0f766e] text-[8px]">NR</div><span class="text-[11px] font-semibold">Nor'Izzati</span><span class="ml-auto text-[10px] text-muted-foreground">5j lalu</span></div><p class="text-[11.5px] text-slate-700">EOT-1 disebabkan cuaca, EOT-2 kerana ubah skop. Pecahkan di D.3?</p><div class="mt-1.5 flex items-center gap-2"><div class="avatar w-4 h-4 rounded-full bg-navy text-[7px]">MM</div><span class="text-[10.5px] text-success-700 font-semibold">✓ Dijawab</span></div></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+</div>
+
+<script>
+const fac = [
+  {n:"Perancangan &amp; jadual kontraktor lemah", v:40, c:"critical"},
+  {n:"Kewangan kontraktor tidak stabil", v:25, c:"critical"},
+  {n:"Kelewatan kelulusan shop drawing", v:15, c:"warning"},
+  {n:"Pertukaran personel kontraktor kerap", v:12, c:"warning"},
+  {n:"Masalah bekalan bahan (simen & keluli)", v:8, c:"success"},
+];
+document.getElementById('fac').innerHTML = fac.map(f => `
+  <div class="p-3 rounded-md border border-border bg-white">
+    <div class="flex items-center justify-between mb-2">
+      <div class="text-[12px] font-semibold">${f.n}</div>
+      <div class="flex items-center gap-2">
+        <input type="range" min="0" max="100" value="${f.v}" class="w-28 accent-navy"/>
+        <input value="${f.v}" class="w-12 h-7 px-2 rounded border border-border text-[12px] mono tabular font-bold text-right field-focus"/>
+        <span class="mono text-[11px] text-muted-foreground">%</span>
+      </div>
+    </div>
+    <div class="h-1.5 bg-slate-100 rounded overflow-hidden"><div class="h-full ${f.c==='critical'?'bg-critical':f.c==='warning'?'bg-warning':'bg-success'}" style="width:${f.v}%"></div></div>
+  </div>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','SMK Kuala Pilah','Laporan Intervensi']));
+</script>
+</body></html>

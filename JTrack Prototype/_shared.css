@@ -1,0 +1,13 @@
+/* J-TRACK shared styles — loaded by Dashboard, Senarai Projek, Detail Projek */
+html, body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #0f172a; background: #f8fafc; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+.tabular { font-variant-numeric: tabular-nums; }
+.cbx { appearance:none; width: 16px; height: 16px; border: 1.5px solid #cbd5e1; border-radius: 3px; position: relative; cursor: pointer; flex-shrink: 0; background:#fff; }
+.cbx:checked { background: #1e3a8a; border-color: #1e3a8a; }
+.cbx:checked::after { content:""; position:absolute; left: 4px; top: 0px; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.field-focus:focus { outline: none; border-color: #1e3a8a; box-shadow: 0 0 0 3px rgba(30,58,138,.15); }
+.row-hover:hover { background: #f8fafc; }
+.scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.avatar { display:inline-flex; align-items:center; justify-content:center; font-weight:600; color:#fff; }
+select { -webkit-appearance: none; appearance: none; }

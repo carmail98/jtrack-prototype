@@ -1,0 +1,168 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Pilih Projek</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  input[type=range]{-webkit-appearance:none;appearance:none;height:4px;background:#e2e8f0;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:#1e3a8a;border-radius:50%;cursor:pointer;box-shadow:0 0 0 3px rgba(30,58,138,.15)}
+  .toggle{width:34px;height:19px;background:#1e3a8a;border-radius:999px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle::after{content:"";position:absolute;top:2px;left:17px;width:15px;height:15px;background:#fff;border-radius:50%;transition:left .15s}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange mb-1">Intervensi · Langkah 1 / 4</div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Cadangkan Projek untuk Intervensi</h1>
+            <p class="mt-1 text-[13.5px] text-muted-foreground">Pilih projek lewat/bermasalah dari <span class="mono font-semibold">SKALA</span> untuk program intervensi.</p>
+          </div>
+          <div class="flex items-center gap-1.5 text-[11.5px]">
+            <span class="mono px-2 py-1 rounded bg-navy-50 text-navy-800 border border-navy-100 font-semibold">① Pilih Projek</span>
+            <span class="mono px-2 py-1 rounded bg-muted text-muted-foreground border border-border">② Lantik Pasukan</span>
+            <span class="mono px-2 py-1 rounded bg-muted text-muted-foreground border border-border">③ Tarikh</span>
+            <span class="mono px-2 py-1 rounded bg-muted text-muted-foreground border border-border">④ Jana Surat</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 pb-4">
+        <!-- AI suggestion banner -->
+        <div class="bg-gradient-to-r from-navy-50 via-white to-orange-50 border border-navy-100 rounded-[12px] p-4 flex items-start gap-3 mb-4">
+          <div class="w-9 h-9 rounded-md bg-navy text-white flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.3 4.7 5.2.8-3.8 3.7.9 5.2L12 14l-4.6 2.4.9-5.2L4.5 7.5l5.2-.8L12 2z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <div class="text-[13px] font-bold">Projek Disyorkan AI</div>
+              <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-50 text-orange-600 border border-orange-100 uppercase tracking-wider">Beta</span>
+            </div>
+            <p class="text-[12px] text-muted-foreground">Model analitik menandakan projek dengan jurang &ge;15% antara Jadual vs Fizikal dan kelewatan &gt;60 hari sebagai calon untuk intervensi.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11.5px] font-medium text-slate-700">Aktif</span>
+            <div class="toggle"></div>
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="bg-white border border-border rounded-[12px] p-3 flex items-center gap-3 flex-wrap mb-4">
+          <div class="relative">
+            <select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium field-focus"><option>Negeri: Semua (14)</option><option>N. Sembilan</option><option>Pahang</option></select>
+            <svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="relative">
+            <select class="h-8 pl-3 pr-7 rounded-md border border-input bg-white text-[12px] font-medium field-focus"><option>Cawangan: Semua</option><option>CKP</option><option>CJKR Daerah</option></select>
+            <svg class="w-3 h-3 text-muted-foreground absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="flex items-center gap-2 pl-3 border-l border-border">
+            <span class="text-[11.5px] font-semibold text-slate-700">Jurang Jadual vs Fizikal</span>
+            <input type="range" min="0" max="50" value="15" class="w-28"/>
+            <span class="mono text-[11.5px] font-semibold text-navy w-10">≥15%</span>
+          </div>
+          <label class="flex items-center gap-2 pl-3 border-l border-border text-[12px] font-medium cursor-pointer">
+            <input type="checkbox" class="cbx" checked/> Hanya projek &gt;60 hari lewat
+          </label>
+          <button class="ml-auto h-8 px-2 rounded border border-border hover:bg-muted text-[11.5px] font-medium text-slate-700">Reset penapis</button>
+        </div>
+
+        <!-- Info banner -->
+        <div class="bg-warning-50 border border-warning-100 rounded-md p-3 flex items-start gap-2.5 mb-4">
+          <svg class="w-4 h-4 text-warning-700 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+          <div class="text-[12.5px] text-warning-700"><span class="font-semibold">38 projek</span> memenuhi kriteria intervensi. <span class="font-semibold">5 projek</span> ditanda sebagai <span class="font-bold uppercase">Kritikal</span> dan disyorkan untuk diangkat segera.</div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+          <div class="overflow-x-auto scrollbar">
+            <table class="w-full text-[12.5px]">
+              <thead class="bg-slate-50 text-[10.5px] uppercase tracking-wider text-muted-foreground">
+                <tr class="border-b border-border">
+                  <th class="px-3 py-2.5 w-10"><input type="checkbox" class="cbx"/></th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Projek</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Lokasi</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">% Jadual vs Fizikal</th>
+                  <th class="px-3 py-2.5 text-right font-semibold">Hari Lewat</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Sebab Lewat (Auto)</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Terakhir Intervensi</th>
+                  <th class="px-3 py-2.5 text-left font-semibold">Skor Risiko</th>
+                </tr>
+              </thead>
+              <tbody id="ptbody" class="divide-y divide-border"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sticky action -->
+        <div class="sticky bottom-4 mt-4 bg-white border border-navy-100 shadow-lg rounded-[12px] p-3 flex items-center justify-between z-10 ring-2 ring-navy/10">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center mono font-bold text-[13px]">3</div>
+            <div>
+              <div class="text-[13px] font-semibold">3 projek dipilih</div>
+              <div class="text-[11.5px] text-muted-foreground">Termasuk 2 projek <span class="text-critical font-semibold">Kritikal</span></div>
+            </div>
+          </div>
+          <button class="h-10 px-5 rounded-md bg-navy hover:bg-navy-700 text-white text-[13px] font-semibold shadow-sm inline-flex items-center gap-2">
+            Teruskan — Lantik Pasukan Penilai
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const rows = [
+  {s:true, n:"Pembinaan SMK Kuala Pilah", loc:"N. Sembilan", sched:39.28, phys:30.40, late:68, reason:"Masalah perancangan kontraktor", last:"Tiada", risk:"TINGGI"},
+  {s:true, n:"Jambatan Sungai Pahang",    loc:"Pahang",      sched:55.00, phys:22.10, late:95, reason:"EOT berulang, reka bentuk berubah", last:"Nov 2024", risk:"TINGGI"},
+  {s:false,n:"Naik Taraf Jalan Kluang",   loc:"Johor",       sched:82.00, phys:51.80, late:54, reason:"Masalah kewangan kontraktor",      last:"Tiada", risk:"SEDERHANA"},
+  {s:true, n:"Loji Rawatan Kuala Terengganu",loc:"Terengganu",sched:71.20, phys:40.10, late:110,reason:"Isu tapak - tanah lembut",        last:"Sep 2024", risk:"TINGGI"},
+  {s:false,n:"Hospital Daerah Tenom",     loc:"Sabah",       sched:48.00, phys:30.00, late:72, reason:"Kelulusan shop drawing",           last:"Tiada", risk:"TINGGI"},
+  {s:false,n:"Pembinaan SK Mukah",        loc:"Sarawak",     sched:62.50, phys:45.20, late:61, reason:"Cuaca buruk berpanjangan",          last:"Tiada", risk:"SEDERHANA"},
+  {s:false,n:"Naik Taraf Stesen Bas KL",  loc:"W.P.K.L.",    sched:88.00, phys:62.00, late:67, reason:"Perubahan skop",                    last:"Jan 2024", risk:"SEDERHANA"},
+  {s:false,n:"Pembinaan Pejabat Daerah Jasin",loc:"Melaka",  sched:44.10, phys:28.80, late:88, reason:"Masalah perancangan kontraktor",   last:"Tiada", risk:"TINGGI"},
+  {s:false,n:"Naik Taraf Dewan Orang Ramai Kangar",loc:"Perlis",sched:71.00,phys:52.10,late:63,reason:"Pembekalan bahan binaan",            last:"Tiada", risk:"SEDERHANA"},
+  {s:false,n:"Pembinaan Klinik Kesihatan Selama",loc:"Perak",sched:35.50, phys:19.80, late:94, reason:"Isu kewangan & pembekalan",         last:"Jul 2024", risk:"TINGGI"},
+];
+function riskBadge(r){
+  if(r==="TINGGI") return `<span class="inline-flex items-center gap-1 text-[10.5px] font-bold px-1.5 py-0.5 rounded bg-critical-50 text-critical-700 border border-critical-100"><span class="w-1.5 h-1.5 rounded-full bg-critical"></span>TINGGI</span>`;
+  return `<span class="inline-flex items-center gap-1 text-[10.5px] font-bold px-1.5 py-0.5 rounded bg-warning-50 text-warning-700 border border-warning-100"><span class="w-1.5 h-1.5 rounded-full bg-warning"></span>SEDERHANA</span>`;
+}
+function progressBar(sched, phys){
+  const gap = (sched - phys).toFixed(1);
+  return `<div class="min-w-[180px]">
+    <div class="flex items-center gap-1.5 text-[11px] mono tabular">
+      <span class="text-slate-500">J:<span class="font-semibold text-slate-700">${sched.toFixed(2)}%</span></span>
+      <span class="text-slate-400">·</span>
+      <span class="text-slate-500">F:<span class="font-semibold text-foreground">${phys.toFixed(2)}%</span></span>
+      <span class="ml-auto text-critical font-bold">-${gap}%</span>
+    </div>
+    <div class="relative h-1.5 mt-1 bg-slate-100 rounded overflow-hidden">
+      <div class="absolute top-0 left-0 h-full bg-navy/30" style="width:${sched}%"></div>
+      <div class="absolute top-0 left-0 h-full bg-critical" style="width:${phys}%"></div>
+    </div>
+  </div>`;
+}
+document.getElementById('ptbody').innerHTML = rows.map(r => `
+  <tr class="row-hover ${r.s ? 'bg-navy-50/40' : ''}">
+    <td class="px-3 py-2.5"><input type="checkbox" class="cbx" ${r.s?'checked':''}/></td>
+    <td class="px-3 py-2.5 font-semibold">${r.n}</td>
+    <td class="px-3 py-2.5 text-slate-600">${r.loc}</td>
+    <td class="px-3 py-2.5">${progressBar(r.sched, r.phys)}</td>
+    <td class="px-3 py-2.5 text-right mono tabular font-semibold ${r.late>=80?'text-critical':r.late>=60?'text-warning-700':'text-slate-700'}">${r.late}</td>
+    <td class="px-3 py-2.5 text-slate-600 text-[11.5px] max-w-[220px] truncate" title="${r.reason}">${r.reason}</td>
+    <td class="px-3 py-2.5 mono tabular text-[11.5px] text-muted-foreground">${r.last}</td>
+    <td class="px-3 py-2.5">${riskBadge(r.risk)}</td>
+  </tr>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','Pilih Projek']));
+</script>
+</body></html>

@@ -1,0 +1,164 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Pengurusan Pengguna</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .tab{height:36px;padding:0 14px;border-bottom:2px solid transparent;font-size:12.5px;font-weight:600;color:#64748b;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+  .tab.active{color:#1e3a8a;border-color:#1e3a8a}
+  .tab:not(.active):hover{color:#0f172a}
+  .role{padding:11px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;display:flex;align-items:center;gap:10px}
+  .role:hover{background:#f8fafc}
+  .role.active{background:#eff6ff;border-color:#1e3a8a}
+  .perm-cell{width:72px;text-align:center}
+  .chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.3px}
+  .tog{width:28px;height:16px;border-radius:999px;background:#cbd5e1;position:relative;cursor:pointer;transition:.15s;flex-shrink:0}
+  .tog::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:999px;background:#fff;transition:.15s}
+  .tog.on{background:#1e3a8a}.tog.on::after{left:14px}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+
+      <section class="px-6 pt-5 pb-0 border-b border-border bg-white">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-muted-foreground mb-1">Pentadbiran / Pengurusan Pengguna</div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight">Pengurusan Pengguna</h1>
+            <p class="mt-1 text-[13px] text-muted-foreground">247 akaun keseluruhan · Kemaskini peranan, kebenaran dan skop akses</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-medium hover:bg-muted">Import CSV</button>
+            <button class="h-9 px-3 rounded-md bg-navy text-white text-[12px] font-semibold hover:bg-navy-700 inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Tambah Pengguna</button>
+          </div>
+        </div>
+        <div class="flex items-center gap-1">
+          <div class="tab">Pengguna Aktif <span class="text-[10px] bg-slate-100 px-1.5 rounded">247</span></div>
+          <div class="tab">Menunggu Kelulusan <span class="text-[10px] bg-warning text-white px-1.5 rounded">12</span></div>
+          <div class="tab">Tidak Aktif <span class="text-[10px] bg-slate-100 px-1.5 rounded">34</span></div>
+          <div class="tab">Sejarah Akses</div>
+          <div class="tab active">Peranan &amp; Kebenaran</div>
+        </div>
+      </section>
+
+      <section class="px-6 py-5 grid grid-cols-[280px_1fr] gap-5">
+        <!-- Role list -->
+        <div class="bg-white border border-border rounded-[12px] p-3 self-start">
+          <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2 px-2">Peranan Sistem (7)</div>
+          <div class="space-y-0.5">
+            <div class="role"><div class="w-8 h-8 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Pentadbir Super</div><div class="text-[10.5px] text-muted-foreground">1 pengguna</div></div></div>
+            <div class="role"><div class="w-8 h-8 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.26.46.74.9 1.51 1H21a2 2 0 0 1 0 4h-.09A1.65 1.65 0 0 0 19.4 15z"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Pentadbir Sistem</div><div class="text-[10.5px] text-muted-foreground">4 pengguna</div></div></div>
+            <div class="role"><div class="w-8 h-8 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Penyelaras</div><div class="text-[10.5px] text-muted-foreground">18 pengguna</div></div></div>
+            <div class="role active"><div class="w-8 h-8 rounded-md bg-navy text-white flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Penyedia Laporan</div><div class="text-[10.5px] text-navy font-semibold">42 pengguna · dipilih</div></div><svg class="w-4 h-4 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="role"><div class="w-8 h-8 rounded-md bg-success/10 text-success-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Pengesah</div><div class="text-[10.5px] text-muted-foreground">15 pengguna</div></div></div>
+            <div class="role"><div class="w-8 h-8 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Pengguna Biasa</div><div class="text-[10.5px] text-muted-foreground">156 pengguna</div></div></div>
+            <div class="role"><div class="w-8 h-8 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="flex-1 min-w-0"><div class="text-[12.5px] font-bold">Viewer / Atasan</div><div class="text-[10.5px] text-muted-foreground">11 pengguna</div></div></div>
+          </div>
+          <button class="mt-2 w-full h-9 rounded-md border border-dashed border-navy-200 text-navy text-[12px] font-semibold hover:bg-navy-50 inline-flex items-center justify-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Cipta Peranan Baharu</button>
+        </div>
+
+        <!-- Right: role editor -->
+        <div class="space-y-4">
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3">
+                <div class="w-12 h-12 rounded-lg bg-navy text-white flex items-center justify-center flex-shrink-0"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <div>
+                  <div class="flex items-center gap-2"><h2 class="text-[18px] font-bold">Penyedia Laporan</h2><span class="chip bg-navy-50 text-navy border border-navy-100">SISTEM</span></div>
+                  <p class="text-[12.5px] text-muted-foreground mt-0.5">Pegawai dilantik untuk menyediakan laporan intervensi. Boleh cipta &amp; kemaskini rekod sendiri sahaja.</p>
+                  <div class="mt-2 flex items-center gap-3 text-[11.5px]">
+                    <span class="flex items-center gap-1"><svg class="w-3 h-3 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><b>42</b> pengguna</span>
+                    <span class="text-muted-foreground">· Dikemaskini: <span class="mono">12/03/2026</span> oleh Admin Super</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="h-8 px-3 rounded-md border border-border bg-white text-[11.5px] font-semibold hover:bg-muted">Duplikat</button>
+                <button class="h-8 px-3 rounded-md border border-border bg-white text-[11.5px] font-semibold hover:bg-muted">Lihat 42 pengguna</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Permissions -->
+          <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+            <div class="px-5 py-3 border-b border-border flex items-center justify-between">
+              <div><div class="text-[12.5px] font-bold">Matriks Kebenaran</div><div class="text-[11px] text-muted-foreground"><span class="mono">✓</span> Dibenarkan · <span class="mono">✗</span> Dilarang · <span class="mono">—</span> Tidak berkenaan · <span class="mono text-warning-700">✓*</span> Hanya rekod sendiri</div></div>
+              <span class="chip bg-warning/10 text-warning-700 border border-warning-100">Ada perubahan belum disimpan</span>
+            </div>
+            <table class="w-full text-[12px]">
+              <thead class="bg-slate-50 text-[10px] uppercase tracking-wider text-muted-foreground">
+                <tr class="border-b border-border">
+                  <th class="px-4 py-2.5 text-left font-bold">Modul</th>
+                  <th class="perm-cell font-bold">Lihat</th>
+                  <th class="perm-cell font-bold">Cipta</th>
+                  <th class="perm-cell font-bold">Kemaskini</th>
+                  <th class="perm-cell font-bold">Padam</th>
+                  <th class="perm-cell font-bold">Luluskan</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border" id="pm"></tbody>
+            </table>
+          </div>
+
+          <!-- Scope -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="flex items-center gap-2 mb-3"><div class="text-[12.5px] font-bold">Skop Akses</div><span class="chip bg-slate-100 text-slate-600">Data row-level</span></div>
+            <div class="grid grid-cols-3 gap-4">
+              <div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5">Cawangan</label>
+                <div class="h-10 rounded-md border border-border bg-slate-50 px-3 flex items-center gap-2"><span class="chip bg-slate-100 text-slate-700">Tiada had</span><span class="text-[11px] text-muted-foreground">Semua cawangan</span></div>
+              </div>
+              <div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5">Negeri</label>
+                <div class="h-10 rounded-md border border-navy-200 bg-navy-50/40 px-3 flex items-center gap-1.5"><span class="chip bg-navy text-white">Khusus</span><span class="chip bg-white border border-slate-200 text-slate-700">Negeri Sembilan</span></div>
+              </div>
+              <div>
+                <label class="text-[11.5px] font-semibold text-slate-600 block mb-1.5">Projek</label>
+                <div class="h-10 rounded-md border border-border bg-slate-50 px-3 flex items-center gap-2"><span class="chip bg-slate-100 text-slate-700">Semua dalam skop</span><span class="text-[11px] text-muted-foreground">18 projek</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer actions -->
+          <div class="flex items-center justify-between sticky bottom-0 bg-white border border-border rounded-[12px] px-5 py-3 shadow-[0_-4px_16px_-8px_rgba(15,23,42,.12)]">
+            <div class="text-[11.5px] text-muted-foreground">Perubahan akan terpakai kepada semua <b>42 pengguna</b> dalam peranan ini dan dijejak dalam Log Audit.</div>
+            <div class="flex items-center gap-2">
+              <button class="h-9 px-4 rounded-md border border-border bg-white text-[12px] font-semibold hover:bg-muted">Batal</button>
+              <button class="h-9 px-4 rounded-md bg-navy text-white text-[12px] font-semibold hover:bg-navy-700">Simpan Perubahan</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const perms = [
+  ["Dashboard",             "✓","—","—","—","—"],
+  ["Senarai Projek",        "✓","✗","✓*","✗","✗"],
+  ["Intervensi",            "✓","✓","✓*","✗","✗"],
+  ["Laporan",               "✓","✓","✓*","✗","✗"],
+  ["Amaran",                "✓","—","✓","—","—"],
+  ["Log Audit",             "✗","—","—","—","—"],
+  ["Pengurusan Pengguna",   "✗","✗","✗","✗","✗"],
+];
+function cell(v){
+  if(v==="✓") return `<div class="w-6 h-6 mx-auto rounded bg-success/15 text-success-700 flex items-center justify-center"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>`;
+  if(v==="✗") return `<div class="w-6 h-6 mx-auto rounded bg-slate-100 text-slate-400 flex items-center justify-center"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>`;
+  if(v==="✓*") return `<div class="w-6 h-6 mx-auto rounded bg-warning/15 text-warning-700 flex items-center justify-center relative"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg><span class="absolute -top-1 -right-1 text-[11px] font-bold text-warning-700">*</span></div>`;
+  return `<div class="text-slate-300 text-[14px] text-center">—</div>`;
+}
+document.getElementById('pm').innerHTML = perms.map(([m, ...vs]) => `
+  <tr class="row-hover">
+    <td class="px-4 py-2.5 font-semibold">${m}</td>
+    ${vs.map(v => `<td class="perm-cell py-2.5">${cell(v)}</td>`).join('')}
+  </tr>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('pentadbiran', ['Pentadbiran','Pengurusan Pengguna','Peranan &amp; Kebenaran']));
+</script>
+</body></html>

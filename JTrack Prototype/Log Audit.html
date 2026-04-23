@@ -1,0 +1,232 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Log Jejak Audit</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .cbx-s{appearance:none;width:14px;height:14px;border:1.5px solid #cbd5e1;border-radius:3px;position:relative;cursor:pointer;flex-shrink:0;background:#fff}
+  .cbx-s:checked{background:#1e3a8a;border-color:#1e3a8a}
+  .cbx-s:checked::after{content:"";position:absolute;left:3px;top:0;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:3px;font-size:9.5px;font-weight:700;letter-spacing:.3px}
+  .input{height:30px;border:1px solid #e2e8f0;border-radius:6px;padding:0 10px;font-size:11.5px;background:#fff;width:100%}
+  .lvl{width:3px;border-radius:2px}
+  .diff-line{font-family:'JetBrains Mono';font-size:11px;padding:4px 10px;line-height:1.55}
+  .diff-remove{background:#fef2f2;color:#991b1b;border-left:3px solid #dc2626}
+  .diff-add{background:#f0fdf4;color:#166534;border-left:3px solid #16a34a}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+
+      <section class="px-6 pt-5 pb-4 border-b border-border bg-white">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-muted-foreground mb-1">Pentadbiran / Log Audit</div>
+            <h1 class="text-[26px] font-bold tracking-tight leading-tight flex items-center gap-3">Log Jejak Audit <svg class="w-6 h-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></h1>
+            <p class="mt-1 text-[13px] text-muted-foreground">Pematuhan Dasar Keselamatan ICT Kerajaan (DKICT) · Rekod <b>immutable</b></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 h-9 px-3 rounded-md border border-border bg-white text-[11.5px]"><svg class="w-3.5 h-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="mono font-semibold">01/04/2026 – 25/04/2026</span></div>
+            <button class="h-9 px-3 rounded-md bg-navy text-white text-[12px] font-semibold hover:bg-navy-700 inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Eksport CSV</button>
+          </div>
+        </div>
+
+        <!-- Info banner -->
+        <div class="mt-4 p-3 rounded-md bg-navy-50/60 border border-navy-100 flex items-center gap-3">
+          <svg class="w-5 h-5 text-navy flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div class="flex-1 text-[12px] text-slate-700"><b>Log ini tidak boleh dipadam atau diubah.</b> Retention: <b>7 tahun</b> selaras dengan Pekeliling Perbendaharaan. Setiap entri ditandatangan kriptografik dengan SHA-256 dan dirantai secara hash-chain.</div>
+          <div class="flex items-center gap-2 mono text-[10.5px]"><span class="chip bg-success-50 text-success-700 border border-success-100">INTEGRITI OK</span></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="mt-4 grid grid-cols-4 gap-3">
+          <div class="rounded-[10px] border border-border bg-white p-3"><div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground">Aktiviti Hari Ini</div><div class="mt-1 text-[24px] font-bold mono tabular leading-none">1,247</div><div class="text-[10.5px] text-success-700 mt-1">↑ 4% purata 7 hari</div></div>
+          <div class="rounded-[10px] border border-border bg-white p-3"><div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground">Pengguna Aktif</div><div class="mt-1 text-[24px] font-bold mono tabular leading-none">87</div><div class="text-[10.5px] text-muted-foreground mt-1">Daripada 247 akaun</div></div>
+          <div class="rounded-[10px] border border-success-100 bg-success-50/40 p-3"><div class="text-[10.5px] uppercase tracking-wider font-bold text-success-700">Aktiviti Mencurigakan</div><div class="mt-1 text-[24px] font-bold mono tabular text-success-700 leading-none">0</div><div class="text-[10.5px] text-success-700 mt-1">✓ Tiada anomali</div></div>
+          <div class="rounded-[10px] border border-warning-100 bg-warning-50/40 p-3"><div class="text-[10.5px] uppercase tracking-wider font-bold text-warning-700">Login Gagal (24j)</div><div class="mt-1 text-[24px] font-bold mono tabular text-warning-700 leading-none">3</div><div class="text-[10.5px] text-warning-700 mt-1">2 akaun unik</div></div>
+        </div>
+      </section>
+
+      <section class="px-6 py-5 grid grid-cols-[260px_1fr] gap-5">
+        <!-- Filter panel -->
+        <aside class="space-y-4">
+          <div class="bg-white border border-border rounded-[12px] p-4 sticky top-[92px]">
+            <div class="text-[11.5px] font-bold text-slate-800 mb-3 flex items-center justify-between">Penapis <button class="text-[10.5px] font-medium text-navy hover:underline">Reset</button></div>
+
+            <div class="mb-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">Tempoh</div>
+              <input class="input mono tabular font-semibold" value="01/04 – 25/04/2026" readonly/>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">Pengguna</div>
+              <div class="input flex items-center gap-1 flex-wrap px-1.5 py-1 h-auto min-h-[30px]">
+                <span class="chip bg-navy text-white">Rafidah A. ×</span>
+                <span class="chip bg-navy text-white">Marlinah M. ×</span>
+                <span class="text-[10.5px] text-muted-foreground">+ 2 lagi</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">Jenis Tindakan</div>
+              <div class="space-y-1.5 text-[11.5px]">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Login / Logout</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Cipta / Kemaskini / Padam</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Kelulusan / Penolakan</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Muat Naik / Muat Turun</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s"/> Perubahan Peranan</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Akses Dinafikan</label>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">Entiti</div>
+              <div class="space-y-1.5 text-[11.5px]">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Projek</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Intervensi</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s" checked/> Laporan</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s"/> Pengguna</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="cbx-s"/> Tetapan</label>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">Tahap</div>
+              <div class="flex gap-1.5 text-[10.5px]">
+                <button class="flex-1 h-7 rounded border border-navy bg-navy-50 text-navy font-semibold">Semua</button>
+                <button class="flex-1 h-7 rounded border border-border bg-white hover:bg-muted">Info</button>
+                <button class="flex-1 h-7 rounded border border-border bg-white hover:bg-muted">Warn</button>
+                <button class="flex-1 h-7 rounded border border-border bg-white hover:bg-muted">Crit</button>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="text-[10.5px] uppercase tracking-wider font-bold text-muted-foreground mb-2">IP Address</div>
+              <input class="input mono" placeholder="Cth: 10.45.23.*"/>
+            </div>
+            <button class="w-full h-9 rounded-md bg-navy text-white text-[12px] font-semibold hover:bg-navy-700">Pakai Penapis</button>
+          </div>
+        </aside>
+
+        <!-- Table -->
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-border flex items-center justify-between">
+            <div class="text-[12px] text-muted-foreground">Papar <b>15</b> daripada <b class="mono text-slate-800">1,247</b> rekod</div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted inline-flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/></svg>Padat</button>
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted">Auto-refresh: <b>15s</b></button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+          <table class="w-full text-[11.5px]">
+            <thead class="bg-slate-50 text-[10px] uppercase tracking-wider text-muted-foreground">
+              <tr class="border-b border-border">
+                <th class="px-3 py-2 text-left font-bold w-7"></th>
+                <th class="px-3 py-2 text-left font-bold">Masa</th>
+                <th class="px-3 py-2 text-left font-bold">Pengguna</th>
+                <th class="px-3 py-2 text-left font-bold">Peranan</th>
+                <th class="px-3 py-2 text-left font-bold">Tindakan</th>
+                <th class="px-3 py-2 text-left font-bold">Entiti</th>
+                <th class="px-3 py-2 text-left font-bold">ID</th>
+                <th class="px-3 py-2 text-left font-bold">Butiran</th>
+                <th class="px-3 py-2 text-left font-bold">IP</th>
+                <th class="px-3 py-2 text-left font-bold">St.</th>
+              </tr>
+            </thead>
+            <tbody id="tb" class="divide-y divide-border"></tbody>
+          </table>
+          </div>
+          <div class="px-4 py-2.5 border-t border-border flex items-center justify-between text-[11.5px]">
+            <div class="flex items-center gap-2"><span>Per halaman:</span><select class="input !h-7 !w-auto !text-[11px] py-0 pr-6"><option>15</option><option>50</option><option>100</option></select></div>
+            <div class="flex items-center gap-1">
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted">« Awal</button>
+              <button class="h-7 w-7 rounded bg-navy text-white font-semibold">1</button>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted">2</button>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted">3</button>
+              <span class="text-muted-foreground px-1">...</span>
+              <button class="h-7 w-7 rounded border border-border hover:bg-muted">84</button>
+              <button class="h-7 px-2 rounded border border-border hover:bg-muted">»</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const rows = [
+  {t:"23/04/2026 10:23:45", u:"Ir. Rafidah Ahmad", ui:"RA", uc:"#1e3a8a", r:"Pengesah", a:"MELULUSKAN", ac:"#16a34a", e:"Laporan", id:"INT-2026-001", d:"Status: <span class='mono text-critical'>SUBMITTED</span> → <span class='mono text-success-700'>APPROVED</span>", ip:"10.45.23.12", ok:true, lvl:"info", diff:true},
+  {t:"23/04/2026 10:22:18", u:"Ts. Marlinah Mohamad", ui:"MM", uc:"#0f766e", r:"Penyedia", a:"KEMASKINI", ac:"#b45309", e:"Laporan", id:"INT-2026-001", d:"Versi <span class='mono'>1.2 → 2.0</span> (selepas kuiri)", ip:"172.16.4.88", ok:true, lvl:"info", diff:true},
+  {t:"23/04/2026 10:15:32", u:"Nor'Izzati Rahman", ui:"NR", uc:"#7c2d12", r:"Penyedia", a:"MUAT NAIK", ac:"#1d4ed8", e:"Dokumen", id:"DOC-8842", d:"Recovery_Plan_v2.pdf (<span class='mono'>2.4 MB</span>)", ip:"172.16.4.99", ok:true, lvl:"info"},
+  {t:"23/04/2026 09:45:12", u:"Admin System", ui:"AS", uc:"#475569", r:"Sistem", a:"CIPTA", ac:"#16a34a", e:"Pengguna", id:"USR-247", d:"Akaun baharu: <span class='mono'>farid@jkr.gov.my</span>", ip:"127.0.0.1", ok:true, lvl:"info"},
+  {t:"23/04/2026 09:30:05", u:"Ir. Ahmad Kamil", ui:"AK", uc:"#b45309", r:"Pengguna Biasa", a:"GAGAL LOGIN", ac:"#dc2626", e:"Auth", id:"—", d:"Kata laluan salah (<span class='mono'>cuba ke-2 / 5</span>)", ip:"103.45.12.78", ok:false, lvl:"warn"},
+  {t:"23/04/2026 09:28:44", u:"Ir. Ahmad Kamil", ui:"AK", uc:"#b45309", r:"Pengguna Biasa", a:"LOGIN", ac:"#64748b", e:"Auth", id:"—", d:"MyKad-JKR · MFA OK", ip:"103.45.12.78", ok:true, lvl:"info"},
+  {t:"23/04/2026 09:15:22", u:"En. Zulkifli Mohamad", ui:"ZM", uc:"#7c2d12", r:"Kontraktor", a:"MUAT TURUN", ac:"#1d4ed8", e:"Dokumen", id:"DOC-8821", d:"Surat_Pelantikan_INT-003.pdf", ip:"60.54.128.212", ok:true, lvl:"info"},
+  {t:"23/04/2026 09:02:11", u:"Ir. Mohd Razali", ui:"MR", uc:"#1e3a8a", r:"Pengarah UKAT", a:"MELULUSKAN", ac:"#16a34a", e:"Intervensi", id:"INT-2026-001", d:"Status kes: <span class='mono'>TERBUKA</span> → <span class='mono text-success-700'>SELESAI</span>", ip:"10.45.23.8", ok:true, lvl:"info"},
+  {t:"23/04/2026 08:50:33", u:"Nor'Izzati Rahman", ui:"NR", uc:"#7c2d12", r:"Penyedia", a:"CIPTA", ac:"#16a34a", e:"Laporan", id:"INT-2026-003", d:"Draf baharu · template: Laporan Intervensi v3", ip:"172.16.4.99", ok:true, lvl:"info"},
+  {t:"23/04/2026 08:42:15", u:"—", ui:"??", uc:"#94a3b8", r:"—", a:"AKSES DINAFIKAN", ac:"#dc2626", e:"Laporan", id:"INT-2026-002", d:"Token sesi tamat tempoh · redirect ke login", ip:"103.45.12.78", ok:false, lvl:"warn"},
+  {t:"23/04/2026 08:30:41", u:"Ir. Rafidah Ahmad", ui:"RA", uc:"#1e3a8a", r:"Pengesah", a:"LOGIN", ac:"#64748b", e:"Auth", id:"—", d:"Web · Chrome 124 · macOS", ip:"10.45.23.12", ok:true, lvl:"info"},
+  {t:"23/04/2026 08:28:03", u:"Ts. Marlinah Mohamad", ui:"MM", uc:"#0f766e", r:"Penyedia", a:"KEMASKINI", ac:"#b45309", e:"Projek", id:"PRJ-N9-0042", d:"<span class='mono'>%Fizikal: 45.5 → 58.3</span>", ip:"172.16.4.88", ok:true, lvl:"info"},
+  {t:"23/04/2026 08:10:27", u:"Admin Super", ui:"AD", uc:"#334155", r:"Super Admin", a:"PERUBAHAN PERANAN", ac:"#dc2626", e:"Pengguna", id:"USR-198", d:"Penyedia → <span class='font-bold text-critical-700'>Pengesah</span>", ip:"127.0.0.1", ok:true, lvl:"crit"},
+  {t:"23/04/2026 07:55:14", u:"Ir. Ahmad Kamil", ui:"AK", uc:"#b45309", r:"PP", a:"GAGAL LOGIN", ac:"#dc2626", e:"Auth", id:"—", d:"Kata laluan salah (<span class='mono'>cuba ke-1 / 5</span>)", ip:"103.45.12.78", ok:false, lvl:"warn"},
+  {t:"22/04/2026 23:58:02", u:"Sistem Automatik", ui:"SY", uc:"#64748b", r:"Sistem", a:"AMARAN", ac:"#dc2626", e:"Projek", id:"PRJ-PRK-0089", d:"Trigger auto: <span class='mono'>-5% jurang jadual</span>", ip:"127.0.0.1", ok:true, lvl:"warn"},
+];
+function actionPill(a, c){ return `<span class="chip text-white" style="background:${c}">${a}</span>`; }
+function lvlBar(l){ return l==="crit"?"#dc2626":l==="warn"?"#b45309":"#cbd5e1"; }
+const expandedIdx = 0; // first row expanded with diff
+document.getElementById('tb').innerHTML = rows.map((r, i) => {
+  const expanded = i === expandedIdx;
+  return `
+  <tr class="row-hover cursor-pointer" onclick="this.nextElementSibling && this.nextElementSibling.classList.toggle('hidden')">
+    <td class="pl-2 py-2.5"><div class="lvl" style="background:${lvlBar(r.lvl)};height:24px"></div></td>
+    <td class="px-3 py-2.5 mono tabular text-[11px] text-slate-600 whitespace-nowrap">${r.t}</td>
+    <td class="px-3 py-2.5"><div class="flex items-center gap-1.5"><div class="avatar w-5 h-5 rounded-full text-[8px]" style="background:${r.uc}">${r.ui}</div><span class="font-semibold">${r.u}</span></div></td>
+    <td class="px-3 py-2.5 text-slate-600">${r.r}</td>
+    <td class="px-3 py-2.5">${actionPill(r.a, r.ac)}</td>
+    <td class="px-3 py-2.5 font-medium">${r.e}</td>
+    <td class="px-3 py-2.5 mono text-[10.5px] text-navy">${r.id}</td>
+    <td class="px-3 py-2.5 text-slate-700 max-w-[260px] truncate">${r.d}</td>
+    <td class="px-3 py-2.5 mono text-[10.5px] text-slate-500">${r.ip}</td>
+    <td class="px-3 py-2.5">${r.ok ? '<svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="w-4 h-4 text-warning-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>'}</td>
+  </tr>
+  ${expanded ? `
+  <tr class="bg-slate-50/60">
+    <td colspan="10" class="px-4 py-3">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-[10px] uppercase tracking-wider font-bold text-critical-700 mb-1.5">SEBELUM</div>
+          <div class="rounded border border-critical-100 overflow-hidden">
+            <div class="diff-line diff-remove">− "status": "SUBMITTED"</div>
+            <div class="diff-line diff-remove">− "reviewed_by": null</div>
+            <div class="diff-line diff-remove">− "approved_at": null</div>
+            <div class="diff-line diff-remove">− "progress_pct": 45.5</div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider font-bold text-success-700 mb-1.5">SELEPAS</div>
+          <div class="rounded border border-success-100 overflow-hidden">
+            <div class="diff-line diff-add">+ "status": "APPROVED"</div>
+            <div class="diff-line diff-add">+ "reviewed_by": "rafidah.ahmad"</div>
+            <div class="diff-line diff-add">+ "approved_at": "2026-04-23T10:23:45+08"</div>
+            <div class="diff-line diff-add">+ "progress_pct": 45.5</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 flex items-center gap-4 text-[10.5px] text-muted-foreground mono">
+        <span>SHA: <b class="text-navy">a4f2e91b8c7d…</b></span>
+        <span>Prev hash: 8b1c20de…</span>
+        <span>Payload: 1,284 bytes</span>
+        <span class="ml-auto"><b class="text-success-700">✓ Tandatangan sah</b></span>
+      </div>
+    </td>
+  </tr>` : ''}
+  `;
+}).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('audit', ['Pentadbiran','Log Audit']));
+</script>
+</body></html>

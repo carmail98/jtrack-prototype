@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Laporan Intervensi Projek — JKR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0f172a;
+    --ink-soft: #334155;
+    --mute: #64748b;
+    --line: #cbd5e1;
+    --line-soft: #e2e8f0;
+    --band: #1e3a8a;
+    --band-soft: #eff6ff;
+    --warn: #b45309;
+    --warn-soft: #fef3c7;
+    --danger: #b91c1c;
+    --danger-soft: #fee2e2;
+    --ok: #15803d;
+    --ok-soft: #dcfce7;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; font-family:'Inter', ui-sans-serif, system-ui, sans-serif; color: var(--ink); background: #e2e8f0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .viewport { display:flex; flex-direction:column; align-items:center; padding: 28px 16px 60px; gap: 22px; }
+  .page {
+    width: 794px; min-height: 1123px; background: #fff;
+    box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 12px 28px -8px rgba(15,23,42,.18);
+    padding: 56px 64px 72px; position: relative; display: flex; flex-direction: column;
+  }
+  .page + .page { margin-top: 0; }
+
+  /* ---------- Header ---------- */
+  .doc-header { display:flex; align-items:flex-start; gap: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--band); }
+  .crest {
+    width: 56px; height: 56px; border-radius: 6px;
+    background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%); color: #fff;
+    display:flex; align-items:center; justify-content:center; font-weight: 700; letter-spacing: 0.4px;
+    font-size: 11px; line-height: 1.1; text-align: center; padding: 4px;
+    border: 1px solid #1e3a8a; position: relative;
+  }
+  .crest::after { content:""; position:absolute; inset: 3px; border-radius: 3px; border: 1px solid rgba(255,255,255,.35); }
+  .crest span { position: relative; z-index: 1; }
+  .agency-text h1 { margin:0; font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: 0.3px; }
+  .agency-text h2 { margin:2px 0 0; font-size: 11px; font-weight: 500; color: var(--mute); letter-spacing: 0.2px; }
+  .header-right { margin-left:auto; text-align: right; font-size: 10.5px; color: var(--mute); line-height: 1.6; }
+  .header-right .doc-id { font-family: 'Inter', monospace; font-weight: 600; color: var(--ink-soft); }
+
+  /* ---------- Title band ---------- */
+  .title-band { margin-top: 22px; text-align: center; }
+  .title-band .kicker { font-size: 10.5px; letter-spacing: 3px; color: var(--band); font-weight: 600; }
+  .title-band h1 { margin: 6px 0 2px; font-size: 20px; font-weight: 700; letter-spacing: 0.6px; color: var(--ink); }
+  .title-band .sub { font-size: 11.5px; color: var(--ink-soft); font-weight: 500; }
+  .title-band .dash { width: 64px; height: 3px; background: var(--band); margin: 10px auto 0; border-radius: 2px; }
+
+  /* ---------- Meta grid ---------- */
+  .meta-grid { display:grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 4px; margin-top: 22px; overflow: hidden; }
+  .meta-cell { padding: 10px 12px; border-right: 1px solid var(--line-soft); }
+  .meta-cell:last-child { border-right: 0; }
+  .meta-cell .k { font-size: 9.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--mute); font-weight: 600; }
+  .meta-cell .v { margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--ink); }
+  .meta-cell .v.mono { font-family: 'Inter', monospace; letter-spacing: 0.2px; }
+
+  /* ---------- Section ---------- */
+  .section { margin-top: 22px; }
+  .section-title { display:flex; align-items:center; gap: 10px; margin-bottom: 10px; }
+  .section-title .num { width: 22px; height: 22px; background: var(--band); color: #fff; border-radius: 3px; font-size: 11px; font-weight: 700; display:flex; align-items:center; justify-content:center; }
+  .section-title h3 { margin: 0; font-size: 13px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.8px; }
+  .section-title .rule { flex: 1; height: 1px; background: var(--line-soft); }
+
+  /* ---------- Project summary table ---------- */
+  table.summary { width:100%; border-collapse: collapse; font-size: 10.5px; }
+  table.summary th, table.summary td { border: 1px solid var(--line); padding: 7px 8px; vertical-align: top; }
+  table.summary thead th { background: var(--band-soft); color: var(--band); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; font-size: 9.5px; }
+  table.summary .tight { padding: 4px 8px; }
+  table.summary td.bil { text-align:center; font-family: 'Inter', monospace; font-weight: 600; color: var(--ink-soft); width: 32px; }
+  table.summary td.mono { font-family: 'Inter', monospace; font-size: 10px; }
+  table.summary .proj-name { font-weight: 600; color: var(--ink); }
+  table.summary .sub-row td { background: #f8fafc; color: var(--ink-soft); font-size: 10px; }
+
+  .contract-grid { display:grid; grid-template-columns: 36px 36px 36px; gap: 2px; font-family:'Inter', monospace; font-size: 9.5px; text-align:center; }
+  .contract-grid .h { background: #e0e7ff; color: var(--band); font-weight: 700; padding: 3px 0; border-radius: 2px; }
+  .contract-grid .v { background: #f1f5f9; color: var(--ink); padding: 3px 0; border-radius: 2px; font-weight: 600; }
+
+  /* progress mini-bar */
+  .progress { width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; position: relative; }
+  .progress .fill-planned { position:absolute; left:0; top:0; bottom:0; background: #94a3b8; border-radius: 3px; }
+  .progress .fill-actual { position:absolute; left:0; top:0; bottom:0; background: var(--danger); border-radius: 3px; }
+  .progress-labels { display:flex; justify-content:space-between; font-family:'Inter', monospace; font-size: 9.5px; margin-top: 3px; }
+  .progress-labels .plan { color: var(--mute); }
+  .progress-labels .act  { color: var(--danger); font-weight: 700; }
+
+  .chip { display:inline-block; font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.3px; }
+  .chip.danger { background: var(--danger-soft); color: var(--danger); }
+  .chip.warn   { background: var(--warn-soft);   color: var(--warn); }
+  .chip.ok     { background: var(--ok-soft);     color: var(--ok); }
+
+  /* ---------- Text sections ---------- */
+  .body-p { font-size: 11px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 8px; }
+  ol.alpha { counter-reset: litem; list-style: none; padding-left: 0; margin: 0; }
+  ol.alpha > li { counter-increment: litem; padding-left: 26px; position: relative; margin-bottom: 7px; font-size: 11px; line-height: 1.65; color: var(--ink-soft); }
+  ol.alpha > li::before { content: counter(litem, lower-alpha) ")"; position: absolute; left: 4px; top: 0; font-weight: 700; color: var(--band); font-family: 'Inter', monospace; }
+
+  ul.dots { list-style: none; padding: 0; margin: 0; }
+  ul.dots > li { padding-left: 18px; position: relative; font-size: 11px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 6px; }
+  ul.dots > li::before { content: ""; width: 5px; height: 5px; background: var(--band); border-radius: 50%; position: absolute; left: 4px; top: 8px; }
+
+  .callout { border-left: 3px solid var(--band); background: var(--band-soft); padding: 10px 14px; margin: 8px 0 12px; border-radius: 0 4px 4px 0; }
+  .callout h4 { margin: 0 0 3px; font-size: 11px; color: var(--band); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+  .callout p { margin: 0; font-size: 11px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* ---------- Actions status table ---------- */
+  table.actions { width:100%; border-collapse: collapse; font-size: 10.5px; }
+  table.actions th, table.actions td { border: 1px solid var(--line); padding: 7px 8px; vertical-align: top; }
+  table.actions thead th { background: var(--band-soft); color: var(--band); font-weight: 700; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.6px; }
+  table.actions .bil { text-align:center; width: 28px; font-family: 'Inter', monospace; font-weight: 600; color: var(--ink-soft); }
+  table.actions .date { white-space: nowrap; font-family: 'Inter', monospace; font-size: 10px; color: var(--ink-soft); width: 82px; }
+  table.actions .status { text-align:center; width: 90px; }
+
+  /* ---------- Signatures ---------- */
+  .sig-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px; }
+  .sig-box { border-top: 1px solid var(--line); padding-top: 10px; font-size: 10.5px; color: var(--ink-soft); line-height: 1.55; }
+  .sig-box .name { font-weight: 700; color: var(--ink); margin-top: 40px; }
+
+  /* ---------- Footer ---------- */
+  .page-footer {
+    position:absolute; left: 64px; right: 64px; bottom: 28px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size: 9.5px; color: var(--mute); padding-top: 10px; border-top: 1px solid var(--line-soft);
+  }
+  .page-footer .confidential { letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--danger); }
+  .page-footer .pageno { font-family: 'Inter', monospace; font-weight: 500; color: var(--ink-soft); }
+
+  /* ---------- Status pill used inline ---------- */
+  .status-pill { display:inline-flex; align-items:center; gap: 5px; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+  .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-pill.ok    { background: var(--ok-soft);     color: var(--ok); }
+  .status-pill.ok .dot    { background: var(--ok); }
+  .status-pill.in    { background: var(--warn-soft);   color: var(--warn); }
+  .status-pill.in .dot    { background: var(--warn); }
+  .status-pill.late  { background: var(--danger-soft); color: var(--danger); }
+  .status-pill.late .dot  { background: var(--danger); }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar { width: 794px; display:flex; justify-content:space-between; align-items:center; font-size: 12px; color: var(--mute); }
+  .toolbar button { font-family: 'Inter', sans-serif; border: 1px solid #cbd5e1; background:#fff; color: var(--ink-soft); font-size: 12px; font-weight: 500; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+  .toolbar button:hover { background: #f1f5f9; }
+
+  @media print {
+    body { background: #fff; }
+    .viewport { padding: 0; gap: 0; }
+    .toolbar { display: none; }
+    .page { box-shadow: none; margin: 0; page-break-after: always; }
+    .page:last-of-type { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="viewport">
+
+  <div class="toolbar">
+    <div>Laporan Intervensi Projek · Pratonton A4</div>
+    <button onclick="window.print()">🖨 Cetak / Simpan PDF</button>
+  </div>
+
+  <!-- =============== PAGE 1 =============== -->
+  <section class="page">
+    <header class="doc-header">
+      <div class="crest"><span>JKR<br/>MY</span></div>
+      <div class="agency-text">
+        <h1>JABATAN KERJA RAYA MALAYSIA</h1>
+        <h2>Cawangan Pembinaan · Bahagian Pemantauan Projek Sakit</h2>
+      </div>
+      <div class="header-right">
+        <div>No. Rujukan: <span class="doc-id">JKR.CP.BPPS.2026/INT-042</span></div>
+        <div>Tarikh: <span class="doc-id">23 April 2026</span></div>
+        <div>Keluaran: <span class="doc-id">v1.0 — Rasmi</span></div>
+      </div>
+    </header>
+
+    <div class="title-band">
+      <div class="kicker">LAPORAN PROGRAM INTERVENSI PROJEK SAKIT</div>
+      <h1>LAPORAN INTERVENSI PROJEK</h1>
+      <div class="sub">Dijana melalui Sistem Pemantauan J-TRACK</div>
+      <div class="dash"></div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-cell"><div class="k">Bulan Laporan</div><div class="v">April 2026</div></div>
+      <div class="meta-cell"><div class="k">Zon Pemantauan</div><div class="v">Zon Tengah</div></div>
+      <div class="meta-cell"><div class="k">Disediakan Oleh</div><div class="v">Ir. Azlan Rahim</div></div>
+    </div>
+
+    <!-- SECTION 1: Summary -->
+    <div class="section">
+      <div class="section-title">
+        <div class="num">1</div>
+        <h3>Ringkasan Maklumat Projek</h3>
+        <div class="rule"></div>
+      </div>
+
+      <table class="summary">
+        <thead>
+          <tr>
+            <th style="width:32px">Bil</th>
+            <th style="width:110px">Lokasi &amp; Tarikh</th>
+            <th>Tajuk Projek &amp; Kontrak</th>
+            <th style="width:130px">Maklumat Kontrak</th>
+            <th style="width:150px">% Jadual vs Kemajuan</th>
+            <th style="width:110px">EOT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="bil">1.</td>
+            <td>
+              <div class="mono" style="font-weight:600;color:var(--ink)">Segamat, Johor</div>
+              <div class="mono" style="color:var(--mute); margin-top:2px">Tarikh Intervensi:</div>
+              <div class="mono" style="font-weight:600">18-04-2026</div>
+            </td>
+            <td>
+              <div class="proj-name">Naik Taraf Jalan Persekutuan FT-05, Seksyen KM 12 – KM 28</div>
+              <div class="mono" style="color:var(--mute);margin-top:4px">No. Kontrak: JKR/IP/05/2024/088</div>
+              <div class="mono" style="color:var(--mute)">Kos Kontrak: <strong style="color:var(--ink)">RM 142,580,000.00</strong></div>
+              <div style="margin-top:5px"><span class="chip danger">Intervensi Aktif</span></div>
+            </td>
+            <td>
+              <div class="contract-grid">
+                <div class="h">TMT</div><div class="h">TSA</div><div class="h">TSS</div>
+                <div class="v">01-06-24</div><div class="v">31-05-26</div><div class="v">21-08-26</div>
+              </div>
+              <div style="font-size:9.5px;color:var(--mute);margin-top:6px;line-height:1.5">
+                TMT: Tarikh Milik Tapak<br/>TSA: Tarikh Siap Asal<br/>TSS: Tarikh Siap Semasa
+              </div>
+            </td>
+            <td>
+              <div class="progress">
+                <div class="fill-planned" style="width: 82%;"></div>
+                <div class="fill-actual" style="width: 51.8%;"></div>
+              </div>
+              <div class="progress-labels"><span class="plan">Jadual 82.0%</span><span class="act">Fizikal 51.8%</span></div>
+              <div style="font-size:9.5px;color:var(--danger);margin-top:5px;font-weight:600">Lewat 30.2% (Kritikal)</div>
+            </td>
+            <td>
+              <div class="mono" style="font-weight:600;color:var(--ink)">EOT #2</div>
+              <div class="mono" style="color:var(--ink-soft);margin-top:2px">82 hari</div>
+              <div class="mono" style="color:var(--mute);margin-top:2px;font-size:9.5px">Status: Diluluskan (K.P. 14-03-26)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 2: Punca Kelewatan -->
+    <div class="section">
+      <div class="section-title">
+        <div class="num">2</div>
+        <h3>Punca Kelewatan</h3>
+        <div class="rule"></div>
+      </div>
+      <p class="body-p">Berdasarkan lawatan tapak dan sesi perbincangan bersama kontraktor pada 18 April 2026, punca utama kelewatan projek ini dikenal pasti seperti berikut:</p>
+      <ul class="dots">
+        <li><strong>Kekangan bahan mentah:</strong> Bekalan premix asfalt dari loji tempatan tergendala antara Februari – Mac 2026 akibat kerosakan jentera pembekal.</li>
+        <li><strong>Isu pemilikan tapak:</strong> Sebahagian koridor (KM 19.4 – KM 20.1) terlewat diserahkan akibat pertindihan utiliti TNB yang perlu dialih.</li>
+        <li><strong>Kekurangan tenaga kerja:</strong> Purata kehadiran pekerja mahir hanya 58% pada suku pertama 2026, lebih rendah daripada jadual kerja kontraktor.</li>
+        <li><strong>Cuaca ekstrem:</strong> Hujan berterusan pada Januari 2026 menyebabkan 14 hari tidak produktif direkodkan di tapak.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 3: Pengesyoran -->
+    <div class="section">
+      <div class="section-title">
+        <div class="num">3</div>
+        <h3>Pengesyoran Pasukan Intervensi</h3>
+        <div class="rule"></div>
+      </div>
+      <p class="body-p">Pasukan intervensi mengesyorkan langkah-langkah pemulihan berikut untuk memastikan projek dapat disiapkan mengikut Tarikh Siap Semasa (TSS):</p>
+      <ol class="alpha">
+        <li>Kontraktor hendaklah mengemukakan <em>recovery plan</em> terperinci meliputi jadual kerja mingguan sehingga Ogos 2026, dalam tempoh 14 hari dari tarikh laporan ini.</li>
+        <li>Penambahan tenaga kerja mahir sekurang-kurangnya 35 orang tambahan di tapak, khususnya untuk kerja turapan dan longkang konkrit.</li>
+        <li>Peningkatan operasi kepada dua syif kerja (pagi &amp; malam) bagi seksyen kritikal KM 18 – KM 22, tertakluk kepada kelulusan kebenaran kerja malam daripada PBT.</li>
+        <li>Pelantikan pegawai penyelaras utiliti sepenuh masa untuk menyelaras peralihan kabel TNB dan paip JBA yang berbaki.</li>
+      </ol>
+    </div>
+
+    <footer class="page-footer">
+      <div class="confidential">● SULIT — Kegunaan Rasmi JKR Sahaja</div>
+      <div>Ref: JKR.CP.BPPS.2026/INT-042</div>
+      <div class="pageno">Muka Surat 1 / 2</div>
+    </footer>
+  </section>
+
+  <!-- =============== PAGE 2 =============== -->
+  <section class="page">
+    <header class="doc-header">
+      <div class="crest"><span>JKR<br/>MY</span></div>
+      <div class="agency-text">
+        <h1>JABATAN KERJA RAYA MALAYSIA</h1>
+        <h2>Sambungan Laporan Intervensi — JKR.CP.BPPS.2026/INT-042</h2>
+      </div>
+      <div class="header-right">
+        <div>Projek: <span class="doc-id">JKR01293</span></div>
+        <div>Bulan: <span class="doc-id">April 2026</span></div>
+      </div>
+    </header>
+
+    <!-- SECTION 4: Tindakan Yang Telah Diambil -->
+    <div class="section" style="margin-top: 22px;">
+      <div class="section-title">
+        <div class="num">4</div>
+        <h3>Tindakan Yang Telah Diambil</h3>
+        <div class="rule"></div>
+      </div>
+      <p class="body-p">Senarai tindakan intervensi yang telah dilaksanakan sejak lawatan tapak terakhir:</p>
+      <table class="actions">
+        <thead>
+          <tr>
+            <th class="bil">Bil</th>
+            <th>Tindakan / Keputusan</th>
+            <th>Oleh</th>
+            <th class="date">Tarikh</th>
+            <th class="status">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="bil">1.</td>
+            <td>Surat amaran rasmi dikeluarkan kepada kontraktor utama di bawah Klausa 51 Syarat-Syarat Kontrak PWD 203A.</td>
+            <td>Pengarah Projek</td>
+            <td class="date">15-04-2026</td>
+            <td class="status"><span class="status-pill ok"><span class="dot"></span>Selesai</span></td>
+          </tr>
+          <tr>
+            <td class="bil">2.</td>
+            <td>Mesyuarat Khas Intervensi ke-3 diadakan bersama kontraktor, JUB dan pihak berkuasa tempatan.</td>
+            <td>Pasukan Intervensi</td>
+            <td class="date">18-04-2026</td>
+            <td class="status"><span class="status-pill ok"><span class="dot"></span>Selesai</span></td>
+          </tr>
+          <tr>
+            <td class="bil">3.</td>
+            <td>Permohonan kebenaran kerja malam KM 18 – KM 22 dikemukakan kepada PBT Majlis Daerah Segamat.</td>
+            <td>Jurutera Awam</td>
+            <td class="date">20-04-2026</td>
+            <td class="status"><span class="status-pill in"><span class="dot"></span>Dalam Proses</span></td>
+          </tr>
+          <tr>
+            <td class="bil">4.</td>
+            <td>Penyelarasan peralihan kabel TNB untuk koridor KM 19.4 – KM 20.1 dengan wakil TNB Segamat.</td>
+            <td>Pegawai Penyelaras Utiliti</td>
+            <td class="date">21-04-2026</td>
+            <td class="status"><span class="status-pill in"><span class="dot"></span>Dalam Proses</span></td>
+          </tr>
+          <tr>
+            <td class="bil">5.</td>
+            <td>Permintaan <em>recovery plan</em> terperinci daripada kontraktor — sehingga 2 Mei 2026.</td>
+            <td>Pasukan Intervensi</td>
+            <td class="date">22-04-2026</td>
+            <td class="status"><span class="status-pill late"><span class="dot"></span>Belum Mula</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 5: Status Terkini -->
+    <div class="section">
+      <div class="section-title">
+        <div class="num">5</div>
+        <h3>Status Kemajuan Terkini</h3>
+        <div class="rule"></div>
+      </div>
+
+      <div class="callout">
+        <h4>Penilaian Keseluruhan</h4>
+        <p>Projek berada pada <strong>51.8%</strong> kemajuan fizikal berbanding jadual <strong>82.0%</strong> — terdapat jurang kelewatan sebanyak <strong>30.2%</strong>. Projek dikategorikan sebagai <strong>Projek Sakit Tahap Kritikal</strong> dan diletakkan di bawah pemantauan mingguan Pasukan Intervensi Pusat.</p>
+      </div>
+
+      <ul class="dots">
+        <li><strong>Kerja tanah (earthworks):</strong> 96.0% siap — Pada peringkat penyempurnaan akhir di KM 24 – KM 28.</li>
+        <li><strong>Kerja struktur (jambatan &amp; pembentung):</strong> 71.2% siap — Selari dengan semakan jadual baharu.</li>
+        <li><strong>Kerja turapan asfalt:</strong> 22.4% siap — Punca utama kelewatan, memerlukan pecutan segera.</li>
+        <li><strong>Kerja persimpangan &amp; perabot jalan:</strong> 8.0% siap — Jangkaan dimulakan pada Julai 2026 mengikut jadual pemulihan.</li>
+        <li><strong>Unjuran siap:</strong> Berdasarkan <em>recovery plan</em> yang dicadangkan, projek masih berpotensi disiapkan pada <strong>21-08-2026</strong> (TSS sedia ada) jika semua pengesyoran dilaksanakan sepenuhnya.</li>
+      </ul>
+
+      <div class="sig-grid">
+        <div class="sig-box">
+          Disediakan oleh,
+          <div class="name">Ir. AZLAN RAHIM bin ISMAIL</div>
+          Pegawai Pemantau Kanan<br/>
+          Bahagian Pemantauan Projek Sakit, JKR Malaysia
+        </div>
+        <div class="sig-box">
+          Disahkan oleh,
+          <div class="name">Dato' Ir. SITI NURHALIZA binti OMAR</div>
+          Pengarah Kanan<br/>
+          Cawangan Pembinaan, JKR Malaysia
+        </div>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <div class="confidential">● SULIT — Kegunaan Rasmi JKR Sahaja</div>
+      <div>Dijana: 23 Apr 2026, 10:04 pagi · Sistem J-TRACK v4.2</div>
+      <div class="pageno">Muka Surat 2 / 2</div>
+    </footer>
+  </section>
+
+</div>
+</body>
+</html>

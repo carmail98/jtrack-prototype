@@ -1,0 +1,163 @@
+<!doctype html><html lang="ms"><head><title>J-TRACK — Mesyuarat Penutup</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script><script src="_tailwind.js"></script>
+<link rel="stylesheet" href="_shared.css"/><script defer src="_chrome.js"></script>
+<style>
+  .input{width:100%;padding:8px 10px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px}
+  .input:focus{outline:none;border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,.12)}
+  .label{font-size:10.5px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block}
+</style>
+</head>
+<body class="antialiased">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4 flex items-start justify-between">
+        <div>
+          <div class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange mb-1">Sesi Penutup Intervensi</div>
+          <h1 class="text-[24px] font-bold tracking-tight leading-tight">Minit Mesyuarat &amp; Pengesyoran Penutup</h1>
+          <p class="mt-1 text-[13px] text-muted-foreground">Mesyuarat rasmi selepas tamat lawatan intervensi. Kesimpulan &amp; komitmen akan dicatat rasmi.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="h-8 px-2.5 rounded border border-border text-[11.5px] font-medium text-slate-700 hover:bg-muted">Simpan Draf</button>
+          <button class="h-8 px-3 rounded bg-navy text-white text-[11.5px] font-semibold hover:bg-navy-700">Finalize &amp; Emel</button>
+        </div>
+      </section>
+
+      <section class="px-6 pb-6 grid grid-cols-[1fr_320px] gap-4">
+        <!-- Main -->
+        <div class="space-y-4">
+          <!-- Meeting meta -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="grid grid-cols-4 gap-4">
+              <div><div class="label">Tarikh</div><input class="input mono" value="18/11/2025"/></div>
+              <div><div class="label">Masa Mula</div><input class="input mono" value="15:00"/></div>
+              <div><div class="label">Masa Tamat</div><input class="input mono" value="16:45"/></div>
+              <div><div class="label">Jenis Mesyuarat</div>
+                <select class="input"><option>Mesyuarat Penutup Intervensi</option><option>Follow-up Intervensi</option></select>
+              </div>
+            </div>
+            <div class="mt-3"><div class="label">Tempat</div><input class="input" value="Bilik Mesyuarat Pejabat Tapak, SMK Kuala Pilah"/></div>
+          </div>
+
+          <!-- Attendance -->
+          <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+            <div class="p-4 border-b border-border flex items-center justify-between">
+              <div><div class="text-[12.5px] font-bold">Kehadiran (12)</div><div class="text-[11px] text-muted-foreground">Klik ✓ untuk tanda hadir, ✗ untuk tidak hadir</div></div>
+              <button class="text-[11.5px] font-semibold text-navy hover:underline inline-flex items-center gap-1">+ Tambah tetamu</button>
+            </div>
+            <table class="w-full text-[12.5px]">
+              <thead class="bg-slate-50 text-[10.5px] uppercase tracking-wider text-muted-foreground border-b border-border">
+                <tr><th class="px-4 py-2 text-left font-semibold">Nama</th><th class="px-4 py-2 text-left font-semibold">Jawatan / Organisasi</th><th class="px-4 py-2 text-left font-semibold">Peranan</th><th class="px-4 py-2 text-center font-semibold w-20">Hadir</th></tr>
+              </thead>
+              <tbody id="att" class="divide-y divide-border"></tbody>
+            </table>
+          </div>
+
+          <!-- Agenda / minutes -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="flex items-center justify-between mb-3"><div class="text-[12.5px] font-bold">Minit Mesyuarat</div><button class="text-[11.5px] font-semibold text-navy hover:underline inline-flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Tambah Agenda</button></div>
+            <div class="space-y-3">
+              <div class="border border-border rounded-md">
+                <div class="px-3 py-2 bg-slate-50 border-b border-border flex items-center justify-between"><div class="text-[12px] font-semibold">1. Aluan Pengerusi &amp; Pengenalan Ahli</div><div class="text-[11px] text-muted-foreground mono">15:00 – 15:10</div></div>
+                <div class="p-3"><textarea class="input resize-none" rows="2">Pengerusi membuka sesi dan memperkenalkan pasukan penilai. Tujuan mesyuarat dinyatakan: untuk membentangkan penemuan awal dan komitmen lanjut.</textarea></div>
+              </div>
+              <div class="border border-border rounded-md">
+                <div class="px-3 py-2 bg-slate-50 border-b border-border flex items-center justify-between"><div class="text-[12px] font-semibold">2. Pembentangan Penemuan Pasukan Penilai</div><div class="text-[11px] text-muted-foreground mono">15:10 – 15:50</div></div>
+                <div class="p-3"><textarea class="input resize-none" rows="3">Ts. Marlinah membentangkan: (a) kemajuan fizikal 30.40% vs jadual 39.28%, (b) 9 isu utama dikesan, termasuk honeycomb di tiang L2-A3 dan kewangan kontraktor yang terjejas. Kontraktor menyatakan kefahaman dan mengambil tanggungjawab.</textarea></div>
+              </div>
+              <div class="border-2 border-navy/30 rounded-md bg-navy-50/40">
+                <div class="px-3 py-2 bg-navy-50 border-b border-navy-100 flex items-center justify-between"><div class="text-[12px] font-bold text-navy">3. Komitmen Kontraktor &amp; Recovery Plan</div><div class="text-[11px] text-navy-800 mono font-semibold">15:50 – 16:25</div></div>
+                <div class="p-3 space-y-2"><textarea class="input resize-none" rows="3">Kontraktor bersetuju untuk menyerahkan recovery plan terperinci dalam 14 hari. Komitmen: tambah 40 orang pekerja tapak, cor Blok A selesai sebelum 31 Jan 2026, melantik juruukur bahan baru.</textarea>
+                <div class="flex items-center gap-2 text-[11px] text-navy-800"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>3 komitmen rasmi ditambah ke senarai pelan tindakan</div></div>
+              </div>
+              <div class="border border-border rounded-md">
+                <div class="px-3 py-2 bg-slate-50 border-b border-border flex items-center justify-between"><div class="text-[12px] font-semibold">4. Soal Jawab &amp; Kata Penutup</div><div class="text-[11px] text-muted-foreground mono">16:25 – 16:45</div></div>
+                <div class="p-3"><textarea class="input resize-none" rows="2">Wakil klien (KPM) menekankan kepentingan projek untuk tahun akademik 2026. Pengerusi menutup mesyuarat dengan mengingatkan tempoh laporan akhir: 14 hari.</textarea></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decisions -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[12.5px] font-bold mb-2">Keputusan &amp; Resolusi</div>
+            <div class="space-y-2">
+              <div class="p-3 rounded border border-success-100 bg-success-50/40 flex items-start gap-2"><span class="mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-success text-white mt-0.5">LULUS</span><div class="flex-1"><div class="text-[12.5px] font-semibold">Recovery Plan wajib diserah dalam 14 hari kalendar</div><div class="text-[11px] text-muted-foreground mt-0.5">Terima oleh: Kontraktor, HOPT, PP</div></div></div>
+              <div class="p-3 rounded border border-success-100 bg-success-50/40 flex items-start gap-2"><span class="mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-success text-white mt-0.5">LULUS</span><div class="flex-1"><div class="text-[12.5px] font-semibold">Perunding hadir ke semua mesyuarat tapak bulanan mulai Dis 2025</div><div class="text-[11px] text-muted-foreground mt-0.5">Terima oleh: Perunding Azim &amp; Rakan Kongsi</div></div></div>
+              <div class="p-3 rounded border border-warning-100 bg-warning-50/40 flex items-start gap-2"><span class="mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-warning-700 text-white mt-0.5">DITANGGUH</span><div class="flex-1"><div class="text-[12.5px] font-semibold">Pertimbangan LAD perlu keputusan Pengarah</div><div class="text-[11px] text-muted-foreground mt-0.5">Untuk semakan Pengarah UKAT</div></div></div>
+              <button class="w-full p-2.5 rounded border border-dashed border-border text-[12px] text-muted-foreground hover:border-navy hover:text-navy">+ Tambah keputusan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right sidebar: signatures -->
+        <div class="space-y-4">
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-3">Pengesahan Digital</div>
+            <div class="space-y-2.5">
+              <div class="p-3 rounded border border-navy/30 bg-navy-50/40">
+                <div class="flex items-center gap-2 mb-1"><div class="avatar w-6 h-6 rounded-full bg-navy text-[9px]">RA</div><div class="text-[12px] font-semibold">Ir. Rafidah Ahmad</div></div>
+                <div class="text-[10.5px] text-muted-foreground mb-1.5">Ketua Pasukan Penilai</div>
+                <div class="font-[cursive] text-navy text-[18px] italic border-b border-navy/30 pb-0.5">✓ Rafidah</div>
+                <div class="mt-1 text-[10px] mono text-muted-foreground">Ditandatangan 18 Nov 2025, 16:52</div>
+              </div>
+              <div class="p-3 rounded border border-border bg-slate-50/40">
+                <div class="flex items-center gap-2 mb-1"><div class="avatar w-6 h-6 rounded-full bg-[#7c2d12] text-[9px]">ZM</div><div class="text-[12px] font-semibold">En. Zulkifli Mohamad</div></div>
+                <div class="text-[10.5px] text-muted-foreground mb-2">Pengurus Projek Kontraktor</div>
+                <button class="w-full h-8 rounded border border-dashed border-border text-[11.5px] text-navy font-semibold hover:bg-navy-50">Hantar untuk tandatangan</button>
+              </div>
+              <div class="p-3 rounded border border-border bg-slate-50/40">
+                <div class="flex items-center gap-2 mb-1"><div class="avatar w-6 h-6 rounded-full bg-[#334155] text-[9px]">FH</div><div class="text-[12px] font-semibold">Farid Hassan</div></div>
+                <div class="text-[10.5px] text-muted-foreground mb-2">HOPT, CJKR Daerah</div>
+                <button class="w-full h-8 rounded border border-dashed border-border text-[11.5px] text-navy font-semibold hover:bg-navy-50">Hantar untuk tandatangan</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Tempoh Sahih</div>
+            <div class="p-2.5 rounded bg-slate-50 border border-border mono text-[11.5px] font-semibold">Laporan akhir perlu dimuktamadkan dalam <span class="text-critical text-[13px]">14 hari</span> dari tarikh ini.</div>
+            <div class="mt-2 h-1.5 bg-slate-100 rounded overflow-hidden"><div class="h-full bg-navy" style="width:14%"></div></div>
+            <div class="mt-1 text-[10.5px] text-muted-foreground">Hari 2 / 14 · Siap sebelum 2 Dis 2025</div>
+          </div>
+
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Edaran Minit</div>
+            <div class="space-y-1.5 text-[12px]">
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked/>Semua pasukan penilai</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked/>Kontraktor &amp; Perunding</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked/>HOPT &amp; PP</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked/>Pengarah UKAT</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx"/>Wakil Klien (KPM)</label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const rows = [
+  {n:"Ir. Rafidah Ahmad", j:"JA Penguasa J52, UKAT", r:"Pengerusi / Ketua Penilai", h:true, c:"#1e3a8a", i:"RA"},
+  {n:"Ts. Marlinah Mohamad", j:"Peg. Teknologi F41, PMO N9", r:"Penyedia Laporan", h:true, c:"#1e3a8a", i:"MM"},
+  {n:"Nor'Izzati Rahman", j:"Juruteknik JA29, UKAT", r:"Penyedia Laporan", h:true, c:"#0f766e", i:"NR"},
+  {n:"Hjh. Fairuzzah Ismail", j:"Arkitek J41, Cawangan Arkitek", r:"Ahli Pasukan", h:true, c:"#334155", i:"FI"},
+  {n:"Ir. Ahmad Kamil Osman", j:"Pengurus Projek JKR", r:"Pegawai Penguasa", h:true, c:"#b45309", i:"AK"},
+  {n:"Farid Hassan", j:"Jurutera J41, CJKR Daerah", r:"Wakil HOPT", h:true, c:"#334155", i:"FH"},
+  {n:"En. Zulkifli Mohamad", j:"Pengurus Projek, Jayamas S/B", r:"Wakil Kontraktor", h:true, c:"#7c2d12", i:"ZM"},
+  {n:"En. Halim Rashid", j:"Juruukur Bahan, Jayamas S/B", r:"Wakil Kontraktor", h:true, c:"#7c2d12", i:"HR"},
+  {n:"Ar. Noraini Zainal", j:"Arkitek Utama, Azim &amp; Rakan Kongsi", r:"Wakil Perunding", h:true, c:"#0f766e", i:"NZ"},
+  {n:"Dr. Kamarul Hisham", j:"Timb. Pengarah Bahagian Sekolah, KPM", r:"Wakil Klien", h:true, c:"#1d4ed8", i:"KH"},
+  {n:"En. Rosli Bakar", j:"Juruteknik JA29, CJKR", r:"Pencatat", h:true, c:"#0f766e", i:"RB"},
+  {n:"Pn. Zaleha Omar", j:"Pegawai Undang-Undang JKR", r:"Pemerhati", h:false, c:"#64748b", i:"ZO"},
+];
+document.getElementById('att').innerHTML = rows.map(r => `
+  <tr class="row-hover"><td class="px-4 py-2.5"><div class="flex items-center gap-2"><div class="avatar w-6 h-6 rounded-full text-[9px]" style="background:${r.c}">${r.i}</div><span class="font-semibold">${r.n}</span></div></td><td class="px-4 py-2.5 text-slate-600">${r.j}</td><td class="px-4 py-2.5 text-slate-600">${r.r}</td><td class="px-4 py-2.5 text-center">${r.h ? '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-success-100 text-success-700"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>' : '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-critical-100 text-critical-700"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>'}</td></tr>
+`).join('');
+window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','SMK Kuala Pilah','Mesyuarat Penutup']));
+</script>
+</body></html>
