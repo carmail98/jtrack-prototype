@@ -169,6 +169,10 @@
         [class*="md:grid-cols-"], [class*="lg:grid-cols-"], [class*="xl:grid-cols-"] {
           grid-template-columns: 1fr !important;
         }
+        /* Tailwind arbitrary-value grids like grid-cols-[1fr_320px], [3fr_2fr] */
+        [class*="grid-cols-["] {
+          grid-template-columns: 1fr !important;
+        }
 
         /* ===== Flex containers: allow wrap so cards don't overflow ===== */
         /* aggressive — every flex inside main wraps on mobile, EXCEPT small util
