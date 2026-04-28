@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Checklist Dokumen Pasukan Projek (Lampiran B)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .doc-row { transition: background 0.12s; }
+  .doc-row:hover { background: #f8fafc; }
+  .doc-status-ok { background: #f0fdf4; border-color: #bbf7d0; }
+  .doc-status-late { background: #fffbeb; border-color: #fde68a; }
+  .doc-status-missing { background: #fef2f2; border-color: #fecaca; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Fasa 2 · Pra-Pelaksanaan</span>
+              <span class="text-[10.5px] text-muted-foreground">·</span>
+              <span class="mono text-[10.5px] text-muted-foreground">Lampiran B — Garis Panduan JKR</span>
+            </div>
+            <h1 class="text-[24px] font-bold tracking-tight leading-tight">Checklist Dokumen Pasukan Projek</h1>
+            <p class="mt-1 text-[13px] text-muted-foreground">Dokumen-dokumen yang Pasukan Projek mesti sediakan SEBELUM sesi Pelaksanaan Intervensi.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md bg-warning-50 border border-warning-100 text-[11.5px] font-semibold text-warning-700">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="6" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+              7 / 10 dokumen lengkap
+            </span>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Kirim Pengingat</button>
+            <button class="h-9 px-3.5 rounded-md bg-navy text-white text-[12px] font-semibold">Sahkan Lengkap</button>
+          </div>
+        </div>
+
+        <!-- Project context -->
+        <div class="mt-4 p-3 bg-white border border-border rounded-md flex items-center gap-3 text-[12px]">
+          <div class="w-8 h-8 rounded bg-navy/10 text-navy flex items-center justify-center">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>
+          </div>
+          <div class="flex-1">
+            <div class="font-semibold">SMK Kuala Pilah · Negeri Sembilan</div>
+            <div class="text-[11px] text-muted-foreground"><span class="mono">PRJ-N9-2024-0042</span> · Sesi Intervensi: <span class="font-semibold">5 Mei 2026, 09:00 pagi</span> · Lawatan tapak T-3 hari</div>
+          </div>
+          <button class="text-[11px] font-semibold text-navy hover:underline">Lihat butiran projek →</button>
+        </div>
+      </section>
+
+      <!-- Document list -->
+      <section class="px-6 pb-6 space-y-2">
+
+        <div class="bg-white border border-border rounded-[12px] overflow-hidden">
+          <div class="px-5 py-3 border-b border-border bg-slate-50/40 flex items-center justify-between">
+            <div>
+              <div class="text-[13.5px] font-bold">Senarai Dokumen Wajib (10)</div>
+              <div class="text-[11px] text-muted-foreground">Sumber: Garis Panduan Intervensi JKR · Lampiran B</div>
+            </div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-success"></span>Lengkap (7)</span>
+              <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-warning"></span>Lewat (1)</span>
+              <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-critical"></span>Tiada (2)</span>
+            </div>
+          </div>
+
+          <div class="divide-y divide-border">
+            <!-- 1 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">1. Minit Mesyuarat Tapak</div>
+                <div class="text-[11px] text-muted-foreground">3 minit terkini (Jan, Feb, Mac 2026) · 14 mukasurat</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 12 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+
+            <!-- 2 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">2. Laporan Kemajuan</div>
+                <div class="text-[11px] text-muted-foreground">3 laporan terkini (Bulanan: Jan/Feb/Mac 2026) · 28 mukasurat</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 14 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+
+            <!-- 3 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">3. Laporan Kontrak (untuk Mesyuarat Tapak)</div>
+                <div class="text-[11px] text-muted-foreground">IPC-14 Bayaran Interim, EOT-2 dokumentasi</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 16 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+
+            <!-- 4 — LATE -->
+            <div class="doc-row doc-status-late px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-warning text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">!</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">4. Program Kerja yang Disahkan + Recovery Plan</div>
+                <div class="text-[11px] text-warning-700 font-medium">Program Kerja: ✓ &nbsp;·&nbsp; <span class="font-bold">Recovery Plan: BELUM DIHANTAR</span> (lewat 47 hari)</div>
+              </div>
+              <div class="text-[11px] mono text-warning-700 font-semibold">Tindakan: A.4.7</div>
+              <button class="h-7 px-3 rounded bg-warning text-white text-[11px] font-semibold">Susulan</button>
+            </div>
+
+            <!-- 5 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">5. Q-Plan & C-Plan atau PQP (Reka & Bina) + Lampiran</div>
+                <div class="text-[11px] text-muted-foreground">PQP versi 3.0 (Disember 2024) · Quality Plan rev. C</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 18 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+
+            <!-- 6 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">6. Buku Harian Tapak terkini</div>
+                <div class="text-[11px] text-warning-700">⚠ Catatan terakhir 14 Feb 2026 — meragukan, perlu cross-check di tapak</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Akses dari tapak</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Imbas</button>
+            </div>
+
+            <!-- 7 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">7. Log dan Laporan NCP / NCR</div>
+                <div class="text-[11px] text-muted-foreground">12 NCR aktif · 8 NCR ditutup · log lengkap dari Jun 2023</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 20 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+
+            <!-- 8 — MISSING -->
+            <div class="doc-row doc-status-missing px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-critical text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✗</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold text-critical-700">8. Pelan Pengurusan Risiko (RMP)</div>
+                <div class="text-[11px] text-critical-700 font-medium">TIDAK DISEDIAKAN — RMP wajib mengikut PSG dan SA KPKR 15/2014</div>
+              </div>
+              <div class="text-[11px] mono text-critical-700 font-semibold">Tindakan: A.4.15</div>
+              <button class="h-7 px-3 rounded bg-critical text-white text-[11px] font-semibold">Eskalasi</button>
+            </div>
+
+            <!-- 9 — MISSING -->
+            <div class="doc-row doc-status-missing px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-critical text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✗</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold text-critical-700">9. Pelan Pengurusan Alam Sekitar (EMP)</div>
+                <div class="text-[11px] text-critical-700 font-medium">TIDAK BERKENAAN dinyatakan — perlu pengesahan DOE/JAS atau bukti sebaliknya</div>
+              </div>
+              <div class="text-[11px] mono text-critical-700 font-semibold">Perlu semakan</div>
+              <button class="h-7 px-3 rounded bg-critical text-white text-[11px] font-semibold">Eskalasi</button>
+            </div>
+
+            <!-- 10 -->
+            <div class="doc-row doc-status-ok px-5 py-3 flex items-center gap-4">
+              <div class="w-7 h-7 rounded-full bg-success text-white flex items-center justify-center text-[12px] font-bold flex-shrink-0">✓</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold">10. Laporan Keselamatan & Kesihatan Pekerjaan</div>
+                <div class="text-[11px] text-muted-foreground">Laporan SHO bulanan + log incident (3 minor injuries dilaporkan)</div>
+              </div>
+              <div class="text-[11px] mono text-muted-foreground">Dimuat naik 22 Apr 2026</div>
+              <button class="h-7 px-3 rounded border border-border text-[11px] font-semibold hover:bg-muted">Lihat</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes & next step -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Catatan Pasukan Intervensi</div>
+            <textarea rows="3" class="w-full text-[12.5px] border border-border rounded p-2 field-focus" placeholder="Cth: 2 dokumen kritikal tiada — RMP & EMP. Cadangan eskalasi terus ke Pengarah Cawangan sebelum sesi 5 Mei.">2 dokumen kritikal tiada (RMP & EMP). Cadangan eskalasi terus ke Pengarah Cawangan sebelum sesi 5 Mei. Recovery Plan diberi tempoh tambahan 7 hari sahaja.</textarea>
+          </div>
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Tindakan Susulan</div>
+            <ol class="space-y-1.5 text-[12px]">
+              <li class="flex items-start gap-2"><span class="mono font-bold text-orange">1.</span><span>Hantar pengingat rasmi ke HOPT — RMP & EMP wajib dihantar T-1 hari (4 Mei 2026)</span></li>
+              <li class="flex items-start gap-2"><span class="mono font-bold text-orange">2.</span><span>Eskalasi ke CKP Negeri 9 jika dokumen tidak diterima dalam tempoh</span></li>
+              <li class="flex items-start gap-2"><span class="mono font-bold text-orange">3.</span><span>Recovery Plan — surat tuntutan formal oleh WPP, LAD aktif jika gagal</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="_actions.js"></script>
+<script src="_chrome.js"></script>
+<script>JTRACK.mountChrome('intervensi', ['Intervensi', 'Fasa 2', 'Lampiran B']);</script>
+</body>
+</html>

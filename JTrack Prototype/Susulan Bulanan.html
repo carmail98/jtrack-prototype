@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Susulan Bulanan (Fasa Pasca Intervensi)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .month-card { transition: transform 0.15s, box-shadow 0.15s; }
+  .month-card:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+  .month-status-done { border-color: #16a34a; background: linear-gradient(135deg, #f0fdf4 0%, #fff 60%); }
+  .month-status-current { border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fff 60%); }
+  .month-status-pending { border-color: #cbd5e1; background: #fafbfc; opacity: 0.85; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar">
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Fasa 4 · Pasca Intervensi</span>
+              <span class="text-[10.5px] text-muted-foreground">·</span>
+              <span class="mono text-[10.5px] text-muted-foreground">Bab 6 — Garis Panduan JKR</span>
+            </div>
+            <h1 class="text-[24px] font-bold tracking-tight leading-tight">Susulan Bulanan — 3 Bulan Pasca Intervensi</h1>
+            <p class="mt-1 text-[13px] text-muted-foreground">Pasukan Projek wajib serahkan Laporan Kemajuan Bulanan untuk <strong>3 bulan berturut-turut</strong> selepas program intervensi. Ketua Pasukan Intervensi nilai prestasi semasa.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Eksport Laporan Pasca</button>
+            <button class="h-9 px-3.5 rounded-md bg-navy text-white text-[12px] font-semibold">Cadangan Tindakan Susulan</button>
+          </div>
+        </div>
+
+        <!-- Project context -->
+        <div class="mt-4 p-3.5 bg-white border border-border rounded-md flex items-center gap-3 text-[12.5px]">
+          <div class="w-9 h-9 rounded bg-navy/10 text-navy flex items-center justify-center">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>
+          </div>
+          <div class="flex-1">
+            <div class="font-semibold">SMK Kuala Pilah · Negeri Sembilan</div>
+            <div class="text-[11px] text-muted-foreground"><span class="mono">PRJ-N9-2024-0042</span> · Intervensi diadakan: <strong>5 Mei 2026</strong> · Laporan Intervensi diluluskan: <strong>19 Mei 2026</strong></div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">Tempoh Pemantauan</div>
+            <div class="text-[12.5px] font-bold mono">Jun – Ogos 2026</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Progress timeline -->
+      <section class="px-6 pb-6">
+        <div class="bg-white border border-border rounded-[12px] p-5 mb-4">
+          <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-3">Status 3-Bulan Pemulihan</div>
+          <div class="grid grid-cols-3 gap-3">
+
+            <!-- Bulan 1 -->
+            <div class="month-card month-status-done border-2 rounded-[10px] p-4">
+              <div class="flex items-start justify-between mb-2">
+                <div>
+                  <div class="text-[10.5px] uppercase tracking-wider font-semibold text-success-700">Bulan 1 (M+1)</div>
+                  <div class="text-[16px] font-bold tracking-tight mt-0.5">Jun 2026</div>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success text-white text-[9.5px] font-bold uppercase tracking-wider">✓ Diterima</span>
+              </div>
+              <div class="text-[11px] text-success-700 mb-3">Hantar pada 28 Jun 2026 (T-2 hari)</div>
+
+              <div class="space-y-2 text-[11.5px]">
+                <div class="flex justify-between"><span class="text-muted-foreground">% Fizikal Sebenar</span><span class="font-bold mono tabular text-success-700">42.8%</span></div>
+                <div class="flex justify-between"><span class="text-muted-foreground">Sasaran Bulan</span><span class="font-bold mono tabular">38.5%</span></div>
+                <div class="flex justify-between"><span class="text-muted-foreground">Jurang</span><span class="font-bold mono tabular text-success-700">+4.3%</span></div>
+                <div class="pt-1.5 border-t border-success-100/70 flex justify-between"><span class="text-muted-foreground">Status</span><span class="font-bold text-success-700">Pemulihan Aktif</span></div>
+              </div>
+
+              <div class="mt-3 pt-3 border-t border-success-100/70 text-[11px]">
+                <div class="text-muted-foreground mb-1">Komen Penilai (Ketua Pasukan)</div>
+                <div class="italic text-slate-700">"Pemulihan baik. Recovery Plan dilaksana, RMP dihantar. NCR berkurangan dari 12 → 8."</div>
+              </div>
+
+              <div class="mt-3 flex gap-1.5">
+                <button class="flex-1 h-7 rounded border border-success-100 bg-white text-[11px] font-semibold text-success-700 hover:bg-success-50">Lihat Laporan</button>
+              </div>
+            </div>
+
+            <!-- Bulan 2 (current) -->
+            <div class="month-card month-status-current border-2 rounded-[10px] p-4 ring-2 ring-warning/20">
+              <div class="flex items-start justify-between mb-2">
+                <div>
+                  <div class="text-[10.5px] uppercase tracking-wider font-semibold text-warning-700">Bulan 2 (M+2)</div>
+                  <div class="text-[16px] font-bold tracking-tight mt-0.5">Julai 2026</div>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-warning text-white text-[9.5px] font-bold uppercase tracking-wider">● Aktif</span>
+              </div>
+              <div class="text-[11px] text-warning-700 mb-3">Tarikh hantar: <strong>30 Jul 2026</strong> (3 hari lagi)</div>
+
+              <div class="space-y-2 text-[11.5px]">
+                <div class="flex justify-between"><span class="text-muted-foreground">% Fizikal Sebenar</span><span class="font-bold mono tabular text-warning-700">52.4%</span></div>
+                <div class="flex justify-between"><span class="text-muted-foreground">Sasaran Bulan</span><span class="font-bold mono tabular">49.7%</span></div>
+                <div class="flex justify-between"><span class="text-muted-foreground">Jurang</span><span class="font-bold mono tabular text-warning-700">+2.7%</span></div>
+                <div class="pt-1.5 border-t border-warning-100/70 flex justify-between"><span class="text-muted-foreground">Status</span><span class="font-bold text-warning-700">Pantau Rapat</span></div>
+              </div>
+
+              <div class="mt-3 pt-3 border-t border-warning-100/70 text-[11px]">
+                <div class="text-muted-foreground mb-1">Auto-amaran J-TRACK</div>
+                <div class="text-warning-700"><strong>⚠</strong> Pasukan Projek belum mengemukakan laporan. Pengingat dihantar 24 Jul 2026.</div>
+              </div>
+
+              <div class="mt-3 flex gap-1.5">
+                <button class="flex-1 h-7 rounded bg-warning text-white text-[11px] font-semibold">Hantar Laporan</button>
+                <button class="h-7 px-2 rounded border border-warning-100 bg-white text-[11px] text-warning-700">Pengingat</button>
+              </div>
+            </div>
+
+            <!-- Bulan 3 (pending) -->
+            <div class="month-card month-status-pending border-2 border-dashed rounded-[10px] p-4">
+              <div class="flex items-start justify-between mb-2">
+                <div>
+                  <div class="text-[10.5px] uppercase tracking-wider font-semibold text-slate-500">Bulan 3 (M+3)</div>
+                  <div class="text-[16px] font-bold tracking-tight mt-0.5 text-slate-500">Ogos 2026</div>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[9.5px] font-bold uppercase tracking-wider">Akan Datang</span>
+              </div>
+              <div class="text-[11px] text-muted-foreground mb-3">Tarikh hantar dijangka: 30 Ogos 2026</div>
+
+              <div class="space-y-2 text-[11.5px] text-muted-foreground">
+                <div class="flex justify-between"><span>% Fizikal Sebenar</span><span class="mono tabular">—</span></div>
+                <div class="flex justify-between"><span>Sasaran Bulan</span><span class="font-bold mono tabular text-slate-700">61.0%</span></div>
+                <div class="flex justify-between"><span>Jurang</span><span class="mono tabular">—</span></div>
+                <div class="pt-1.5 border-t border-slate-200 flex justify-between"><span>Status</span><span class="text-slate-500">Belum bermula</span></div>
+              </div>
+
+              <div class="mt-3 pt-3 border-t border-slate-200 text-[11px] text-muted-foreground italic">
+                Selepas bulan 3 selesai, Ketua Pasukan boleh perakui pemulihan ATAU cadangkan intervensi lanjutan.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recovery trend chart -->
+        <div class="grid grid-cols-[2fr_1fr] gap-4">
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <h3 class="text-[14px] font-bold tracking-tight">Trend Kemajuan Selepas Intervensi</h3>
+                <p class="mt-0.5 text-[11.5px] text-muted-foreground">Garis intervensi (5 Mei) menunjukkan titik perubahan trajektori</p>
+              </div>
+              <div class="flex items-center gap-3 text-[10.5px]">
+                <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-navy/40"></span>Jadual</span>
+                <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-critical"></span>Sebelum Intervensi</span>
+                <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-success"></span>Selepas Intervensi</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 720 240" class="w-full h-[240px]">
+              <g stroke="#e2e8f0" stroke-width="1">
+                <line x1="50" y1="20" x2="50" y2="200"/>
+                <line x1="50" y1="200" x2="710" y2="200"/>
+                <line x1="50" y1="50"  x2="710" y2="50"/>
+                <line x1="50" y1="100" x2="710" y2="100"/>
+                <line x1="50" y1="150" x2="710" y2="150"/>
+              </g>
+              <g fill="#94a3b8" font-family="JetBrains Mono" font-size="10" text-anchor="end">
+                <text x="44" y="204">0</text><text x="44" y="154">25</text><text x="44" y="104">50</text><text x="44" y="54">75</text><text x="44" y="24">100</text>
+              </g>
+              <g fill="#94a3b8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">
+                <text x="100" y="218">Jan</text><text x="180" y="218">Feb</text><text x="260" y="218">Mac</text><text x="340" y="218">Apr</text>
+                <text x="420" y="218" font-weight="700" fill="#ea580c">Mei (Intervensi)</text>
+                <text x="500" y="218">Jun</text><text x="580" y="218">Jul</text><text x="660" y="218">Ogos</text>
+              </g>
+
+              <!-- Schedule line -->
+              <path d="M50 180 L100 170 L180 154 L260 138 L340 122 L420 106 L500 90 L580 74 L660 58" fill="none" stroke="#1e3a8a" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="5 3"/>
+
+              <!-- Before intervention (red) -->
+              <path d="M50 188 L100 184 L180 176 L260 168 L340 160 L420 156" fill="none" stroke="#dc2626" stroke-width="2.4" stroke-linecap="round"/>
+              <circle cx="100" cy="184" r="3" fill="#dc2626"/>
+              <circle cx="180" cy="176" r="3" fill="#dc2626"/>
+              <circle cx="260" cy="168" r="3" fill="#dc2626"/>
+              <circle cx="340" cy="160" r="3" fill="#dc2626"/>
+              <circle cx="420" cy="156" r="3" fill="#dc2626"/>
+
+              <!-- Intervention vertical line -->
+              <line x1="420" y1="20" x2="420" y2="200" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text x="420" y="14" text-anchor="middle" font-family="Inter" font-size="10" fill="#ea580c" font-weight="700">INTERVENSI</text>
+
+              <!-- After intervention (green) -->
+              <path d="M420 156 L500 114 L580 90" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="500" cy="114" r="3.5" fill="#16a34a"/>
+              <circle cx="580" cy="90" r="3.5" fill="#16a34a"/>
+              <text x="500" y="106" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#16a34a" font-weight="700">42.8%</text>
+              <text x="580" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#16a34a" font-weight="700">52.4%</text>
+              <!-- projected for Aug -->
+              <path d="M580 90 L660 70" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="3 2" stroke-linecap="round"/>
+              <circle cx="660" cy="70" r="3.5" fill="none" stroke="#16a34a" stroke-width="2"/>
+              <text x="660" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#94a3b8" font-style="italic">~62%</text>
+            </svg>
+          </div>
+
+          <!-- Issue resolution -->
+          <div class="bg-white border border-border rounded-[12px] p-5">
+            <h3 class="text-[14px] font-bold tracking-tight mb-3">Pemulihan Isu Kelewatan</h3>
+            <div class="space-y-2.5">
+              <div>
+                <div class="flex items-center justify-between text-[12px] mb-1">
+                  <span class="font-semibold">A · Kontraktor</span>
+                  <span class="mono tabular text-success-700"><strong>3</strong> / 9 selesai</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-muted overflow-hidden"><div class="h-full bg-success" style="width:33%"></div></div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-[12px] mb-1">
+                  <span class="font-semibold">B · Pelanggan</span>
+                  <span class="mono tabular text-success-700"><strong>2</strong> / 3 selesai</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-muted overflow-hidden"><div class="h-full bg-success" style="width:67%"></div></div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-[12px] mb-1">
+                  <span class="font-semibold">C · JKR</span>
+                  <span class="mono tabular text-success-700"><strong>2</strong> / 2 selesai</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-muted overflow-hidden"><div class="h-full bg-success" style="width:100%"></div></div>
+              </div>
+              <div class="pt-3 border-t border-border mt-3">
+                <div class="flex items-center justify-between text-[12.5px]">
+                  <span class="font-bold">JUMLAH</span>
+                  <span class="mono tabular font-bold"><strong class="text-success-700">7</strong> / 14 (50%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final recommendation -->
+        <div class="mt-4 bg-gradient-to-br from-navy-50/40 to-white border border-navy-100 rounded-[12px] p-5">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-md bg-navy text-white flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div class="flex-1">
+              <div class="text-[15px] font-bold">Cadangan Tindakan Susulan (selepas 3 bulan tamat)</div>
+              <p class="mt-1 text-[12.5px] text-slate-700">Berdasarkan trend pemulihan baik dan 50% isu kelewatan diselesaikan, pilihan tindakan susulan akan dibuka kepada Ketua Pasukan Intervensi pada akhir Ogos 2026:</p>
+              <div class="mt-3 grid grid-cols-3 gap-3">
+                <button class="text-left p-3 rounded-md border border-success-100 bg-success-50/40 hover:bg-success-50">
+                  <div class="text-[12px] font-bold text-success-700">✓ Perakui Pemulihan</div>
+                  <div class="text-[11px] text-slate-700 mt-0.5">Status PSG ditutup, projek kembali ke pemantauan biasa SKALA</div>
+                </button>
+                <button class="text-left p-3 rounded-md border border-warning-100 bg-warning-50/40 hover:bg-warning-50">
+                  <div class="text-[12px] font-bold text-warning-700">⏱ Lanjutkan Pemantauan</div>
+                  <div class="text-[11px] text-slate-700 mt-0.5">Tambah 3 bulan susulan jika trend belum stabil</div>
+                </button>
+                <button class="text-left p-3 rounded-md border border-critical-100 bg-critical-50/40 hover:bg-critical-50">
+                  <div class="text-[12px] font-bold text-critical-700">⚠ Intervensi Lanjutan</div>
+                  <div class="text-[11px] text-slate-700 mt-0.5">Cadang sesi intervensi baharu jika pemulihan gagal</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+</div>
+<script src="_actions.js"></script>
+<script src="_chrome.js"></script>
+<script>JTRACK.mountChrome('susulan', ['Susulan Bulanan', 'Fasa 4 Pasca Intervensi']);</script>
+</body>
+</html>

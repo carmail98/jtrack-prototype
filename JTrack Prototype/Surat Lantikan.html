@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Jana Surat Lantikan Pasukan (Appendix A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Tinos:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .surat-page { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 720px; min-height: 1018px; padding: 56px 64px; font-family: 'Tinos', 'Times New Roman', serif; font-size: 11.5pt; line-height: 1.55; color: #1a1a1a; }
+  .surat-page h2 { font-family: inherit; font-weight: 700; }
+  .surat-para { margin-bottom: 14px; text-align: justify; }
+  .surat-para .num { display: inline-block; min-width: 24px; font-weight: 700; }
+  .placeholder { background: #fef3c7; padding: 0 3px; border-radius: 2px; border-bottom: 1px dashed #d97706; cursor: pointer; }
+  .placeholder:hover { background: #fde68a; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar bg-slate-100">
+      <section class="px-6 pt-6 pb-3 bg-white border-b border-border">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Fasa 1 · Perancangan Intervensi</span>
+              <span class="text-[10.5px] text-muted-foreground">·</span>
+              <span class="mono text-[10.5px] text-muted-foreground">Appendix A — Garis Panduan JKR</span>
+            </div>
+            <h1 class="text-[22px] font-bold tracking-tight">Surat Lantikan Pasukan Intervensi</h1>
+            <p class="mt-1 text-[12.5px] text-muted-foreground">Format rasmi kerajaan · auto-fill dari maklumat projek &amp; pasukan</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Edit Pengganti Field</button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Eksport PDF</button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Eksport DOCX</button>
+            <button class="h-9 px-3.5 rounded-md bg-navy text-white text-[12px] font-semibold inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Hantar via Emel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-[1fr_320px] gap-0">
+        <!-- LEFT: Letter preview -->
+        <div class="p-6 flex justify-center">
+          <div class="surat-page">
+            <!-- Kepala surat -->
+            <div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #000;padding-bottom:10px;">
+              <div style="width:54px;height:54px;background:#13253E;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border-radius:6px;letter-spacing:1px;">JKR</div>
+              <div style="font-family:'Inter',sans-serif;font-size:9.5pt;line-height:1.3;">
+                <div style="font-weight:700;font-size:10.5pt;">JABATAN KERJA RAYA MALAYSIA</div>
+                <div>Cawangan Pasukan Anggerik Bandar (CPAB), Ibu Pejabat JKR Malaysia</div>
+                <div>Tingkat 28, Menara PJD, No. 50, Jalan Tun Razak, 50400 Kuala Lumpur</div>
+                <div>Telefon: 03-2618 8888 · Faksimili: 03-2618 8800 · Laman Web: www.jkr.gov.my</div>
+              </div>
+            </div>
+
+            <!-- Reference & Date -->
+            <div style="display:flex;justify-content:space-between;font-size:11pt;margin:18px 0 10px;">
+              <div>Ruj. Kami: <span class="placeholder mono" title="Klik untuk edit">JKR.CPAB.500-3/2/PSG-N9-0042 (07)</span></div>
+              <div>Tarikh: <span class="placeholder mono" title="Klik untuk edit">28 April 2026</span></div>
+            </div>
+
+            <!-- Penerima -->
+            <div style="margin-bottom:14px;">
+              <div><span class="placeholder">En. Hafiz bin Ismail</span></div>
+              <div><span class="placeholder">Jurutera Kanan (J52) · CPAB Negeri Sembilan</span></div>
+              <div><span class="placeholder">Jabatan Kerja Raya Negeri Sembilan</span></div>
+              <div><span class="placeholder">Wisma Negeri, Jalan Yam Tuan</span></div>
+              <div><span class="placeholder">70990 Seremban, Negeri Sembilan</span></div>
+            </div>
+
+            <div style="margin-bottom:14px;">Tuan,</div>
+
+            <h2 style="text-decoration:underline;text-transform:uppercase;text-align:center;margin-bottom:18px;font-size:11.5pt;">
+              SURAT LANTIKAN SEBAGAI KETUA PASUKAN INTERVENSI <br/>
+              <span class="placeholder">PROJEK CADANGAN MEMBINA SEKOLAH MENENGAH KEBANGSAAN KUALA PILAH (2 TINGKAT), NEGERI SEMBILAN</span>
+            </h2>
+
+            <p class="surat-para">Dengan hormatnya saya merujuk kepada perkara di atas.</p>
+
+            <p class="surat-para">
+              <span class="num">2.</span>
+              Sukacita dimaklumkan bahawa tuan dilantik sebagai <strong>Ketua Pasukan Intervensi</strong> bagi projek tersebut di atas berkuat kuasa <span class="placeholder">28 April 2026</span> sehingga tarikh laporan intervensi dimuktamadkan, selaras dengan <em>Garis Panduan Pelaksanaan Intervensi JKR Versi 1.0 (15 Jun 2021)</em>.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">3.</span>
+              Ahli Pasukan Intervensi yang turut dilantik bersama tuan adalah seperti berikut:
+            </p>
+            <table style="width:100%;border-collapse:collapse;margin:0 0 14px 24px;font-size:10.5pt;">
+              <thead>
+                <tr style="background:#f5f5f5;">
+                  <th style="border:1px solid #999;padding:5px 8px;text-align:left;font-weight:700;">Bil.</th>
+                  <th style="border:1px solid #999;padding:5px 8px;text-align:left;font-weight:700;">Nama / Gred</th>
+                  <th style="border:1px solid #999;padding:5px 8px;text-align:left;font-weight:700;">Jawatan dalam Pasukan</th>
+                  <th style="border:1px solid #999;padding:5px 8px;text-align:left;font-weight:700;">Disiplin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border:1px solid #999;padding:5px 8px;">i.</td>
+                  <td style="border:1px solid #999;padding:5px 8px;"><span class="placeholder">Ar. Faridah Nasir (J48)</span></td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Ahli</td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Arkitek</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #999;padding:5px 8px;">ii.</td>
+                  <td style="border:1px solid #999;padding:5px 8px;"><span class="placeholder">Ir. Saiful Kamal Razak (J48)</span></td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Ahli</td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Mekanikal &amp; Elektrik</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #999;padding:5px 8px;">iii.</td>
+                  <td style="border:1px solid #999;padding:5px 8px;"><span class="placeholder">En. Zairi bin Hassan (J44)</span></td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Ahli</td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Ukur Bahan</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #999;padding:5px 8px;">iv.</td>
+                  <td style="border:1px solid #999;padding:5px 8px;"><span class="placeholder">Pn. Norhayati bt Ahmad (J41)</span></td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Urusetia</td>
+                  <td style="border:1px solid #999;padding:5px 8px;">Pentadbiran CPAB</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="surat-para">
+              <span class="num">4.</span>
+              Tugas-tugas Pasukan Intervensi adalah seperti yang dinyatakan dalam Bab 2.2 dan Bab 4 Garis Panduan tersebut, termasuk lawatan tapak, taklimat kepada Pasukan Projek, pengesahan kemajuan fizikal sebenar, serta pembentangan penemuan dan pengesyoran.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">5.</span>
+              Sesi Pelaksanaan Intervensi dijadualkan pada <span class="placeholder">5 Mei 2026 (Selasa), 09:00 pagi</span> di tapak projek. Lawatan tapak akan diadakan pada <span class="placeholder">2 Mei 2026 (Sabtu)</span> sebagai persediaan.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">6.</span>
+              Borang Penilaian (Appendix C) hendaklah diisi sepanjang Fasa Pelaksanaan dan Laporan Penilaian Intervensi (Appendix D) dimuktamadkan dalam tempoh <strong>14 hari</strong> selepas sesi tersebut. Salinan laporan WAJIB diedarkan kepada CPAB Ibu Pejabat sebagai rekod rasmi.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">7.</span>
+              Sebarang pertanyaan berhubung pelantikan ini boleh dimajukan kepada Urusetia Intervensi melalui sistem J-TRACK atau emel <span class="placeholder">cpab.intervensi@jkr.gov.my</span>.
+            </p>
+
+            <p class="surat-para">Sekian, terima kasih.</p>
+
+            <div style="text-align:center;margin:18px 0 36px;font-weight:700;">"BERKHIDMAT UNTUK NEGARA"</div>
+
+            <div style="margin-top:36px;">
+              <div>Saya yang menjalankan amanah,</div>
+              <div style="margin-top:48px;">
+                <div style="border-top:1px solid #000;padding-top:4px;display:inline-block;min-width:280px;">
+                  <strong><span class="placeholder">(IR. MUKHZANI BIN ABD LATIF)</span></strong>
+                </div>
+                <div style="font-style:italic;"><span class="placeholder">Pengarah, Cawangan Pasukan Anggerik Bandar (CPAB)</span></div>
+                <div><span class="placeholder">Ibu Pejabat JKR Malaysia</span></div>
+              </div>
+            </div>
+
+            <div style="margin-top:24px;font-size:10pt;">
+              <div>s.k.:</div>
+              <div style="margin-left:20px;">
+                <div>1. Pengarah JKR Negeri Sembilan</div>
+                <div>2. Pengarah Cawangan Bangunan, Ibu Pejabat JKR</div>
+                <div>3. Pegawai Penguasa Projek (HOPT)</div>
+                <div>4. Fail rujukan</div>
+              </div>
+            </div>
+
+            <div style="margin-top:36px;padding-top:8px;border-top:1px solid #999;font-size:8pt;color:#555;display:flex;justify-content:space-between;">
+              <span>JKR Malaysia bersijil:</span>
+              <span>ISO 9001:2015 · ISO 14001:2015 · ISO 45001:2018 · ISO 50001:2018</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Field editor sidebar -->
+        <aside class="p-4 bg-white border-l border-border space-y-3 sticky top-0 self-start max-h-screen overflow-y-auto">
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Templat Aktif</div>
+            <select class="w-full h-9 px-2.5 rounded-md border border-border bg-white text-[12.5px] field-focus">
+              <option>Appendix A — Surat Lantikan Pasukan Intervensi</option>
+              <option>Appendix B — Surat Makluman Program</option>
+              <option>Appendix E — Surat Edaran Laporan</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Field Pengganti</div>
+            <div class="space-y-2 text-[12px]">
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Nama Projek</div>
+                <input value="SMK Kuala Pilah (2 Tingkat)" class="w-full h-7 px-2 rounded border border-input text-[12px] field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Ruj. Kami</div>
+                <input value="JKR.CPAB.500-3/2/PSG-N9-0042" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Tarikh Surat</div>
+                <input type="date" value="2026-04-28" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Tarikh Sesi Intervensi</div>
+                <input type="date" value="2026-05-05" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Pengeluar Surat</div>
+                <select class="w-full h-7 px-2 rounded border border-input text-[12px] bg-white field-focus">
+                  <option>Pengarah CPAB</option>
+                  <option>Pengarah CPAB Negeri</option>
+                  <option>Pengarah PO Cawangan</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Senarai Edaran (s.k.)</div>
+            <div class="space-y-1.5 text-[11.5px]">
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Pengarah JKR Negeri</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Pengarah Cawangan Bangunan</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>HOPT (Pegawai Penguasa)</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx">Pengarah CPAB Ibu Pejabat</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx">Setiausaha JTICT</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Fail rujukan</label>
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-orange-50 border border-orange-100 rounded-md text-[11px] text-orange-700">
+            <strong>Tip:</strong> Klik mana-mana field <span class="placeholder">berlatar kuning</span> dalam preview untuk edit terus.
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="_actions.js"></script>
+<script src="_chrome.js"></script>
+<script>JTRACK.mountChrome('surat', ['Surat Rasmi', 'Appendix A — Surat Lantikan']);</script>
+</body>
+</html>
