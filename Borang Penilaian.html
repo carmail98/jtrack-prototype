@@ -103,7 +103,7 @@
         <div class="space-y-3">
 
           <!-- =========== KATEGORI A: KONTRAKTOR =========== -->
-          <details open class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-A">
+          <details class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-A">
             <summary class="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/50">
               <svg class="bp-chev w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
               <div class="flex-1">
@@ -421,6 +421,139 @@
 </script>
 <script>
 // ===========================================================================
+// Inject polished CSS — SaaS-grade form treatment + smart accordion
+// ===========================================================================
+(() => {
+  const css = document.createElement('style');
+  css.id = 'bp-smart-accordion';
+  css.textContent = `
+    /* ============== POLISHED FORM FIELDS ============== */
+    /* Textarea — SaaS-grade focus + better borders */
+    .bp-row textarea {
+      border: 1px solid #E2E8F0 !important;
+      border-radius: 8px !important;
+      padding: 10px 12px !important;
+      font-size: 12.5px !important;
+      line-height: 1.5 !important;
+      transition: all 0.15s ease;
+      background: #FAFBFC;
+    }
+    .bp-row textarea:hover { border-color: #CBD5E1 !important; background: white; }
+    .bp-row textarea:focus {
+      outline: none !important;
+      border-color: #1E3A5F !important;
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.10) !important;
+      background: white;
+    }
+    /* Field labels — better letter-spacing + neutral color */
+    .bp-row .text-\\[10px\\].uppercase {
+      letter-spacing: 0.08em !important;
+      color: #6B7280 !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      margin-bottom: 6px !important;
+    }
+    /* Date input — polished */
+    .bp-row input[type=date] {
+      border: 1px solid #E2E8F0 !important;
+      border-radius: 6px !important;
+      padding: 4px 10px !important;
+      font-size: 11.5px !important;
+      background: white;
+      transition: all 0.15s ease;
+      color: #334155;
+    }
+    .bp-row input[type=date]:focus {
+      outline: none;
+      border-color: #1E3A5F !important;
+      box-shadow: 0 0 0 2px rgba(30, 58, 95, 0.12);
+    }
+
+    /* ============== ROW HIERARCHY — left accent on active YA rows ============== */
+    .bp-row.bp-active {
+      box-shadow: inset 3px 0 0 0 #D4A017;
+      background: rgba(212, 160, 23, 0.025);
+    }
+    .bp-row.bp-active:hover { background: rgba(212, 160, 23, 0.05); }
+    .bp-row:not(.bp-active) {
+      opacity: 0.7;
+      background: #FAFBFC;
+    }
+    .bp-row:not(.bp-active):hover { opacity: 0.95; background: white; }
+
+    /* ============== ISSUE CODE — neutral badge instead of red ============== */
+    .bp-row .mono.font-bold {
+      display: inline-block !important;
+      padding: 2px 8px !important;
+      border-radius: 6px !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.02em;
+      background: #F1F5F9 !important;
+      color: #475569 !important;
+      border: 1px solid #E2E8F0;
+    }
+    .bp-row.bp-active .mono.font-bold {
+      background: #FEF3C7 !important; /* amber-50 */
+      color: #B45309 !important;       /* amber-700 */
+      border-color: #FDE68A;
+    }
+
+    /* ============== S/M/K — clearer active state + tooltip-friendly ============== */
+    .bp-impak label {
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+    .bp-impak input:checked + label {
+      box-shadow: 0 0 0 1.5px currentColor inset;
+    }
+
+    /* Hide detail in NON-active rows */
+    /* Hide detail in NON-active rows (TIDAK selected — no form needed) */
+    .bp-row:not(.bp-active) .flex-1 > div:not(:first-child),
+    .bp-row.bp-active.bp-row-collapsed .flex-1 > div:not(:first-child) {
+      display: none !important;
+    }
+    .bp-row.bp-active:not(.bp-row-collapsed) .flex-1 > div:not(:first-child) {
+      animation: bpFade 0.18s ease-out;
+    }
+    /* Force 2-col grid (only when row visible) — bypass Tailwind CDN miss */
+    .bp-row.bp-active:not(.bp-row-collapsed) .grid.grid-cols-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+    @keyframes bpFade {
+      from { opacity: 0; transform: translateY(-2px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Make rows clickable + clearer hover */
+    .bp-row.bp-active { cursor: pointer; transition: background 0.12s ease; }
+    .bp-row.bp-active:hover { background: rgba(30, 58, 95, 0.025); }
+    .bp-row.bp-active.bp-row-open { background: rgba(30, 58, 95, 0.04); }
+    /* Chevron */
+    .bp-row-chev {
+      transition: transform 0.18s ease;
+      flex-shrink: 0;
+      color: #94A3B8;
+    }
+    .bp-row.bp-active:not(.bp-row-collapsed) .bp-row-chev { transform: rotate(180deg); color: #1E3A5F; }
+    /* Status pill on collapsed row */
+    .bp-row-status {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 999px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .bp-row-status.aktif { background: #FEF2F2; color: #B91C1C; }
+    .bp-row-status.belum { background: #F1F5F9; color: #64748B; }
+    /* Slightly more breathing room */
+    .bp-row { padding-top: 14px !important; padding-bottom: 14px !important; }
+  `;
+  document.head.appendChild(css);
+})();
+
+// ===========================================================================
 // Wire Borang Penilaian (Appendix C) — Fasa 2 interactivity
 // ===========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -522,6 +655,294 @@ document.addEventListener('DOMContentLoaded', () => {
         'Indeks pencarian Garis Panduan Appendix C akan disambungkan dalam Fasa 4.');
     });
   }
+
+  // ===========================================================================
+  // POLISH: add tooltips to S/M/K + better textarea placeholders
+  // ===========================================================================
+  // We'll re-apply this after rebuild
+  function applyPolish() {
+    document.querySelectorAll('.bp-impak label').forEach(lbl => {
+      if (lbl.dataset.jtTipped) return;
+      lbl.dataset.jtTipped = '1';
+      const t = (lbl.textContent || '').trim();
+      lbl.title = t === 'S' ? 'Impak Skop'
+                 : t === 'M' ? 'Impak Masa'
+                 : t === 'K' ? 'Impak Kos' : '';
+    });
+    document.querySelectorAll('.bp-row textarea').forEach(ta => {
+      if (ta.placeholder && ta.placeholder.length > 5) return;
+      const lbl = ta.previousElementSibling?.textContent?.trim().toLowerCase() || '';
+      if (lbl.includes('huraian')) {
+        ta.placeholder = 'Nyatakan isu spesifik yang diperhatikan semasa lawatan tapak…';
+      } else if (lbl.includes('cadangan')) {
+        ta.placeholder = 'Cadangkan tindakan penyelesaian dan pihak bertanggungjawab…';
+      }
+    });
+  }
+
+  // ===========================================================================
+  // FIX BUNDLE — addresses 7 UX issues from feedback
+  // ===========================================================================
+
+  // Helper: build a fresh .bp-row HTML string from minimal data
+  function buildBpRow({ code, color, title, impactStr, ya }) {
+    const safeId = code.replace(/\./g, '');
+    const isYa = !!ya;
+    const impactSet = (impactStr || '').toUpperCase();
+    const sChecked = /SKOP/.test(impactSet) ? 'checked' : '';
+    const mChecked = /MASA/.test(impactSet) ? 'checked' : '';
+    const kChecked = /KOS/.test(impactSet) ? 'checked' : '';
+    return `
+      <div class="bp-row ${isYa ? 'bp-active' : ''} px-5 py-3 border-t border-border">
+        <div class="flex items-start gap-3">
+          <div class="flex flex-col items-center gap-1.5 pt-0.5">
+            <span class="mono text-[10.5px] font-bold ${color}">${code}</span>
+            <div class="bp-yt">
+              <input type="radio" name="yt-${safeId}" value="ya" id="yt-${safeId}-y" ${isYa ? 'checked' : ''}><label for="yt-${safeId}-y">YA</label>
+              <input type="radio" name="yt-${safeId}" value="tidak" id="yt-${safeId}-t" ${!isYa ? 'checked' : ''}><label for="yt-${safeId}-t">TIDAK</label>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div class="text-[13px] font-semibold leading-snug">${title}</div>
+              <div class="bp-impak flex gap-1 flex-shrink-0">
+                <input type="checkbox" id="im-${safeId}-s" ${sChecked}><label for="im-${safeId}-s">S</label>
+                <input type="checkbox" id="im-${safeId}-m" ${mChecked}><label for="im-${safeId}-m">M</label>
+                <input type="checkbox" id="im-${safeId}-k" ${kChecked}><label for="im-${safeId}-k">K</label>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-2.5">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Huraian masalah di tapak</div>
+                <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none" placeholder="Huraikan masalah di tapak…"></textarea>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Cadangan oleh Pasukan Penilai</div>
+                <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none" placeholder="Cadangkan tindakan penyelesaian…"></textarea>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 mt-2 text-[11px] flex-wrap">
+              <label class="flex items-center gap-1.5">
+                <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+                <input type="date" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+              </label>
+              <span class="text-muted-foreground">·</span>
+              <span class="text-[10.5px] mono text-muted-foreground">Direkod oleh: Ts. Marlinah Mohamad · ${new Date().toLocaleDateString('en-GB')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===========================================================================
+  // FIX 2 (proper): Normalize ALL existing .bp-row to unified template
+  // (This fixes A.1.2 et al. that don't have S/M/K + detail structure)
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    // Extract data from existing row
+    const codeEl = row.querySelector('.mono.font-bold');
+    const code = codeEl ? codeEl.textContent.trim() : null;
+    if (!code) return;
+    const colorClass = codeEl.className.match(/text-\S+/)?.[0] || 'text-slate-500';
+    // YA/TIDAK
+    const yaInput = row.querySelector('input[type=radio][value=ya]');
+    const tidakInput = row.querySelector('input[type=radio][value=tidak]');
+    const isYa = yaInput && yaInput.checked;
+    // Title — try several selectors
+    const titleEl = row.querySelector('.text-\\[13px\\].font-semibold') ||
+                    row.querySelector('.text-\\[12\\.5px\\].text-muted-foreground') ||
+                    row.querySelector('[class*="text-["]:not(.mono)');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+    // S/M/K state (from existing checkboxes if any)
+    const impakWrap = row.querySelector('.bp-impak');
+    let impactStr = '';
+    if (impakWrap) {
+      const checkedLabels = Array.from(impakWrap.querySelectorAll('input:checked')).map(i => {
+        const l = impakWrap.querySelector(`label[for="${i.id}"]`);
+        return l ? l.textContent.trim() : '';
+      });
+      impactStr = checkedLabels.join(' ').replace(/S/g, 'SKOP').replace(/M/g, 'MASA').replace(/K/g, 'KOS');
+    }
+    // Skip rebuild if already has full structure (active row with detail)
+    if (row.querySelector('.grid.grid-cols-2') && impakWrap) return;
+    // Rebuild
+    row.outerHTML = buildBpRow({ code, color: colorClass, title, impactStr, ya: isYa });
+  });
+
+  // ===========================================================================
+  // FIX 5: Convert B & C flat items to full .bp-row format
+  // ===========================================================================
+  const sectionData = {
+    'bp-cat-B': { color: 'text-warning-700', items: [
+      { code: 'B.4.1', title: 'Pengambilan balik sebahagian tapak (1.2 ha) untuk laluan utiliti TNB', impact: 'MASA · SKOP', ya: true },
+      { code: 'B.2.2', title: 'Peruntukan tahun 2025 lewat diterima (3 bulan)', impact: 'KOS · MASA', ya: true },
+      { code: 'B.3.1', title: 'Permohonan perubahan reka bentuk (penambahan 2 bilik makmal) belum diluluskan oleh KPM', impact: 'SKOP · MASA', ya: true },
+    ]},
+    'bp-cat-C': { color: 'text-navy-800', items: [
+      { code: 'C.1.1', title: 'Pasukan Projek lewat perakukan IPC-13 (32 hari kelewatan)', impact: 'KOS · MASA', ya: true },
+      { code: 'C.1.2', title: 'Perakuan IPC-14 di peringkat pejabat pemproses (lebih 21 hari)', impact: 'KOS', ya: true },
+    ]},
+  };
+  Object.entries(sectionData).forEach(([catClass, data]) => {
+    const details = document.querySelector(`.${catClass}`);
+    if (!details) return;
+    const innerContainer = details.querySelector('div.p-5, div.border-t');
+    if (!innerContainer) return;
+    innerContainer.outerHTML = `<div class="border-t border-border">${
+      data.items.map(it => buildBpRow({
+        code: it.code, color: data.color, title: it.title, impactStr: it.impact, ya: it.ya,
+      })).join('')
+    }</div>`;
+  });
+
+  // ===========================================================================
+  // FIX 1: Sync bp-active class with YA/TIDAK radio state
+  // YA selected → bp-active + form visible (default expanded)
+  // TIDAK selected → no bp-active + form hidden via CSS
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    const ya = row.querySelector('input[type=radio][value=ya]');
+    const tidak = row.querySelector('input[type=radio][value=tidak]');
+    if (!ya || !tidak) return;
+    const sync = () => {
+      if (ya.checked) {
+        row.classList.add('bp-active');
+        row.classList.remove('bp-row-collapsed'); // expand on YA
+      } else {
+        row.classList.remove('bp-active');
+        row.classList.remove('bp-row-collapsed');
+      }
+    };
+    ya.addEventListener('change', sync);
+    tidak.addEventListener('change', sync);
+    sync();
+  });
+
+  // ===========================================================================
+  // FIX 2: Auto-inject S/M/K to rows missing it
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    if (row.querySelector('.bp-impak')) return; // already has it
+    const flexBody = row.querySelector('.flex-1');
+    if (!flexBody) return;
+    const code = row.querySelector('.mono')?.textContent.trim().replace(/\./g, '') || 'X';
+    // Find the first child that has the title text
+    let titleEl = flexBody.querySelector('.text-\\[12\\.5px\\]') ||
+                  flexBody.querySelector('.text-\\[13px\\]') ||
+                  flexBody.firstElementChild;
+    // Wrap title in flex with S/M/K on the right
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex items-start justify-between gap-3';
+    wrapper.innerHTML = `
+      <div class="text-[13px] font-semibold leading-snug">${titleEl.textContent.trim()}</div>
+      <div class="bp-impak flex gap-1 flex-shrink-0">
+        <input type="checkbox" id="im-${code}-s"><label for="im-${code}-s">S</label>
+        <input type="checkbox" id="im-${code}-m"><label for="im-${code}-m">M</label>
+        <input type="checkbox" id="im-${code}-k"><label for="im-${code}-k">K</label>
+      </div>
+    `;
+    titleEl.replaceWith(wrapper);
+  });
+
+  // ===========================================================================
+  // FIX 3 & 4: Auto-inject Tarikh & Direkod oleh metadata to bp-active rows
+  // ===========================================================================
+  document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+    const flexBody = row.querySelector('.flex-1');
+    if (!flexBody) return;
+    // Has tarikh field already?
+    if (flexBody.querySelector('input[type=date]')) return;
+    const grid = flexBody.querySelector('.grid.grid-cols-2');
+    if (!grid) return;
+    const meta = document.createElement('div');
+    meta.className = 'flex items-center gap-3 mt-2 text-[11px] flex-wrap';
+    meta.innerHTML = `
+      <label class="flex items-center gap-1.5">
+        <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+        <input type="date" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+      </label>
+      <span class="text-muted-foreground">·</span>
+      <span class="text-[10.5px] mono text-muted-foreground">Direkod oleh: Ts. Marlinah Mohamad · ${new Date().toLocaleDateString('en-GB')}</span>
+    `;
+    grid.after(meta);
+  });
+
+  // ===========================================================================
+  // Smart accordion — add chevron to each active row, click to toggle detail
+  // (Re-run after dynamic content injection above)
+  // ===========================================================================
+  function rewireRowAccordion() {
+    document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+      if (row.dataset.jtAccBound) return;
+      const titleRow = row.querySelector('.flex-1.min-w-0 > .flex.items-start.justify-between, .flex-1 > .flex.items-start.justify-between');
+      if (!titleRow || titleRow.querySelector('.bp-row-chev')) return;
+      const chev = document.createElement('span');
+      chev.className = 'bp-row-chev';
+      chev.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+      titleRow.appendChild(chev);
+      row.dataset.jtAccBound = '1';
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('input, textarea, label, select, button')) return;
+        // Click row → toggle bp-row-collapsed (active rows only)
+        if (row.classList.contains('bp-active')) {
+          row.classList.toggle('bp-row-collapsed');
+        }
+      });
+    });
+    document.querySelectorAll('.bp-row:not(.bp-active)').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.title = 'Tandakan YA untuk mengaktifkan isu ini';
+    });
+  }
+  rewireRowAccordion();
+  applyPolish();
+  // Re-wire on YA/TIDAK toggle (when row gains bp-active mid-session)
+  document.querySelectorAll('input[type=radio][value=ya]').forEach(r => {
+    r.addEventListener('change', () => setTimeout(() => {
+      rewireRowAccordion();
+      applyPolish();
+    }, 50));
+  });
+
+  // ===========================================================================
+  // FIX 7: Validate submit — document-level CAPTURE handler beats all bubbles
+  // ===========================================================================
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const txt = (btn.textContent || '').trim();
+    // Match "Hantar untuk Semakan" but NOT "Simpan Draf" etc.
+    if (!/Hantar\s+untuk\s+Semakan/i.test(txt)) return;
+    if (btn.dataset.jtSubmitChecked === '1') {
+      // Already validated this click cycle — let it through
+      btn.dataset.jtSubmitChecked = '';
+      return;
+    }
+    // Compute completeness
+    const activeRows = document.querySelectorAll('.bp-row.bp-active');
+    let complete = 0, total = activeRows.length;
+    activeRows.forEach(row => {
+      const tas = row.querySelectorAll('textarea');
+      if (tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim()) complete++;
+    });
+    if (complete >= total) return; // borang lengkap — let through
+    // Block & confirm
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const proceed = confirm(
+      `⚠️ Borang masih belum lengkap.\n\n` +
+      `Selesai: ${complete} / ${total} isu aktif\n` +
+      `Belum lengkap: ${total - complete} isu\n\n` +
+      `Anda pasti mahu hantar untuk semakan?\n` +
+      `(Pengesah berhak menolak laporan yang tidak lengkap.)`
+    );
+    if (proceed) {
+      // Mark and re-trigger so other handlers fire
+      btn.dataset.jtSubmitChecked = '1';
+      btn.click();
+    }
+  }, true); // CAPTURE phase — runs before all bubble handlers
 });
 </script>
 </body>
