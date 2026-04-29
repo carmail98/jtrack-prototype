@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Borang Penilaian (Appendix C)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .bp-cat-A { border-left: 3px solid #dc2626; }
+  .bp-cat-B { border-left: 3px solid #f59e0b; }
+  .bp-cat-C { border-left: 3px solid #1e3a5f; }
+  details summary { list-style: none; cursor: pointer; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .bp-chev { transform: rotate(90deg); }
+  .bp-chev { transition: transform 0.18s; }
+  .bp-row:hover { background: #fafbfc; }
+  .bp-impak input[type="checkbox"] { display: none; }
+  .bp-impak label { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 24px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10.5px; font-weight: 700; color: #64748b; cursor: pointer; background: #fff; }
+  .bp-impak input[type="checkbox"]:checked + label { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+  .bp-yt input[type="radio"] { display: none; }
+  .bp-yt label { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 22px; border: 1px solid #cbd5e1; font-size: 10.5px; font-weight: 700; cursor: pointer; background: #fff; color: #64748b; }
+  .bp-yt label:first-of-type { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+  .bp-yt label:last-of-type { border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-left: 0; }
+  .bp-yt input[value="ya"]:checked + label { background: #16a34a; color: #fff; border-color: #16a34a; }
+  .bp-yt input[value="tidak"]:checked + label { background: #94a3b8; color: #fff; border-color: #94a3b8; }
+  .bp-row.bp-active { background: #fffbeb; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar">
+      <!-- ========== HEADER ========== -->
+      <section class="px-6 pt-6 pb-4">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Fasa 2 · Pelaksanaan Intervensi</span>
+              <span class="text-[10.5px] text-muted-foreground">·</span>
+              <span class="mono text-[10.5px] text-muted-foreground">Appendix C — Garis Panduan JKR</span>
+            </div>
+            <h1 class="text-[24px] font-bold tracking-tight leading-tight">Borang Penilaian Isu Kelewatan</h1>
+            <p class="mt-1 text-[13px] text-muted-foreground">SMK Kuala Pilah · <span class="mono font-semibold text-navy">PRJ-N9-2024-0042</span> · Diisi oleh Pasukan Intervensi semasa lawatan tapak</p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md bg-warning-50 border border-warning-100 text-[11px] font-semibold text-warning-700">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Draf · Auto-simpan 09:42
+            </span>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+              Simpan Draf
+            </button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted inline-flex items-center gap-1.5">
+              Eksport
+            </button>
+            <button class="h-9 px-3.5 rounded-md bg-navy hover:bg-navy-700 text-white text-[12px] font-semibold inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Hantar untuk Semakan
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary stats -->
+        <div class="mt-4 grid grid-cols-5 gap-2 text-[11px]">
+          <div class="bg-white border border-border rounded-md px-3 py-2">
+            <div class="text-muted-foreground uppercase tracking-wider text-[9.5px] font-semibold">Jumlah Isu</div>
+            <div class="mono tabular text-[18px] font-bold mt-0.5">14</div>
+          </div>
+          <div class="bg-white border border-critical-100 rounded-md px-3 py-2">
+            <div class="text-critical-700 uppercase tracking-wider text-[9.5px] font-semibold">A · Kontraktor</div>
+            <div class="mono tabular text-[18px] font-bold mt-0.5 text-critical-700">9</div>
+          </div>
+          <div class="bg-white border border-warning-100 rounded-md px-3 py-2">
+            <div class="text-warning-700 uppercase tracking-wider text-[9.5px] font-semibold">B · Pelanggan</div>
+            <div class="mono tabular text-[18px] font-bold mt-0.5 text-warning-700">3</div>
+          </div>
+          <div class="bg-white border border-navy-100 rounded-md px-3 py-2">
+            <div class="text-navy-800 uppercase tracking-wider text-[9.5px] font-semibold">C · JKR</div>
+            <div class="mono tabular text-[18px] font-bold mt-0.5 text-navy-800">2</div>
+          </div>
+          <div class="bg-white border border-border rounded-md px-3 py-2">
+            <div class="text-muted-foreground uppercase tracking-wider text-[9.5px] font-semibold">Impak Tertinggi</div>
+            <div class="mono tabular text-[14px] font-bold mt-1.5 text-orange-600">MASA · KOS</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ISU LIST ========== -->
+      <section class="px-6 pb-6 grid grid-cols-[1fr_320px] gap-4">
+
+        <!-- LEFT: Isu accordion -->
+        <div class="space-y-3">
+
+          <!-- =========== KATEGORI A: KONTRAKTOR =========== -->
+          <details open class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-A">
+            <summary class="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/50">
+              <svg class="bp-chev w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-[16px] font-bold text-critical-700">A · KONTRAKTOR</span>
+                  <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-critical-50 text-critical-700 border border-critical-100 mono tabular">9 isu aktif</span>
+                </div>
+                <div class="text-[11.5px] text-muted-foreground mt-0.5">A.1 Pengurusan Dalaman · A.2 Teknikal · A.3 Aliran Kewangan · A.4 Pengurusan Tapak · A.5 Sub-kontraktor · A.6 Lukisan</div>
+              </div>
+              <button class="text-[11px] font-semibold text-navy hover:underline">+ Tambah isu</button>
+            </summary>
+
+            <!-- Sub-kategori A.1 -->
+            <div class="border-t border-border">
+              <div class="px-5 py-2 bg-slate-50/40 text-[10.5px] uppercase tracking-wider font-semibold text-slate-600">A.1 — Masalah Pengurusan Dalaman</div>
+
+              <!-- Row template: A.1.1 -->
+              <div class="bp-row bp-active px-5 py-3 border-t border-border">
+                <div class="flex items-start gap-3">
+                  <div class="flex flex-col items-center gap-1.5 pt-0.5">
+                    <span class="mono text-[10.5px] font-bold text-critical-700">A.1.1</span>
+                    <div class="bp-yt">
+                      <input type="radio" name="yt-A11" value="ya" id="yt-A11-y" checked><label for="yt-A11-y">YA</label>
+                      <input type="radio" name="yt-A11" value="tidak" id="yt-A11-t"><label for="yt-A11-t">TIDAK</label>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="text-[13px] font-semibold leading-snug">Kelewatan keputusan oleh Pengurusan Kontraktor</div>
+                      <div class="bp-impak flex gap-1 flex-shrink-0">
+                        <input type="checkbox" id="im-A11-s" checked><label for="im-A11-s">S</label>
+                        <input type="checkbox" id="im-A11-m" checked><label for="im-A11-m">M</label>
+                        <input type="checkbox" id="im-A11-k"><label for="im-A11-k">K</label>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-2.5">
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Huraian masalah di tapak</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none" placeholder="Cth: Lantikan PM baharu dilewatkan 6 minggu...">Lantikan Project Manager baharu dilewatkan 6 minggu selepas peletakan jawatan PM lama. Keputusan kritikal terhenti.</textarea>
+                      </div>
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Cadangan oleh Pasukan Penilai</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none">Surat amaran rasmi kepada Hq Kontraktor. Lantikan PM acting dalam tempoh 7 hari. Eskalasi ke Pengarah jika gagal.</textarea>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-3 mt-2 text-[11px]">
+                      <label class="flex items-center gap-1.5">
+                        <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+                        <input type="date" value="2026-05-15" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+                      </label>
+                      <span class="text-muted-foreground">·</span>
+                      <span class="text-[10.5px] mono text-muted-foreground">Direkod oleh: En. Hafiz Ismail · 28 Apr 2026, 09:18</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- A.1.2 -->
+              <div class="bp-row px-5 py-3 border-t border-border">
+                <div class="flex items-start gap-3">
+                  <div class="flex flex-col items-center gap-1.5 pt-0.5">
+                    <span class="mono text-[10.5px] font-bold text-slate-500">A.1.2</span>
+                    <div class="bp-yt">
+                      <input type="radio" name="yt-A12" value="ya" id="yt-A12-y"><label for="yt-A12-y">YA</label>
+                      <input type="radio" name="yt-A12" value="tidak" id="yt-A12-t" checked><label for="yt-A12-t">TIDAK</label>
+                    </div>
+                  </div>
+                  <div class="flex-1 text-[12.5px] text-muted-foreground py-1">Ketidakhadiran wakil kontraktor dalam mesyuarat tapak</div>
+                </div>
+              </div>
+
+              <!-- A.1.3 -->
+              <div class="bp-row bp-active px-5 py-3 border-t border-border">
+                <div class="flex items-start gap-3">
+                  <div class="flex flex-col items-center gap-1.5 pt-0.5">
+                    <span class="mono text-[10.5px] font-bold text-critical-700">A.1.3</span>
+                    <div class="bp-yt">
+                      <input type="radio" name="yt-A13" value="ya" id="yt-A13-y" checked><label for="yt-A13-y">YA</label>
+                      <input type="radio" name="yt-A13" value="tidak" id="yt-A13-t"><label for="yt-A13-t">TIDAK</label>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="text-[13px] font-semibold leading-snug">Dokumentasi tidak lengkap / lewat dikemaskini</div>
+                      <div class="bp-impak flex gap-1 flex-shrink-0">
+                        <input type="checkbox" id="im-A13-s"><label for="im-A13-s">S</label>
+                        <input type="checkbox" id="im-A13-m" checked><label for="im-A13-m">M</label>
+                        <input type="checkbox" id="im-A13-k"><label for="im-A13-k">K</label>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-2.5">
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Huraian masalah di tapak</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none">Buku Harian Tapak tidak dikemaskini sejak Februari 2026. NCR log juga ketinggalan 3 minggu.</textarea>
+                      </div>
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Cadangan oleh Pasukan Penilai</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none">Lantikan dokumentasi controller. Audit silang oleh WPP setiap 2 minggu.</textarea>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-3 mt-2 text-[11px]">
+                      <label class="flex items-center gap-1.5">
+                        <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+                        <input type="date" value="2026-05-22" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- collapsed rows A.1.4 - A.1.10 -->
+              <div class="bp-row px-5 py-2 border-t border-border text-[12px] text-muted-foreground">
+                <span class="mono text-[10.5px] font-bold mr-2">A.1.4–A.1.10</span> 7 isu lain dalam pengurusan dalaman — <button class="text-navy font-semibold hover:underline">tunjuk semua</button>
+              </div>
+            </div>
+
+            <!-- Sub-kategori A.4 (highlight) -->
+            <div class="border-t border-border">
+              <div class="px-5 py-2 bg-slate-50/40 text-[10.5px] uppercase tracking-wider font-semibold text-slate-600">A.4 — Pengurusan Tapak & Penyeliaan <span class="text-critical-700 font-bold ml-2">5 isu aktif</span></div>
+
+              <div class="bp-row bp-active px-5 py-3 border-t border-border">
+                <div class="flex items-start gap-3">
+                  <div class="flex flex-col items-center gap-1.5 pt-0.5">
+                    <span class="mono text-[10.5px] font-bold text-critical-700">A.4.7</span>
+                    <div class="bp-yt">
+                      <input type="radio" name="yt-A47" value="ya" id="yt-A47-y" checked><label for="yt-A47-y">YA</label>
+                      <input type="radio" name="yt-A47" value="tidak" id="yt-A47-t"><label for="yt-A47-t">TIDAK</label>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="text-[13px] font-semibold leading-snug">Tidak mematuhi SA KPKR Bil. 15/2014 (penghantaran Recovery Plan)</div>
+                      <div class="bp-impak flex gap-1 flex-shrink-0">
+                        <input type="checkbox" id="im-A47-s"><label for="im-A47-s">S</label>
+                        <input type="checkbox" id="im-A47-m" checked><label for="im-A47-m">M</label>
+                        <input type="checkbox" id="im-A47-k" checked><label for="im-A47-k">K</label>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-2.5">
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Huraian masalah di tapak</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none">Recovery Plan terkini gagal dihantar walaupun lewat &gt;60 hari. SA KPKR memerlukan Recovery Plan dalam 14 hari.</textarea>
+                      </div>
+                      <div>
+                        <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Cadangan oleh Pasukan Penilai</div>
+                        <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none">Surat tuntutan formal oleh WPP. Recovery Plan diserahkan dalam 7 hari atau LAD aktif.</textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bp-row px-5 py-2 border-t border-border text-[12px] text-muted-foreground">
+                <span class="mono text-[10.5px] font-bold mr-2">A.4.1–A.4.18</span> 17 isu lain dalam pengurusan tapak — <button class="text-navy font-semibold hover:underline">tunjuk semua</button>
+              </div>
+            </div>
+
+            <!-- Sub-kategori A.3 -->
+            <div class="border-t border-border">
+              <div class="px-5 py-2 bg-slate-50/40 text-[10.5px] uppercase tracking-wider font-semibold text-slate-600">A.3 — Aliran Kewangan <span class="text-warning-700 font-bold ml-2">2 isu aktif</span></div>
+              <div class="bp-row px-5 py-2 border-t border-border text-[12px] text-muted-foreground">
+                <span class="mono text-[10.5px] font-bold mr-2">A.3.1–A.3.4</span> Tiada bahan tapak; kontraktor lewat bayar; gaji tertangguh — <button class="text-navy font-semibold hover:underline">buka untuk lihat</button>
+              </div>
+            </div>
+
+            <div class="border-t border-border">
+              <div class="px-5 py-2 bg-slate-50/40 text-[10.5px] uppercase tracking-wider font-semibold text-slate-600">A.2 · A.5 · A.6 — Sub-kategori lain</div>
+              <div class="bp-row px-5 py-2 border-t border-border text-[12px] text-muted-foreground">
+                Teknikal (6 isu) · Sub-kontraktor (10 isu) · Lukisan Pembinaan (2 isu) — <button class="text-navy font-semibold hover:underline">tunjuk semua kategori A</button>
+              </div>
+            </div>
+          </details>
+
+          <!-- =========== KATEGORI B: PELANGGAN =========== -->
+          <details class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-B">
+            <summary class="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/50">
+              <svg class="bp-chev w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-[16px] font-bold text-warning-700">B · PELANGGAN</span>
+                  <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-warning-50 text-warning-700 border border-warning-100 mono tabular">3 isu aktif</span>
+                </div>
+                <div class="text-[11.5px] text-muted-foreground mt-0.5">B.1 Tambahan Skop · B.2 Peruntukan Lewat · B.3 Lewat Membuat Keputusan · B.4 Tanah</div>
+              </div>
+            </summary>
+            <div class="p-5 border-t border-border space-y-2 text-[12.5px]">
+              <div class="flex items-center justify-between p-2 rounded bg-warning-50/30 border border-warning-100">
+                <div><span class="mono text-[10.5px] font-bold text-warning-700 mr-2">B.4.1</span>Pengambilan balik sebahagian tapak (1.2 ha) untuk laluan utiliti TNB</div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-warning text-white uppercase">MASA · SKOP</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-warning-50/30 border border-warning-100">
+                <div><span class="mono text-[10.5px] font-bold text-warning-700 mr-2">B.2.2</span>Peruntukan tahun 2025 lewat diterima (3 bulan)</div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-warning text-white uppercase">KOS · MASA</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-warning-50/30 border border-warning-100">
+                <div><span class="mono text-[10.5px] font-bold text-warning-700 mr-2">B.3.1</span>Permohonan perubahan reka bentuk (penambahan 2 bilik makmal) belum diluluskan oleh KPM</div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-warning text-white uppercase">SKOP · MASA</span>
+              </div>
+            </div>
+          </details>
+
+          <!-- =========== KATEGORI C: JKR =========== -->
+          <details class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-C">
+            <summary class="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/50">
+              <svg class="bp-chev w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-[16px] font-bold text-navy-800">C · JABATAN KERJA RAYA (JKR)</span>
+                  <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-navy-50 text-navy-800 border border-navy-100 mono tabular">2 isu aktif</span>
+                </div>
+                <div class="text-[11.5px] text-muted-foreground mt-0.5">C.1 Bayaran Interim · C.2+ kategori dalaman JKR</div>
+              </div>
+            </summary>
+            <div class="p-5 border-t border-border space-y-2 text-[12.5px]">
+              <div class="flex items-center justify-between p-2 rounded bg-navy-50/30 border border-navy-100">
+                <div><span class="mono text-[10.5px] font-bold text-navy-800 mr-2">C.1.1</span>Pasukan Projek lewat perakukan IPC-13 (32 hari kelewatan)</div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-navy text-white uppercase">KOS · MASA</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-navy-50/30 border border-navy-100">
+                <div><span class="mono text-[10.5px] font-bold text-navy-800 mr-2">C.1.2</span>Perakuan IPC-14 di peringkat pejabat pemproses (lebih 21 hari)</div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-navy text-white uppercase">KOS</span>
+              </div>
+            </div>
+          </details>
+
+        </div>
+
+        <!-- RIGHT: Sidebar tools -->
+        <aside class="space-y-3 min-w-0">
+          <!-- Filter & search -->
+          <div class="bg-white border border-border rounded-[12px] p-4 sticky top-4">
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Carian Pantas</div>
+            <div class="relative mb-3">
+              <svg class="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input placeholder="Cari kod isu (cth: A.4.7)…" class="w-full h-8 pl-8 pr-3 rounded-md border border-input bg-white text-[12px] field-focus mono">
+            </div>
+
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Tapis Mengikut Impak</div>
+            <div class="flex gap-1.5 mb-3">
+              <button class="flex-1 h-7 rounded border border-orange text-[11px] font-bold bg-orange text-white">SKOP</button>
+              <button class="flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600">MASA</button>
+              <button class="flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600">KOS</button>
+            </div>
+
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Pasukan Penilai</div>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-center gap-2 text-[11.5px]">
+                <div class="avatar w-6 h-6 rounded-full bg-navy text-[9.5px]">HI</div>
+                <div class="min-w-0 flex-1">
+                  <div class="font-semibold truncate">En. Hafiz Ismail</div>
+                  <div class="text-[10px] text-muted-foreground">Ketua · J52</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-[11.5px]">
+                <div class="avatar w-6 h-6 rounded-full bg-orange text-[9.5px]">FN</div>
+                <div class="min-w-0 flex-1">
+                  <div class="font-semibold truncate">Ar. Faridah Nasir</div>
+                  <div class="text-[10px] text-muted-foreground">Ahli · J48</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-[11.5px]">
+                <div class="avatar w-6 h-6 rounded-full bg-purple-600 text-[9.5px]">SK</div>
+                <div class="min-w-0 flex-1">
+                  <div class="font-semibold truncate">Ir. Saiful Kamal</div>
+                  <div class="text-[10px] text-muted-foreground">Ahli · J48 · M&amp;E</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Sokongan Garis Panduan</div>
+            <a class="block p-2.5 rounded-md border border-border text-[11.5px] hover:bg-muted cursor-pointer">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-orange flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <div class="min-w-0">
+                  <div class="font-semibold truncate">Garis Panduan v1.0</div>
+                  <div class="text-[10px] text-muted-foreground">Appendix C · 60+ kod isu</div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Status workflow -->
+          <div class="bg-white border border-border rounded-[12px] p-4">
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2.5">Status Borang</div>
+            <ol class="space-y-1.5 text-[11.5px]">
+              <li class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-success text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span>Lawatan tapak selesai</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-warning text-white flex items-center justify-center text-[10px] font-bold">●</span>
+                <span class="font-semibold">Borang sedang diisi (14/20)</span>
+              </li>
+              <li class="flex items-center gap-2 text-muted-foreground">
+                <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-bold">3</span>
+                <span>Hantar untuk semakan Ketua Pasukan</span>
+              </li>
+              <li class="flex items-center gap-2 text-muted-foreground">
+                <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-bold">4</span>
+                <span>Bina draf Laporan Intervensi (Fasa 3)</span>
+              </li>
+            </ol>
+          </div>
+        </aside>
+
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="_actions.js"></script>
+<script src="_chrome.js"></script>
+<script>
+  JTRACK.mountChrome('borang', ['Intervensi', 'Fasa 2', 'Borang Penilaian Appendix C']);
+</script>
+<script>
+// ===========================================================================
+// Wire Borang Penilaian (Appendix C) — Fasa 2 interactivity
+// ===========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type='info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({title, type, desc});
+    console.log(`[Toast ${type}] ${title}`);
+  };
+
+  // 1) "+ Tambah isu" buttons — prompt + audit log
+  document.querySelectorAll('main button').forEach(btn => {
+    const txt = (btn.textContent || '').trim();
+    if (txt !== '+ Tambah isu') return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // don't toggle parent <details>
+      e.preventDefault();
+      const kod = prompt('Masukkan kod isu (cth: A.4.7):', 'A.4.');
+      if (!kod) return;
+      const huraian = prompt('Huraian masalah di tapak (1-2 ayat):');
+      if (!huraian) return;
+      t(`Isu ${kod} ditambah`, 'success', huraian.slice(0, 60));
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log('Tambah Isu', `Isu baharu ${kod}: ${huraian.slice(0, 80)}`);
+      }
+    });
+  });
+
+  // 2) SKOP / MASA / KOS impact filter pills
+  // The 3 pills sit in the right panel under "Tapis Mengikut Impak"
+  const impactBtns = Array.from(document.querySelectorAll('main button')).filter(b => {
+    const txt = (b.textContent || '').trim();
+    return /^(SKOP|MASA|KOS)$/.test(txt) && b.className.includes('flex-1');
+  });
+  let activeImpact = 'SKOP'; // matches default UI state
+  impactBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      const label = b.textContent.trim();
+      if (activeImpact === label) {
+        // toggle off
+        activeImpact = null;
+        impactBtns.forEach(x => {
+          x.className = 'flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600';
+        });
+        t('Tapis impak dibatalkan · papar semua', 'info');
+      } else {
+        activeImpact = label;
+        impactBtns.forEach(x => {
+          x.className = 'flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600';
+        });
+        const colorClass = label === 'SKOP' ? 'orange' : label === 'MASA' ? 'warning' : 'critical';
+        b.className = `flex-1 h-7 rounded border border-${colorClass} text-[11px] font-bold bg-${colorClass} text-white`;
+        t(`Tapis: Impak ${label}`, 'info', `Memaparkan isu yang melibatkan ${label.toLowerCase()} sahaja`);
+      }
+    });
+  });
+
+  // 3) "tunjuk semua" / "buka untuk lihat" / "tunjuk semua kategori A" — expand row links
+  document.querySelectorAll('main button').forEach(btn => {
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    if (!/(^tunjuk semua|buka untuk lihat|tunjuk semua kategori)/.test(txt)) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      // Find parent details, ensure it's expanded
+      const parentDetails = btn.closest('details');
+      if (parentDetails) parentDetails.open = true;
+      t('Memuatkan isu lengkap…', 'info', 'Senarai penuh diperolehi dari Garis Panduan Appendix C');
+      // Highlight the section briefly
+      const parentRow = btn.closest('.bp-row, [class*="px-5"]');
+      if (parentRow) {
+        parentRow.style.transition = 'background 0.3s ease';
+        parentRow.style.background = '#FFF7E6';
+        setTimeout(() => { parentRow.style.background = ''; }, 1500);
+      }
+    });
+  });
+
+  // 4) Section accordion summaries — already toggle natively via <details>
+  // Add audit log when user opens/closes a section
+  document.querySelectorAll('main details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      const summary = d.querySelector('summary');
+      if (!summary) return;
+      const titleEl = summary.querySelector('span.font-bold, span.text-\\[16px\\]');
+      const title = titleEl ? titleEl.textContent.trim() : 'Seksyen';
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log(d.open ? 'Buka Seksyen' : 'Tutup Seksyen',
+                            `${d.open ? 'Membuka' : 'Menutup'} seksyen: ${title}`);
+      }
+    });
+  });
+
+  // 5) Carian Pantas search input → toast on Enter
+  const carianInput = Array.from(document.querySelectorAll('main input'))
+    .find(i => /Cari kod isu/i.test(i.placeholder || ''));
+  if (carianInput) {
+    carianInput.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' || !carianInput.value.trim()) return;
+      t(`Carian: "${carianInput.value.trim()}"`, 'info',
+        'Indeks pencarian Garis Panduan Appendix C akan disambungkan dalam Fasa 4.');
+    });
+  }
+});
+</script>
+</body>
+</html>
