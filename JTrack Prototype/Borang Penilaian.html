@@ -624,6 +624,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===========================================================================
+  // FIX 2 (proper): Normalize ALL existing .bp-row to unified template
+  // (This fixes A.1.2 et al. that don't have S/M/K + detail structure)
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    // Extract data from existing row
+    const codeEl = row.querySelector('.mono.font-bold');
+    const code = codeEl ? codeEl.textContent.trim() : null;
+    if (!code) return;
+    const colorClass = codeEl.className.match(/text-\S+/)?.[0] || 'text-slate-500';
+    // YA/TIDAK
+    const yaInput = row.querySelector('input[type=radio][value=ya]');
+    const tidakInput = row.querySelector('input[type=radio][value=tidak]');
+    const isYa = yaInput && yaInput.checked;
+    // Title — try several selectors
+    const titleEl = row.querySelector('.text-\\[13px\\].font-semibold') ||
+                    row.querySelector('.text-\\[12\\.5px\\].text-muted-foreground') ||
+                    row.querySelector('[class*="text-["]:not(.mono)');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+    // S/M/K state (from existing checkboxes if any)
+    const impakWrap = row.querySelector('.bp-impak');
+    let impactStr = '';
+    if (impakWrap) {
+      const checkedLabels = Array.from(impakWrap.querySelectorAll('input:checked')).map(i => {
+        const l = impakWrap.querySelector(`label[for="${i.id}"]`);
+        return l ? l.textContent.trim() : '';
+      });
+      impactStr = checkedLabels.join(' ').replace(/S/g, 'SKOP').replace(/M/g, 'MASA').replace(/K/g, 'KOS');
+    }
+    // Skip rebuild if already has full structure (active row with detail)
+    if (row.querySelector('.grid.grid-cols-2') && impakWrap) return;
+    // Rebuild
+    row.outerHTML = buildBpRow({ code, color: colorClass, title, impactStr, ya: isYa });
+  });
+
+  // ===========================================================================
   // FIX 5: Convert B & C flat items to full .bp-row format
   // ===========================================================================
   const sectionData = {
