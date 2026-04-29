@@ -428,22 +428,18 @@
   css.id = 'bp-smart-accordion';
   css.textContent = `
     /* Hide detail in NON-active rows (TIDAK selected — no form needed) */
-    .bp-row:not(.bp-active) .flex-1.min-w-0 > div:not(:first-child) {
-      display: none;
+    .bp-row:not(.bp-active) .flex-1 > div:not(:first-child),
+    .bp-row.bp-active.bp-row-collapsed .flex-1 > div:not(:first-child) {
+      display: none !important;
     }
-    /* When active row manually collapsed, hide detail */
-    .bp-row.bp-active.bp-row-collapsed .flex-1.min-w-0 > div:not(:first-child) {
-      display: none;
-    }
-    .bp-row.bp-active:not(.bp-row-collapsed) .flex-1.min-w-0 > div:not(:first-child) {
-      display: block;
+    .bp-row.bp-active:not(.bp-row-collapsed) .flex-1 > div:not(:first-child) {
       animation: bpFade 0.18s ease-out;
     }
-    /* Force 2-col grid for huraian/cadangan even if Tailwind CDN misses dynamic class */
-    .bp-row .grid.grid-cols-2 {
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 0.75rem !important;
+    /* Force 2-col grid (only when row visible) — bypass Tailwind CDN miss */
+    .bp-row.bp-active:not(.bp-row-collapsed) .grid.grid-cols-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
     }
     @keyframes bpFade {
       from { opacity: 0; transform: translateY(-2px); }
