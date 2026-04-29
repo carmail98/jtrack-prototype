@@ -206,6 +206,107 @@
       </td>
     </tr>
   `).join('');
+
+  // ===========================================================================
+  // Wire interactivity AFTER rows generated
+  // ===========================================================================
+  (() => {
+    // Helper: emit toast (use _actions.js if available, else simple alert-style)
+    const t = (title, type = 'info') => {
+      if (window.JT && window.JT.toast) return window.JT.toast({ title, type });
+      console.log(`[Toast ${type}] ${title}`);
+    };
+
+    // 1) Click row → Detail Projek
+    document.querySelectorAll('#tbody tr').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('a, button, input')) return;
+        location.href = 'Detail Projek.html';
+      });
+    });
+
+    // 2) Three-dot menu per row → action menu (toast for now)
+    document.querySelectorAll('#tbody tr button').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        t('Menu tindakan: Lihat / Edit / Eksport / Padam', 'info');
+      });
+    });
+
+    // 3) Status filter pills (legend at top) → highlight + filter table
+    const statusOf = (row) => {
+      const badge = row.querySelector('td:nth-last-child(2) span');
+      return (badge ? badge.textContent : '').trim().toUpperCase();
+    };
+    // Find all spans in the FIRST <section> only (welcome strip), match by exact text
+    const firstSection = document.querySelector('main section');
+    const statusPills = firstSection
+      ? Array.from(firstSection.querySelectorAll('span')).filter(s => {
+          const t = (s.textContent || '').trim();
+          return /^(Aktif|Lewat|Kritikal|Siap|Meragukan)$/i.test(t)
+            && s.children.length <= 1; // skip wrappers, prefer leaf-ish pills
+        })
+      : [];
+    let activeFilter = null;
+    statusPills.forEach(pill => {
+      const label = (pill.textContent || '').trim();
+      pill.style.cursor = 'pointer';
+      pill.style.transition = 'all 0.15s ease';
+      pill.title = `Tapis: ${label}`;
+      pill.addEventListener('click', () => {
+        const target = label.toUpperCase();
+        if (activeFilter === target) {
+          activeFilter = null;
+          statusPills.forEach(p => p.style.boxShadow = '');
+          document.querySelectorAll('#tbody tr').forEach(r => r.style.display = '');
+          t(`Penapis ${label} dibatalkan · papar semua`, 'info');
+        } else {
+          activeFilter = target;
+          statusPills.forEach(p => p.style.boxShadow = '');
+          pill.style.boxShadow = '0 0 0 2px #1E3A5F';
+          let visibleCount = 0;
+          document.querySelectorAll('#tbody tr').forEach(r => {
+            const match = statusOf(r) === target;
+            r.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+          });
+          t(`Tapis: ${label} · ${visibleCount} projek`, 'success');
+        }
+      });
+    });
+
+    // 4) Pagination buttons → toast + visual update
+    const pagiBtns = document.querySelectorAll('.flex.items-center.gap-1 button');
+    pagiBtns.forEach(b => {
+      b.addEventListener('click', () => {
+        const txt = (b.textContent || '').trim();
+        if (/sebelum/i.test(txt)) {
+          t('Memuat halaman sebelum…', 'info');
+        } else if (/seterusnya/i.test(txt)) {
+          t('Memuat halaman seterusnya…', 'info');
+        } else if (/^\d+$/.test(txt)) {
+          // Number page — update active state
+          pagiBtns.forEach(x => {
+            if (/^\d+$/.test((x.textContent || '').trim())) {
+              x.className = 'h-7 w-7 rounded border border-border hover:bg-muted mono';
+            }
+          });
+          b.className = 'h-7 w-7 rounded bg-navy text-white font-semibold mono';
+          t(`Memuat halaman ${txt} / 21`, 'info');
+        }
+      });
+    });
+
+    // 5) Sortable column headers → toast (simulate)
+    document.querySelectorAll('thead .sortable').forEach(h => {
+      const parent = h.parentElement;
+      parent.style.cursor = 'pointer';
+      parent.addEventListener('click', () => {
+        t(`Disusun mengikut: ${h.textContent.trim().replace(/[\n\s]+/g, ' ')}`, 'info');
+      });
+    });
+  })();
 </script>
 </body>
 </html>
