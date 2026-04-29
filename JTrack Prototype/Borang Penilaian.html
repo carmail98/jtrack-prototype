@@ -569,30 +569,220 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===========================================================================
-  // 6) Smart accordion — add chevron to each active row, click to toggle detail
+  // FIX BUNDLE — addresses 7 UX issues from feedback
   // ===========================================================================
-  document.querySelectorAll('.bp-row.bp-active').forEach(row => {
-    // Find the title row (first child of .flex-1.min-w-0)
-    const titleRow = row.querySelector('.flex-1.min-w-0 > .flex.items-start.justify-between');
-    if (!titleRow || titleRow.querySelector('.bp-row-chev')) return;
-    // Append chevron
-    const chev = document.createElement('span');
-    chev.className = 'bp-row-chev';
-    chev.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
-    titleRow.appendChild(chev);
-    // Click handler — toggle open
-    row.addEventListener('click', (e) => {
-      // Don't toggle when interacting with form controls
-      if (e.target.closest('input, textarea, label, select, button')) return;
-      row.classList.toggle('bp-row-open');
-    });
+
+  // Helper: build a fresh .bp-row HTML string from minimal data
+  function buildBpRow({ code, color, title, impactStr, ya }) {
+    const safeId = code.replace(/\./g, '');
+    const isYa = !!ya;
+    const impactSet = (impactStr || '').toUpperCase();
+    const sChecked = /SKOP/.test(impactSet) ? 'checked' : '';
+    const mChecked = /MASA/.test(impactSet) ? 'checked' : '';
+    const kChecked = /KOS/.test(impactSet) ? 'checked' : '';
+    return `
+      <div class="bp-row ${isYa ? 'bp-active' : ''} px-5 py-3 border-t border-border">
+        <div class="flex items-start gap-3">
+          <div class="flex flex-col items-center gap-1.5 pt-0.5">
+            <span class="mono text-[10.5px] font-bold ${color}">${code}</span>
+            <div class="bp-yt">
+              <input type="radio" name="yt-${safeId}" value="ya" id="yt-${safeId}-y" ${isYa ? 'checked' : ''}><label for="yt-${safeId}-y">YA</label>
+              <input type="radio" name="yt-${safeId}" value="tidak" id="yt-${safeId}-t" ${!isYa ? 'checked' : ''}><label for="yt-${safeId}-t">TIDAK</label>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div class="text-[13px] font-semibold leading-snug">${title}</div>
+              <div class="bp-impak flex gap-1 flex-shrink-0">
+                <input type="checkbox" id="im-${safeId}-s" ${sChecked}><label for="im-${safeId}-s">S</label>
+                <input type="checkbox" id="im-${safeId}-m" ${mChecked}><label for="im-${safeId}-m">M</label>
+                <input type="checkbox" id="im-${safeId}-k" ${kChecked}><label for="im-${safeId}-k">K</label>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-2.5">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Huraian masalah di tapak</div>
+                <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none" placeholder="Huraikan masalah di tapak…"></textarea>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">Cadangan oleh Pasukan Penilai</div>
+                <textarea rows="2" class="w-full text-[12px] border border-border rounded p-2 field-focus resize-none" placeholder="Cadangkan tindakan penyelesaian…"></textarea>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 mt-2 text-[11px] flex-wrap">
+              <label class="flex items-center gap-1.5">
+                <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+                <input type="date" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+              </label>
+              <span class="text-muted-foreground">·</span>
+              <span class="text-[10.5px] mono text-muted-foreground">Direkod oleh: Ts. Marlinah Mohamad · ${new Date().toLocaleDateString('en-GB')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===========================================================================
+  // FIX 5: Convert B & C flat items to full .bp-row format
+  // ===========================================================================
+  const sectionData = {
+    'bp-cat-B': { color: 'text-warning-700', items: [
+      { code: 'B.4.1', title: 'Pengambilan balik sebahagian tapak (1.2 ha) untuk laluan utiliti TNB', impact: 'MASA · SKOP', ya: true },
+      { code: 'B.2.2', title: 'Peruntukan tahun 2025 lewat diterima (3 bulan)', impact: 'KOS · MASA', ya: true },
+      { code: 'B.3.1', title: 'Permohonan perubahan reka bentuk (penambahan 2 bilik makmal) belum diluluskan oleh KPM', impact: 'SKOP · MASA', ya: true },
+    ]},
+    'bp-cat-C': { color: 'text-navy-800', items: [
+      { code: 'C.1.1', title: 'Pasukan Projek lewat perakukan IPC-13 (32 hari kelewatan)', impact: 'KOS · MASA', ya: true },
+      { code: 'C.1.2', title: 'Perakuan IPC-14 di peringkat pejabat pemproses (lebih 21 hari)', impact: 'KOS', ya: true },
+    ]},
+  };
+  Object.entries(sectionData).forEach(([catClass, data]) => {
+    const details = document.querySelector(`.${catClass}`);
+    if (!details) return;
+    const innerContainer = details.querySelector('div.p-5, div.border-t');
+    if (!innerContainer) return;
+    innerContainer.outerHTML = `<div class="border-t border-border">${
+      data.items.map(it => buildBpRow({
+        code: it.code, color: data.color, title: it.title, impactStr: it.impact, ya: it.ya,
+      })).join('')
+    }</div>`;
   });
 
-  // For inactive rows (TIDAK), just make them feel clickable (mark Aktif on click)
-  document.querySelectorAll('.bp-row:not(.bp-active)').forEach(row => {
-    row.style.cursor = 'pointer';
-    row.title = 'Tandakan YA untuk mengaktifkan isu ini';
+  // ===========================================================================
+  // FIX 1: Sync bp-active class with YA/TIDAK radio state
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    const ya = row.querySelector('input[type=radio][value=ya]');
+    const tidak = row.querySelector('input[type=radio][value=tidak]');
+    if (!ya || !tidak) return;
+    const sync = () => {
+      if (ya.checked) {
+        row.classList.add('bp-active');
+      } else {
+        row.classList.remove('bp-active');
+        row.classList.remove('bp-row-open');
+      }
+    };
+    ya.addEventListener('change', sync);
+    tidak.addEventListener('change', sync);
+    sync(); // initial sync — fixes A.1.1 inconsistency
   });
+
+  // ===========================================================================
+  // FIX 2: Auto-inject S/M/K to rows missing it
+  // ===========================================================================
+  document.querySelectorAll('.bp-row').forEach(row => {
+    if (row.querySelector('.bp-impak')) return; // already has it
+    const flexBody = row.querySelector('.flex-1');
+    if (!flexBody) return;
+    const code = row.querySelector('.mono')?.textContent.trim().replace(/\./g, '') || 'X';
+    // Find the first child that has the title text
+    let titleEl = flexBody.querySelector('.text-\\[12\\.5px\\]') ||
+                  flexBody.querySelector('.text-\\[13px\\]') ||
+                  flexBody.firstElementChild;
+    // Wrap title in flex with S/M/K on the right
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex items-start justify-between gap-3';
+    wrapper.innerHTML = `
+      <div class="text-[13px] font-semibold leading-snug">${titleEl.textContent.trim()}</div>
+      <div class="bp-impak flex gap-1 flex-shrink-0">
+        <input type="checkbox" id="im-${code}-s"><label for="im-${code}-s">S</label>
+        <input type="checkbox" id="im-${code}-m"><label for="im-${code}-m">M</label>
+        <input type="checkbox" id="im-${code}-k"><label for="im-${code}-k">K</label>
+      </div>
+    `;
+    titleEl.replaceWith(wrapper);
+  });
+
+  // ===========================================================================
+  // FIX 3 & 4: Auto-inject Tarikh & Direkod oleh metadata to bp-active rows
+  // ===========================================================================
+  document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+    const flexBody = row.querySelector('.flex-1');
+    if (!flexBody) return;
+    // Has tarikh field already?
+    if (flexBody.querySelector('input[type=date]')) return;
+    const grid = flexBody.querySelector('.grid.grid-cols-2');
+    if (!grid) return;
+    const meta = document.createElement('div');
+    meta.className = 'flex items-center gap-3 mt-2 text-[11px] flex-wrap';
+    meta.innerHTML = `
+      <label class="flex items-center gap-1.5">
+        <span class="text-muted-foreground">Tarikh selesai (sasaran):</span>
+        <input type="date" class="text-[11px] border border-border rounded px-2 py-0.5 mono">
+      </label>
+      <span class="text-muted-foreground">·</span>
+      <span class="text-[10.5px] mono text-muted-foreground">Direkod oleh: Ts. Marlinah Mohamad · ${new Date().toLocaleDateString('en-GB')}</span>
+    `;
+    grid.after(meta);
+  });
+
+  // ===========================================================================
+  // Smart accordion — add chevron to each active row, click to toggle detail
+  // (Re-run after dynamic content injection above)
+  // ===========================================================================
+  function rewireRowAccordion() {
+    document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+      if (row.dataset.jtAccBound) return;
+      const titleRow = row.querySelector('.flex-1.min-w-0 > .flex.items-start.justify-between, .flex-1 > .flex.items-start.justify-between');
+      if (!titleRow || titleRow.querySelector('.bp-row-chev')) return;
+      const chev = document.createElement('span');
+      chev.className = 'bp-row-chev';
+      chev.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+      titleRow.appendChild(chev);
+      row.dataset.jtAccBound = '1';
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('input, textarea, label, select, button')) return;
+        row.classList.toggle('bp-row-open');
+      });
+    });
+    document.querySelectorAll('.bp-row:not(.bp-active)').forEach(row => {
+      row.style.cursor = 'pointer';
+      row.title = 'Tandakan YA untuk mengaktifkan isu ini';
+    });
+  }
+  rewireRowAccordion();
+  // Re-wire on YA/TIDAK toggle (when row gains bp-active mid-session)
+  document.querySelectorAll('input[type=radio][value=ya]').forEach(r => {
+    r.addEventListener('change', () => setTimeout(rewireRowAccordion, 50));
+  });
+
+  // ===========================================================================
+  // FIX 7: Validate submit — block + warn if borang incomplete
+  // ===========================================================================
+  const submitBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /^\s*✓?\s*Hantar untuk Semakan\s*$/.test((b.textContent || '').trim())
+  );
+  if (submitBtn) {
+    // capture phase to intercept before _actions.js handler
+    submitBtn.addEventListener('click', (e) => {
+      // Compute completeness: count active rows where huraian + cadangan are filled
+      const activeRows = document.querySelectorAll('.bp-row.bp-active');
+      let complete = 0, total = activeRows.length;
+      activeRows.forEach(row => {
+        const tas = row.querySelectorAll('textarea');
+        if (tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim()) complete++;
+      });
+      if (complete < total) {
+        e.preventDefault();
+        e.stopPropagation();
+        const proceed = confirm(
+          `Borang masih belum lengkap.\n\n` +
+          `Selesai: ${complete} / ${total} isu aktif\n` +
+          `Belum lengkap: ${total - complete} isu\n\n` +
+          `Anda pasti mahu hantar untuk semakan?\n` +
+          `(Pengesah berhak menolak laporan yang tidak lengkap.)`
+        );
+        if (proceed) {
+          // Continue manually
+          if (window.JT && window.JT.action && window.JT.action['hantar-semakan']) {
+            window.JT.action['hantar-semakan']();
+          }
+        }
+      }
+    }, true);
+  }
 });
 </script>
 </body>

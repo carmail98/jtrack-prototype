@@ -196,9 +196,9 @@
             <input id="jt-search" placeholder="Cari projek, pengguna, dokumen…" class="w-72 h-9 pl-8 pr-10 rounded-md border border-input bg-muted/60 text-[12.5px] field-focus"/>
             <span class="absolute right-2 top-1/2 -translate-y-1/2 mono text-[10px] text-muted-foreground border border-border bg-white rounded px-1">⌘K</span>
           </div>
-          <button id="jt-notif-btn" class="p-2 rounded-md hover:bg-muted relative text-slate-600" title="Pusat Amaran">
+          <button id="jt-notif-btn" class="p-2 rounded-md hover:bg-muted relative text-slate-600" title="Pusat Amaran (7 amaran belum dibaca)">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-critical rounded-full"></span>
+            <span class="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 bg-critical text-white text-[9.5px] font-bold rounded-full flex items-center justify-center mono tabular leading-none">7</span>
           </button>
           <div class="flex items-center gap-1 rounded-md border border-border p-0.5">
             <button class="px-2 py-0.5 text-[10.5px] font-semibold rounded bg-navy text-white">BM</button>
