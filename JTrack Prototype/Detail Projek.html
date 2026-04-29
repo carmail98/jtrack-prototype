@@ -379,4 +379,89 @@
 </div>
 <script>window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('projek', ['Senarai Projek','Detail Projek']));</script>
 <script src="_actions.js"></script>
+<script>
+// ===========================================================================
+// Wire Detail Projek interactive buttons
+// ===========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type = 'info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({ title, type, desc });
+    console.log(`[Toast ${type}] ${title}`);
+  };
+  const findByText = (selector, regex) => {
+    return Array.from(document.querySelectorAll(selector)).find(el =>
+      regex.test((el.textContent || '').trim())
+    );
+  };
+
+  // 1) Back arrow + breadcrumb → Senarai Projek
+  const breadcrumb = Array.from(document.querySelectorAll('a')).find(a =>
+    /^Senarai Projek$/.test((a.textContent || '').trim())
+  );
+  if (breadcrumb) {
+    breadcrumb.style.cursor = 'pointer';
+    breadcrumb.addEventListener('click', () => location.href = 'Senarai Projek.html');
+  }
+  const backBtn = document.querySelector('main button svg polyline[points*="15 18 9 12 15 6"]');
+  if (backBtn) {
+    const btn = backBtn.closest('button');
+    btn.addEventListener('click', () => location.href = 'Senarai Projek.html');
+  }
+
+  // 2) Cadangkan Intervensi → trigger Fasa 1 workflow
+  const cadangBtn = findByText('main button', /^Cadangkan Intervensi/);
+  if (cadangBtn) {
+    cadangBtn.addEventListener('click', () => {
+      if (window.JT && window.JT.Workflow) {
+        window.JT.Workflow.advance('PRJ-N9-2024-0042', 1, 'Cadangkan Intervensi',
+          'Projek dicadangkan untuk intervensi — Fasa 1 Perancangan dimulakan');
+      }
+      t('Cadangan intervensi direkodkan', 'success',
+        'Fasa 1 Perancangan dimulakan. Mengalihkan ke Pra-Intervensi…');
+      setTimeout(() => location.href = 'Pra-Intervensi.html', 1200);
+    });
+  }
+
+  // 3) + Mohon EOT → toast
+  const eotBtn = findByText('main button', /Mohon EOT/);
+  if (eotBtn) {
+    eotBtn.addEventListener('click', () => {
+      const dur = prompt('Masukkan tempoh EOT yang dipohon (hari):', '90');
+      if (!dur) return;
+      t('Permohonan EOT dihantar', 'success',
+        `EOT ${dur} hari direkodkan · Menunggu kelulusan Pegawai Penguasa`);
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log('Mohon EOT', `EOT ${dur} hari dipohon untuk PRJ-N9-2024-0042`);
+      }
+    });
+  }
+
+  // 4) Lihat Laporan Intervensi → Laporan Intervensi.html
+  const laporanBtn = findByText('main button', /Lihat Laporan Intervensi/);
+  if (laporanBtn) {
+    laporanBtn.addEventListener('click', () => {
+      location.href = 'Laporan Intervensi.html';
+    });
+  }
+
+  // 5) Lihat Amaran → Pusat Amaran.html
+  const amaranBtn = findByText('main button', /^Lihat Amaran$/);
+  if (amaranBtn) {
+    amaranBtn.addEventListener('click', () => {
+      location.href = 'Pusat Amaran.html';
+    });
+  }
+
+  // 6) Tabs (Maklumat Projek / Kemajuan & Kewangan / Sejarah Intervensi / Dokumen / Log Audit Projek)
+  document.querySelectorAll('main .tab').forEach(tab => {
+    tab.style.cursor = 'pointer';
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('main .tab').forEach(x => x.classList.remove('active'));
+      tab.classList.add('active');
+      const label = tab.textContent.replace(/\s+\d+$/, '').trim();
+      t(`Beralih ke: ${label}`, 'info');
+    });
+  });
+});
+</script>
 </body></html>
