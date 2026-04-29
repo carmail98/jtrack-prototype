@@ -421,12 +421,94 @@
 </script>
 <script>
 // ===========================================================================
-// Inject smart-accordion CSS — collapse row details by default
+// Inject polished CSS — SaaS-grade form treatment + smart accordion
 // ===========================================================================
 (() => {
   const css = document.createElement('style');
   css.id = 'bp-smart-accordion';
   css.textContent = `
+    /* ============== POLISHED FORM FIELDS ============== */
+    /* Textarea — SaaS-grade focus + better borders */
+    .bp-row textarea {
+      border: 1px solid #E2E8F0 !important;
+      border-radius: 8px !important;
+      padding: 10px 12px !important;
+      font-size: 12.5px !important;
+      line-height: 1.5 !important;
+      transition: all 0.15s ease;
+      background: #FAFBFC;
+    }
+    .bp-row textarea:hover { border-color: #CBD5E1 !important; background: white; }
+    .bp-row textarea:focus {
+      outline: none !important;
+      border-color: #1E3A5F !important;
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.10) !important;
+      background: white;
+    }
+    /* Field labels — better letter-spacing + neutral color */
+    .bp-row .text-\\[10px\\].uppercase {
+      letter-spacing: 0.08em !important;
+      color: #6B7280 !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      margin-bottom: 6px !important;
+    }
+    /* Date input — polished */
+    .bp-row input[type=date] {
+      border: 1px solid #E2E8F0 !important;
+      border-radius: 6px !important;
+      padding: 4px 10px !important;
+      font-size: 11.5px !important;
+      background: white;
+      transition: all 0.15s ease;
+      color: #334155;
+    }
+    .bp-row input[type=date]:focus {
+      outline: none;
+      border-color: #1E3A5F !important;
+      box-shadow: 0 0 0 2px rgba(30, 58, 95, 0.12);
+    }
+
+    /* ============== ROW HIERARCHY — left accent on active YA rows ============== */
+    .bp-row.bp-active {
+      box-shadow: inset 3px 0 0 0 #D4A017;
+      background: rgba(212, 160, 23, 0.025);
+    }
+    .bp-row.bp-active:hover { background: rgba(212, 160, 23, 0.05); }
+    .bp-row:not(.bp-active) {
+      opacity: 0.7;
+      background: #FAFBFC;
+    }
+    .bp-row:not(.bp-active):hover { opacity: 0.95; background: white; }
+
+    /* ============== ISSUE CODE — neutral badge instead of red ============== */
+    .bp-row .mono.font-bold {
+      display: inline-block !important;
+      padding: 2px 8px !important;
+      border-radius: 6px !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.02em;
+      background: #F1F5F9 !important;
+      color: #475569 !important;
+      border: 1px solid #E2E8F0;
+    }
+    .bp-row.bp-active .mono.font-bold {
+      background: #FEF3C7 !important; /* amber-50 */
+      color: #B45309 !important;       /* amber-700 */
+      border-color: #FDE68A;
+    }
+
+    /* ============== S/M/K — clearer active state + tooltip-friendly ============== */
+    .bp-impak label {
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+    .bp-impak input:checked + label {
+      box-shadow: 0 0 0 1.5px currentColor inset;
+    }
+
+    /* Hide detail in NON-active rows */
     /* Hide detail in NON-active rows (TIDAK selected — no form needed) */
     .bp-row:not(.bp-active) .flex-1 > div:not(:first-child),
     .bp-row.bp-active.bp-row-collapsed .flex-1 > div:not(:first-child) {
@@ -571,6 +653,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key !== 'Enter' || !carianInput.value.trim()) return;
       t(`Carian: "${carianInput.value.trim()}"`, 'info',
         'Indeks pencarian Garis Panduan Appendix C akan disambungkan dalam Fasa 4.');
+    });
+  }
+
+  // ===========================================================================
+  // POLISH: add tooltips to S/M/K + better textarea placeholders
+  // ===========================================================================
+  // We'll re-apply this after rebuild
+  function applyPolish() {
+    document.querySelectorAll('.bp-impak label').forEach(lbl => {
+      if (lbl.dataset.jtTipped) return;
+      lbl.dataset.jtTipped = '1';
+      const t = (lbl.textContent || '').trim();
+      lbl.title = t === 'S' ? 'Impak Skop'
+                 : t === 'M' ? 'Impak Masa'
+                 : t === 'K' ? 'Impak Kos' : '';
+    });
+    document.querySelectorAll('.bp-row textarea').forEach(ta => {
+      if (ta.placeholder && ta.placeholder.length > 5) return;
+      const lbl = ta.previousElementSibling?.textContent?.trim().toLowerCase() || '';
+      if (lbl.includes('huraian')) {
+        ta.placeholder = 'Nyatakan isu spesifik yang diperhatikan semasa lawatan tapak…';
+      } else if (lbl.includes('cadangan')) {
+        ta.placeholder = 'Cadangkan tindakan penyelesaian dan pihak bertanggungjawab…';
+      }
     });
   }
 
@@ -790,49 +896,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   rewireRowAccordion();
+  applyPolish();
   // Re-wire on YA/TIDAK toggle (when row gains bp-active mid-session)
   document.querySelectorAll('input[type=radio][value=ya]').forEach(r => {
-    r.addEventListener('change', () => setTimeout(rewireRowAccordion, 50));
+    r.addEventListener('change', () => setTimeout(() => {
+      rewireRowAccordion();
+      applyPolish();
+    }, 50));
   });
 
   // ===========================================================================
-  // FIX 7: Validate submit — document-level CAPTURE handler beats all bubbles
+  // FIX 7 (v2): Validate submit — inline modal (no window.confirm() dependency)
   // ===========================================================================
+  function showSubmitConfirm(complete, total, onProceed) {
+    // Remove any existing modal
+    const existing = document.getElementById('jt-submit-modal');
+    if (existing) existing.remove();
+    const modal = document.createElement('div');
+    modal.id = 'jt-submit-modal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,0.55);backdrop-filter:blur(4px);';
+    modal.innerHTML = `
+      <div style="background:#fff;border-radius:14px;max-width:480px;width:90%;padding:24px;box-shadow:0 24px 64px rgba(0,0,0,0.25);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+          <div style="width:40px;height:40px;border-radius:999px;background:#FEF3C7;color:#B45309;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;">!</div>
+          <div style="flex:1;">
+            <div style="font-size:16px;font-weight:600;color:#1A1A2E;">Borang masih belum lengkap</div>
+            <div style="font-size:13px;color:#5A6B7E;margin-top:2px;">Pengesah berhak menolak laporan yang tidak lengkap.</div>
+          </div>
+        </div>
+        <div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:12px 14px;margin-bottom:18px;font-size:13px;color:#1A1A2E;">
+          <div style="display:flex;justify-content:space-between;padding:2px 0;"><span style="color:#5A6B7E;">Selesai</span><span style="font-weight:600;color:#2E7D5B;">${complete} / ${total} isu aktif</span></div>
+          <div style="display:flex;justify-content:space-between;padding:2px 0;"><span style="color:#5A6B7E;">Belum lengkap</span><span style="font-weight:600;color:#C7561D;">${total - complete} isu</span></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button id="jt-submit-cancel" style="height:38px;padding:0 16px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#1A1A2E;font-size:13px;font-weight:600;cursor:pointer;">Batal — Sambung Isi</button>
+          <button id="jt-submit-proceed" style="height:38px;padding:0 16px;border-radius:8px;border:none;background:#1E3A5F;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Hantar Walaupun Tidak Lengkap</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector('#jt-submit-cancel').addEventListener('click', () => modal.remove());
+    modal.querySelector('#jt-submit-proceed').addEventListener('click', () => {
+      modal.remove();
+      onProceed();
+    });
+  }
+
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
     const txt = (btn.textContent || '').trim();
-    // Match "Hantar untuk Semakan" but NOT "Simpan Draf" etc.
     if (!/Hantar\s+untuk\s+Semakan/i.test(txt)) return;
     if (btn.dataset.jtSubmitChecked === '1') {
-      // Already validated this click cycle — let it through
       btn.dataset.jtSubmitChecked = '';
       return;
     }
-    // Compute completeness
     const activeRows = document.querySelectorAll('.bp-row.bp-active');
     let complete = 0, total = activeRows.length;
     activeRows.forEach(row => {
       const tas = row.querySelectorAll('textarea');
       if (tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim()) complete++;
     });
-    if (complete >= total) return; // borang lengkap — let through
-    // Block & confirm
+    if (complete >= total) return;
     e.preventDefault();
     e.stopImmediatePropagation();
-    const proceed = confirm(
-      `⚠️ Borang masih belum lengkap.\n\n` +
-      `Selesai: ${complete} / ${total} isu aktif\n` +
-      `Belum lengkap: ${total - complete} isu\n\n` +
-      `Anda pasti mahu hantar untuk semakan?\n` +
-      `(Pengesah berhak menolak laporan yang tidak lengkap.)`
-    );
-    if (proceed) {
-      // Mark and re-trigger so other handlers fire
+    showSubmitConfirm(complete, total, () => {
       btn.dataset.jtSubmitChecked = '1';
       btn.click();
-    }
-  }, true); // CAPTURE phase — runs before all bubble handlers
+    });
+  }, true);
 });
 </script>
 </body>

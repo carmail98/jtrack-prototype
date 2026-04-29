@@ -274,8 +274,15 @@
       const s = Workflow.state();
       s.laporanStatus = 'semakan';
       Workflow.save(s);
-      Audit.log('Hantar Semakan', 'Laporan Intervensi dihantar untuk semakan Pengesah');
-      toast({ type: 'success', title: 'Laporan dihantar untuk semakan', desc: 'Pengesah akan dimaklumkan.' });
+      // Advance F2 (Pelaksanaan) -> F3 (Pelaporan) — submission of Borang Penilaian
+      // marks transition from site-execution phase to reporting phase per Garis Panduan
+      if (s.fasa === 2) {
+        Workflow.advance('PRJ-N9-2024-0042', 3, 'Hantar Semakan',
+          'Borang Penilaian dihantar — Fasa 3 Pelaporan dimulakan · Pengesah dimaklumkan');
+      } else {
+        Audit.log('Hantar Semakan', 'Laporan Intervensi dihantar untuk semakan Pengesah');
+      }
+      toast({ type: 'success', title: 'Laporan dihantar untuk semakan', desc: 'Pengesah akan dimaklumkan. Fasa 3 Pelaporan dimulakan.' });
       setTimeout(() => location.href = 'Semakan Pengesah.html', 1000);
     },
     'lulus-laporan': () => {
@@ -305,8 +312,10 @@
       const s = Workflow.state();
       s.suratEdaran = `EDR-${Date.now()}`;
       Workflow.save(s);
+      // Always advance to Fasa 4 from current — guard against earlier-fasa skip
+      const target = Math.max(s.fasa + 1, 4);
       Workflow.advance('PRJ-N9-2024-0042', 4, 'Jana Surat Edaran',
-        'Surat Edaran (Appendix E) dijana — Fasa 4 Pasca dimulakan');
+        `Surat Edaran (Appendix E) dijana — transit Fasa ${s.fasa} → Fasa 4 Pasca-Intervensi`);
       toast({ type: 'success', title: 'Surat Edaran dijana', desc: 'Templat Appendix E — salinan auto ke CPAB Ibu Pejabat. Fasa 4 dimulakan.' });
       setTimeout(() => location.href = 'Ruang Catatan.html', 1200);
     },

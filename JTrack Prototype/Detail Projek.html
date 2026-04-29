@@ -409,16 +409,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2) Cadangkan Intervensi → trigger Fasa 1 workflow
+  //    Chain auto-Lantik Pasukan + Jana Surat Lantikan (Appendix A) for full
+  //    Garis Panduan compliance — Fasa 1 setup requires team appointment + letter
   const cadangBtn = findByText('main button', /^Cadangkan Intervensi/);
   if (cadangBtn) {
     cadangBtn.addEventListener('click', () => {
       if (window.JT && window.JT.Workflow) {
+        // Step 1: Cadangkan Intervensi (register PSG)
         window.JT.Workflow.advance('PRJ-N9-2024-0042', 1, 'Cadangkan Intervensi',
           'Projek dicadangkan untuk intervensi — Fasa 1 Perancangan dimulakan');
+        // Step 2: Auto-Lantik Pasukan Intervensi (Ketua + Ahli)
+        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
+        s.pasukanLantik = true;
+        s.suratLantikan = `LANT-${Date.now()}`;
+        window.JT.Workflow.save(s);
+        window.JT.Audit.log('Lantik Pasukan',
+          'Pasukan Intervensi dilantik — Ketua: Ir. Rafidah Ahmad (J52) · 2 Ahli (J48)');
+        // Step 3: Jana Surat Lantikan (Appendix A)
+        window.JT.Audit.log('Jana Surat Lantikan',
+          `Surat Lantikan (Appendix A) dijana · Ruj: ${s.suratLantikan}`);
       }
-      t('Cadangan intervensi direkodkan', 'success',
-        'Fasa 1 Perancangan dimulakan. Mengalihkan ke Pra-Intervensi…');
-      setTimeout(() => location.href = 'Pra-Intervensi.html', 1200);
+      t('Fasa 1 Perancangan dimulakan', 'success',
+        'Cadangan direkod · Pasukan dilantik · Surat Lantikan (Appendix A) dijana. Mengalihkan…');
+      setTimeout(() => location.href = 'Pra-Intervensi.html', 1500);
     });
   }
 
