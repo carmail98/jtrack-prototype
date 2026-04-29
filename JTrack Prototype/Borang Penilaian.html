@@ -419,5 +419,110 @@
 <script>
   JTRACK.mountChrome('borang', ['Intervensi', 'Fasa 2', 'Borang Penilaian Appendix C']);
 </script>
+<script>
+// ===========================================================================
+// Wire Borang Penilaian (Appendix C) — Fasa 2 interactivity
+// ===========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type='info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({title, type, desc});
+    console.log(`[Toast ${type}] ${title}`);
+  };
+
+  // 1) "+ Tambah isu" buttons — prompt + audit log
+  document.querySelectorAll('main button').forEach(btn => {
+    const txt = (btn.textContent || '').trim();
+    if (txt !== '+ Tambah isu') return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // don't toggle parent <details>
+      e.preventDefault();
+      const kod = prompt('Masukkan kod isu (cth: A.4.7):', 'A.4.');
+      if (!kod) return;
+      const huraian = prompt('Huraian masalah di tapak (1-2 ayat):');
+      if (!huraian) return;
+      t(`Isu ${kod} ditambah`, 'success', huraian.slice(0, 60));
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log('Tambah Isu', `Isu baharu ${kod}: ${huraian.slice(0, 80)}`);
+      }
+    });
+  });
+
+  // 2) SKOP / MASA / KOS impact filter pills
+  // The 3 pills sit in the right panel under "Tapis Mengikut Impak"
+  const impactBtns = Array.from(document.querySelectorAll('main button')).filter(b => {
+    const txt = (b.textContent || '').trim();
+    return /^(SKOP|MASA|KOS)$/.test(txt) && b.className.includes('flex-1');
+  });
+  let activeImpact = 'SKOP'; // matches default UI state
+  impactBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      const label = b.textContent.trim();
+      if (activeImpact === label) {
+        // toggle off
+        activeImpact = null;
+        impactBtns.forEach(x => {
+          x.className = 'flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600';
+        });
+        t('Tapis impak dibatalkan · papar semua', 'info');
+      } else {
+        activeImpact = label;
+        impactBtns.forEach(x => {
+          x.className = 'flex-1 h-7 rounded border border-border text-[11px] font-bold bg-white text-slate-600';
+        });
+        const colorClass = label === 'SKOP' ? 'orange' : label === 'MASA' ? 'warning' : 'critical';
+        b.className = `flex-1 h-7 rounded border border-${colorClass} text-[11px] font-bold bg-${colorClass} text-white`;
+        t(`Tapis: Impak ${label}`, 'info', `Memaparkan isu yang melibatkan ${label.toLowerCase()} sahaja`);
+      }
+    });
+  });
+
+  // 3) "tunjuk semua" / "buka untuk lihat" / "tunjuk semua kategori A" — expand row links
+  document.querySelectorAll('main button').forEach(btn => {
+    const txt = (btn.textContent || '').trim().toLowerCase();
+    if (!/(^tunjuk semua|buka untuk lihat|tunjuk semua kategori)/.test(txt)) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      // Find parent details, ensure it's expanded
+      const parentDetails = btn.closest('details');
+      if (parentDetails) parentDetails.open = true;
+      t('Memuatkan isu lengkap…', 'info', 'Senarai penuh diperolehi dari Garis Panduan Appendix C');
+      // Highlight the section briefly
+      const parentRow = btn.closest('.bp-row, [class*="px-5"]');
+      if (parentRow) {
+        parentRow.style.transition = 'background 0.3s ease';
+        parentRow.style.background = '#FFF7E6';
+        setTimeout(() => { parentRow.style.background = ''; }, 1500);
+      }
+    });
+  });
+
+  // 4) Section accordion summaries — already toggle natively via <details>
+  // Add audit log when user opens/closes a section
+  document.querySelectorAll('main details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      const summary = d.querySelector('summary');
+      if (!summary) return;
+      const titleEl = summary.querySelector('span.font-bold, span.text-\\[16px\\]');
+      const title = titleEl ? titleEl.textContent.trim() : 'Seksyen';
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log(d.open ? 'Buka Seksyen' : 'Tutup Seksyen',
+                            `${d.open ? 'Membuka' : 'Menutup'} seksyen: ${title}`);
+      }
+    });
+  });
+
+  // 5) Carian Pantas search input → toast on Enter
+  const carianInput = Array.from(document.querySelectorAll('main input'))
+    .find(i => /Cari kod isu/i.test(i.placeholder || ''));
+  if (carianInput) {
+    carianInput.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' || !carianInput.value.trim()) return;
+      t(`Carian: "${carianInput.value.trim()}"`, 'info',
+        'Indeks pencarian Garis Panduan Appendix C akan disambungkan dalam Fasa 4.');
+    });
+  }
+});
+</script>
 </body>
 </html>
