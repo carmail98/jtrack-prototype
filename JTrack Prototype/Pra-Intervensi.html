@@ -171,4 +171,65 @@ document.getElementById('docs').innerHTML = docs.map(d => `
 window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','SMK Kuala Pilah','Pra-Intervensi']));
 </script>
 <script src="_actions.js"></script>
+<script>
+// ===========================================================================
+// Wire Pra-Intervensi (Fasa 1) buttons
+// Per Garis Panduan Intervensi JKR Bab 3-4
+// ===========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type = 'info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({ title, type, desc });
+    console.log(`[Toast ${type}] ${title}`);
+  };
+  const findByText = (sel, re) =>
+    Array.from(document.querySelectorAll(sel)).find(el => re.test((el.textContent || '').trim()));
+
+  // 1) "Mulakan Laporan Intervensi" → advance Fasa 1 → 2, redirect Borang Penilaian
+  const mulakanBtn = findByText('main button', /Mulakan Laporan Intervensi/);
+  if (mulakanBtn) {
+    mulakanBtn.addEventListener('click', () => {
+      if (window.JT && window.JT.Workflow) {
+        window.JT.Workflow.advance('PRJ-N9-2024-0042', 2, 'Mulakan Laporan Intervensi',
+          'Lawatan tapak dimulakan · Borang Penilaian (Appendix C) sedia diisi · Fasa 2 Pelaksanaan');
+      }
+      t('Lawatan tapak dimulakan', 'success',
+        'Borang Penilaian (Appendix C) sedia untuk diisi · Fasa 2 Pelaksanaan');
+      setTimeout(() => location.href = 'Borang Penilaian.html', 1200);
+    });
+  }
+
+  // 2) "Muat Turun Semua (ZIP)" → toast simulated download
+  const muatSemuaBtn = findByText('main button', /Muat Turun Semua/);
+  if (muatSemuaBtn) {
+    muatSemuaBtn.addEventListener('click', () => {
+      t('Memuat turun arkib dokumen…', 'info', 'Mengkompres 8 fail (76.4 MB) ke ZIP');
+      setTimeout(() => t('ZIP siap dimuat turun', 'success', 'PRJ-N9-2024-0042_dokumen.zip · 76.4 MB'), 1500);
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log('Muat Turun ZIP', 'Arkib dokumen lengkap dimuat turun');
+      }
+    });
+  }
+
+  // 3) Wire each document row → toast "Memuat turun X..."
+  document.querySelectorAll('main a, main div, main li').forEach(el => {
+    const txt = (el.textContent || '').trim();
+    // Match items that look like file rows: contains a file extension
+    const m = txt.match(/^([\w\s\-\.\(\)\&]+\.(pdf|xlsx|mpp|zip|docx))/i);
+    if (!m) return;
+    if (el.dataset.jtFileWired) return;
+    // Avoid wiring if it's a parent container with too many children
+    if (el.children.length > 6) return;
+    el.dataset.jtFileWired = '1';
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('button:not([data-jt-file-wired])')) return;
+      e.stopPropagation();
+      t(`Memuat turun ${m[1]}`, 'info');
+      if (window.JT && window.JT.Audit) {
+        window.JT.Audit.log('Lihat Dokumen', `Akses dokumen: ${m[1]}`);
+      }
+    });
+  });
+});
+</script>
 </body></html>
