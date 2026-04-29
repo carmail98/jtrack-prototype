@@ -427,13 +427,23 @@
   const css = document.createElement('style');
   css.id = 'bp-smart-accordion';
   css.textContent = `
-    /* Hide detail blocks (huraian/cadangan + tarikh) inside bp-active rows */
-    .bp-row.bp-active .flex-1.min-w-0 > div:not(:first-child) {
+    /* Hide detail in NON-active rows (TIDAK selected — no form needed) */
+    .bp-row:not(.bp-active) .flex-1.min-w-0 > div:not(:first-child) {
       display: none;
     }
-    .bp-row.bp-active.bp-row-open .flex-1.min-w-0 > div:not(:first-child) {
+    /* When active row manually collapsed, hide detail */
+    .bp-row.bp-active.bp-row-collapsed .flex-1.min-w-0 > div:not(:first-child) {
+      display: none;
+    }
+    .bp-row.bp-active:not(.bp-row-collapsed) .flex-1.min-w-0 > div:not(:first-child) {
       display: block;
       animation: bpFade 0.18s ease-out;
+    }
+    /* Force 2-col grid for huraian/cadangan even if Tailwind CDN misses dynamic class */
+    .bp-row .grid.grid-cols-2 {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 0.75rem !important;
     }
     @keyframes bpFade {
       from { opacity: 0; transform: translateY(-2px); }
@@ -449,7 +459,7 @@
       flex-shrink: 0;
       color: #94A3B8;
     }
-    .bp-row.bp-row-open .bp-row-chev { transform: rotate(180deg); color: #1E3A5F; }
+    .bp-row.bp-active:not(.bp-row-collapsed) .bp-row-chev { transform: rotate(180deg); color: #1E3A5F; }
     /* Status pill on collapsed row */
     .bp-row-status {
       display: inline-flex; align-items: center; gap: 4px;
@@ -686,6 +696,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===========================================================================
   // FIX 1: Sync bp-active class with YA/TIDAK radio state
+  // YA selected → bp-active + form visible (default expanded)
+  // TIDAK selected → no bp-active + form hidden via CSS
   // ===========================================================================
   document.querySelectorAll('.bp-row').forEach(row => {
     const ya = row.querySelector('input[type=radio][value=ya]');
@@ -694,14 +706,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const sync = () => {
       if (ya.checked) {
         row.classList.add('bp-active');
+        row.classList.remove('bp-row-collapsed'); // expand on YA
       } else {
         row.classList.remove('bp-active');
-        row.classList.remove('bp-row-open');
+        row.classList.remove('bp-row-collapsed');
       }
     };
     ya.addEventListener('change', sync);
     tidak.addEventListener('change', sync);
-    sync(); // initial sync — fixes A.1.1 inconsistency
+    sync();
   });
 
   // ===========================================================================
@@ -769,7 +782,10 @@ document.addEventListener('DOMContentLoaded', () => {
       row.dataset.jtAccBound = '1';
       row.addEventListener('click', (e) => {
         if (e.target.closest('input, textarea, label, select, button')) return;
-        row.classList.toggle('bp-row-open');
+        // Click row → toggle bp-row-collapsed (active rows only)
+        if (row.classList.contains('bp-active')) {
+          row.classList.toggle('bp-row-collapsed');
+        }
       });
     });
     document.querySelectorAll('.bp-row:not(.bp-active)').forEach(row => {
@@ -784,40 +800,43 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===========================================================================
-  // FIX 7: Validate submit — block + warn if borang incomplete
+  // FIX 7: Validate submit — document-level CAPTURE handler beats all bubbles
   // ===========================================================================
-  const submitBtn = Array.from(document.querySelectorAll('main button')).find(b =>
-    /^\s*✓?\s*Hantar untuk Semakan\s*$/.test((b.textContent || '').trim())
-  );
-  if (submitBtn) {
-    // capture phase to intercept before _actions.js handler
-    submitBtn.addEventListener('click', (e) => {
-      // Compute completeness: count active rows where huraian + cadangan are filled
-      const activeRows = document.querySelectorAll('.bp-row.bp-active');
-      let complete = 0, total = activeRows.length;
-      activeRows.forEach(row => {
-        const tas = row.querySelectorAll('textarea');
-        if (tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim()) complete++;
-      });
-      if (complete < total) {
-        e.preventDefault();
-        e.stopPropagation();
-        const proceed = confirm(
-          `Borang masih belum lengkap.\n\n` +
-          `Selesai: ${complete} / ${total} isu aktif\n` +
-          `Belum lengkap: ${total - complete} isu\n\n` +
-          `Anda pasti mahu hantar untuk semakan?\n` +
-          `(Pengesah berhak menolak laporan yang tidak lengkap.)`
-        );
-        if (proceed) {
-          // Continue manually
-          if (window.JT && window.JT.action && window.JT.action['hantar-semakan']) {
-            window.JT.action['hantar-semakan']();
-          }
-        }
-      }
-    }, true);
-  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const txt = (btn.textContent || '').trim();
+    // Match "Hantar untuk Semakan" but NOT "Simpan Draf" etc.
+    if (!/Hantar\s+untuk\s+Semakan/i.test(txt)) return;
+    if (btn.dataset.jtSubmitChecked === '1') {
+      // Already validated this click cycle — let it through
+      btn.dataset.jtSubmitChecked = '';
+      return;
+    }
+    // Compute completeness
+    const activeRows = document.querySelectorAll('.bp-row.bp-active');
+    let complete = 0, total = activeRows.length;
+    activeRows.forEach(row => {
+      const tas = row.querySelectorAll('textarea');
+      if (tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim()) complete++;
+    });
+    if (complete >= total) return; // borang lengkap — let through
+    // Block & confirm
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const proceed = confirm(
+      `⚠️ Borang masih belum lengkap.\n\n` +
+      `Selesai: ${complete} / ${total} isu aktif\n` +
+      `Belum lengkap: ${total - complete} isu\n\n` +
+      `Anda pasti mahu hantar untuk semakan?\n` +
+      `(Pengesah berhak menolak laporan yang tidak lengkap.)`
+    );
+    if (proceed) {
+      // Mark and re-trigger so other handlers fire
+      btn.dataset.jtSubmitChecked = '1';
+      btn.click();
+    }
+  }, true); // CAPTURE phase — runs before all bubble handlers
 });
 </script>
 </body>
