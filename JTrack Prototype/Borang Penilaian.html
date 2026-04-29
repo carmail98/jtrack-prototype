@@ -103,7 +103,7 @@
         <div class="space-y-3">
 
           <!-- =========== KATEGORI A: KONTRAKTOR =========== -->
-          <details open class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-A">
+          <details class="bg-white border border-border rounded-[12px] overflow-hidden bp-cat-A">
             <summary class="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/50">
               <svg class="bp-chev w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
               <div class="flex-1">
@@ -421,6 +421,51 @@
 </script>
 <script>
 // ===========================================================================
+// Inject smart-accordion CSS — collapse row details by default
+// ===========================================================================
+(() => {
+  const css = document.createElement('style');
+  css.id = 'bp-smart-accordion';
+  css.textContent = `
+    /* Hide detail blocks (huraian/cadangan + tarikh) inside bp-active rows */
+    .bp-row.bp-active .flex-1.min-w-0 > div:not(:first-child) {
+      display: none;
+    }
+    .bp-row.bp-active.bp-row-open .flex-1.min-w-0 > div:not(:first-child) {
+      display: block;
+      animation: bpFade 0.18s ease-out;
+    }
+    @keyframes bpFade {
+      from { opacity: 0; transform: translateY(-2px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Make rows clickable + clearer hover */
+    .bp-row.bp-active { cursor: pointer; transition: background 0.12s ease; }
+    .bp-row.bp-active:hover { background: rgba(30, 58, 95, 0.025); }
+    .bp-row.bp-active.bp-row-open { background: rgba(30, 58, 95, 0.04); }
+    /* Chevron */
+    .bp-row-chev {
+      transition: transform 0.18s ease;
+      flex-shrink: 0;
+      color: #94A3B8;
+    }
+    .bp-row.bp-row-open .bp-row-chev { transform: rotate(180deg); color: #1E3A5F; }
+    /* Status pill on collapsed row */
+    .bp-row-status {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 999px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .bp-row-status.aktif { background: #FEF2F2; color: #B91C1C; }
+    .bp-row-status.belum { background: #F1F5F9; color: #64748B; }
+    /* Slightly more breathing room */
+    .bp-row { padding-top: 14px !important; padding-bottom: 14px !important; }
+  `;
+  document.head.appendChild(css);
+})();
+
+// ===========================================================================
 // Wire Borang Penilaian (Appendix C) — Fasa 2 interactivity
 // ===========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -522,6 +567,32 @@ document.addEventListener('DOMContentLoaded', () => {
         'Indeks pencarian Garis Panduan Appendix C akan disambungkan dalam Fasa 4.');
     });
   }
+
+  // ===========================================================================
+  // 6) Smart accordion — add chevron to each active row, click to toggle detail
+  // ===========================================================================
+  document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+    // Find the title row (first child of .flex-1.min-w-0)
+    const titleRow = row.querySelector('.flex-1.min-w-0 > .flex.items-start.justify-between');
+    if (!titleRow || titleRow.querySelector('.bp-row-chev')) return;
+    // Append chevron
+    const chev = document.createElement('span');
+    chev.className = 'bp-row-chev';
+    chev.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+    titleRow.appendChild(chev);
+    // Click handler — toggle open
+    row.addEventListener('click', (e) => {
+      // Don't toggle when interacting with form controls
+      if (e.target.closest('input, textarea, label, select, button')) return;
+      row.classList.toggle('bp-row-open');
+    });
+  });
+
+  // For inactive rows (TIDAK), just make them feel clickable (mark Aktif on click)
+  document.querySelectorAll('.bp-row:not(.bp-active)').forEach(row => {
+    row.style.cursor = 'pointer';
+    row.title = 'Tandakan YA untuk mengaktifkan isu ini';
+  });
 });
 </script>
 </body>
