@@ -163,4 +163,39 @@ document.getElementById('officerList').innerHTML = officers.map(o => `
 window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','Tetapkan Pasukan']));
 </script>
 <script src="_actions.js"></script>
+<script>
+// Wire "Simpan Pelantikan & Emel Notifikasi" → Lantik Pasukan workflow action
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type='info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({ title, type, desc });
+  };
+  // Find the primary navy button at bottom (Simpan Pelantikan)
+  const saveBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /Simpan Pelantikan/i.test((b.textContent || '').trim())
+  );
+  if (saveBtn) {
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (window.JT && window.JT.Workflow) {
+        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
+        s.pasukanLantik = true;
+        window.JT.Workflow.save(s);
+        window.JT.Audit.log('Lantik Pasukan',
+          'Pasukan Intervensi dilantik — Ketua: Ir. Rafidah Ahmad (J52) · Penyedia: Ts. Marlinah, Nor’Izzati · 3 Ahli Tambahan');
+      }
+      t('Pelantikan disimpan', 'success',
+        'Notifikasi emel dihantar kepada 6 pegawai. Mengalihkan ke Jana Surat Lantikan…');
+      setTimeout(() => location.href = 'Jana Surat.html', 1500);
+    });
+  }
+  // Wire "Kembali" button to go back to Detail Projek
+  const backBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /^Kembali$/i.test((b.textContent || '').trim())
+  );
+  if (backBtn) {
+    backBtn.addEventListener('click', () => location.href = 'Detail Projek.html');
+  }
+});
+</script>
 </body></html>

@@ -185,10 +185,18 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.from(document.querySelectorAll(sel)).find(el => re.test((el.textContent || '').trim()));
 
   // 1) "Mulakan Laporan Intervensi" → advance Fasa 1 → 2, redirect Borang Penilaian
+  //    Guard: ensure pasukan dah dilantik & surat dah dijana (Garis Panduan Para 5.2)
   const mulakanBtn = findByText('main button', /Mulakan Laporan Intervensi/);
   if (mulakanBtn) {
     mulakanBtn.addEventListener('click', () => {
       if (window.JT && window.JT.Workflow) {
+        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
+        if (!s.pasukanLantik || !s.suratLantikan) {
+          t('Tidak boleh dimulakan', 'warning',
+            'Pasukan Intervensi belum dilantik atau Surat Lantikan belum dijana. Sila lengkapkan Fasa 1 dahulu.');
+          setTimeout(() => location.href = 'Tetapkan Pasukan.html', 1800);
+          return;
+        }
         window.JT.Workflow.advance('PRJ-N9-2024-0042', 2, 'Mulakan Laporan Intervensi',
           'Lawatan tapak dimulakan · Borang Penilaian (Appendix C) sedia diisi · Fasa 2 Pelaksanaan');
       }

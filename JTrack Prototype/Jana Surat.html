@@ -152,4 +152,41 @@
 window.addEventListener('DOMContentLoaded', () => window.JTRACK.mountChrome('intervensi', ['Dashboard','Intervensi','Pilih Projek','Jana Surat']));
 </script>
 <script src="_actions.js"></script>
+<script>
+// Wire "Jana & Emel Surat" → Jana Surat Lantikan action (Appendix A)
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type='info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({ title, type, desc });
+  };
+  const janaBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /Jana.*Emel.*Surat|Jana.*Surat/i.test((b.textContent || '').trim())
+  );
+  if (janaBtn) {
+    janaBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (window.JT && window.JT.Workflow) {
+        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
+        s.suratLantikan = `LANT-${Date.now()}`;
+        window.JT.Workflow.save(s);
+        window.JT.Audit.log('Jana Surat Lantikan',
+          `Surat Lantikan (Appendix A) dijana · Ruj: ${s.suratLantikan} · Diedar via emel kepada 6 ahli pasukan`);
+      }
+      t('Surat Lantikan dijana', 'success',
+        'Templat Appendix A · Salinan auto ke CPAB. Mengalihkan ke Pra-Intervensi…');
+      setTimeout(() => location.href = 'Pra-Intervensi.html', 1500);
+    });
+  }
+  // Wire "Muat Turun" button
+  const dlBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /Muat Turun/i.test((b.textContent || '').trim())
+  );
+  if (dlBtn) {
+    dlBtn.addEventListener('click', () => {
+      t('Surat Lantikan dimuat turun', 'info',
+        'PDF Appendix A · 248 KB · Anda boleh edit sebelum hantar.');
+    });
+  }
+});
+</script>
 </body></html>
