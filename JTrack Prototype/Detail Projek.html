@@ -466,13 +466,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 6) Tabs (Maklumat Projek / Kemajuan & Kewangan / Sejarah Intervensi / Dokumen / Log Audit Projek)
+  //    Scroll to corresponding section + visual highlight (1.2s)
+  const TAB_MAP = [
+    { tab: /Maklumat Projek/i, sectionMatch: /Maklumat Asas/i },
+    { tab: /Kemajuan/i, sectionMatch: /Kemajuan Bulanan|S-Curve|Kewangan/i },
+    { tab: /Sejarah Intervensi/i, sectionMatch: /Sejarah Intervensi|Lawatan Tapak/i },
+    { tab: /Dokumen/i, sectionMatch: /Dokumen Terkini|Dokumen Projek/i },
+    { tab: /Log Audit/i, sectionMatch: /Log Audit|Aktiviti Terkini/i },
+  ];
   document.querySelectorAll('main .tab').forEach(tab => {
     tab.style.cursor = 'pointer';
     tab.addEventListener('click', () => {
       document.querySelectorAll('main .tab').forEach(x => x.classList.remove('active'));
       tab.classList.add('active');
       const label = tab.textContent.replace(/\s+\d+$/, '').trim();
-      t(`Beralih ke: ${label}`, 'info');
+      // Find matching section and scroll to it
+      const txt = (tab.textContent || '').trim();
+      const map = TAB_MAP.find(m => m.tab.test(txt));
+      if (map) {
+        // Find section header containing the matching text
+        const headers = Array.from(document.querySelectorAll('main .sh, main .text-\\[10\\.5px\\].uppercase'));
+        const target = headers.find(h => map.sectionMatch.test(h.textContent || ''));
+        if (target) {
+          // Scroll to section's containing card
+          const card = target.closest('.bg-white, section') || target.parentElement;
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Visual flash highlight
+          const orig = card.style.boxShadow;
+          card.style.transition = 'box-shadow 0.4s ease';
+          card.style.boxShadow = '0 0 0 3px #D4A017, 0 8px 24px rgba(212,160,23,0.25)';
+          setTimeout(() => { card.style.boxShadow = orig; }, 1500);
+          t(`Beralih ke: ${label}`, 'info');
+          return;
+        }
+      }
+      t(`Tab: ${label} · seksyen tidak dijumpai`, 'warning');
     });
   });
 });

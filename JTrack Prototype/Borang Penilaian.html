@@ -631,19 +631,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 4) Section accordion summaries — already toggle natively via <details>
-  // Add audit log when user opens/closes a section
-  document.querySelectorAll('main details').forEach(d => {
-    d.addEventListener('toggle', () => {
-      const summary = d.querySelector('summary');
-      if (!summary) return;
-      const titleEl = summary.querySelector('span.font-bold, span.text-\\[16px\\]');
-      const title = titleEl ? titleEl.textContent.trim() : 'Seksyen';
-      if (window.JT && window.JT.Audit) {
-        window.JT.Audit.log(d.open ? 'Buka Seksyen' : 'Tutup Seksyen',
-                            `${d.open ? 'Membuka' : 'Menutup'} seksyen: ${title}`);
-      }
-    });
-  });
+  // Note: section open/close is UI navigation, NOT a workflow event — do not
+  // pollute the immutable audit chain with these. Audit log is reserved for
+  // state-changing actions per Garis Panduan retention policy (7 tahun).
 
   // 5) Carian Pantas search input → toast on Enter
   const carianInput = Array.from(document.querySelectorAll('main input'))
@@ -961,8 +951,15 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     e.stopImmediatePropagation();
     showSubmitConfirm(complete, total, () => {
-      btn.dataset.jtSubmitChecked = '1';
-      btn.click();
+      // Direct action invocation — avoids phantom click bubble that may
+      // collide with other event handlers on page (e.g. filter dropdown)
+      if (window.JT && window.JT.action && window.JT.action['hantar-semakan']) {
+        window.JT.action['hantar-semakan']();
+      } else {
+        // Fallback: mark and re-click if action API unavailable
+        btn.dataset.jtSubmitChecked = '1';
+        btn.click();
+      }
     });
   }, true);
 });

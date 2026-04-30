@@ -306,6 +306,49 @@
         t(`Disusun mengikut: ${h.textContent.trim().replace(/[\n\s]+/g, ' ')}`, 'info');
       });
     });
+
+    // 6) Search input → real-time filter rows by project name or ID
+    const searchInput = document.querySelector('input[placeholder*="Cari nama projek"]');
+    if (searchInput) {
+      let searchTimer = null;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+          const q = (e.target.value || '').trim().toLowerCase();
+          let visibleCount = 0;
+          document.querySelectorAll('#tbody tr').forEach(r => {
+            // Reset previous highlights
+            r.querySelectorAll('mark.search-hl').forEach(m => {
+              const txt = m.textContent;
+              m.replaceWith(document.createTextNode(txt));
+            });
+            if (!q) {
+              // Respect active status filter if any
+              const isFilteredOut = activeFilter && statusOf(r) !== activeFilter;
+              r.style.display = isFilteredOut ? 'none' : '';
+              visibleCount += isFilteredOut ? 0 : 1;
+              return;
+            }
+            const text = (r.textContent || '').toLowerCase();
+            const match = text.includes(q);
+            const filteredOut = activeFilter && statusOf(r) !== activeFilter;
+            r.style.display = (match && !filteredOut) ? '' : 'none';
+            if (match && !filteredOut) {
+              visibleCount++;
+              // Highlight matched cells (project name + ID columns)
+              ['td:nth-child(2)', 'td:nth-child(3)'].forEach(sel => {
+                const cell = r.querySelector(sel);
+                if (!cell) return;
+                const html = cell.innerHTML;
+                const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                cell.innerHTML = html.replace(re, '<mark class="search-hl" style="background:#FEF3C7;color:#B45309;padding:0 2px;border-radius:3px;">$1</mark>');
+              });
+            }
+          });
+          if (q) t(`Cari: "${q}" · ${visibleCount} padanan`, visibleCount ? 'success' : 'warning');
+        }, 200); // debounce 200ms
+      });
+    }
   })();
 </script>
 </body>

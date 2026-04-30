@@ -354,9 +354,12 @@
             x.className = 'px-2 py-0.5 text-[10.5px] font-medium text-muted-foreground hover:bg-muted rounded';
           });
           b.className = 'px-2 py-0.5 text-[10.5px] font-semibold rounded bg-navy text-white';
-          // Toast feedback
+          // Honest UX — i18n string swap pending Fasa 3 development (Q3 2026)
           if (typeof toast === 'function') {
-            toast(lang === 'EN' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Malaysia', 'info');
+            const msg = lang === 'EN'
+              ? 'English mode dipaparkan · i18n string swap akan dilengkapkan pada Fasa 3 development'
+              : 'Mod Bahasa Malaysia · default';
+            toast(msg, lang === 'EN' ? 'warning' : 'info');
           }
         });
       });
