@@ -309,15 +309,12 @@
       setTimeout(() => location.href = 'Laporan Diluluskan.html', 1000);
     },
     'jana-surat-edaran': () => {
-      const s = Workflow.state();
-      s.suratEdaran = `EDR-${Date.now()}`;
-      Workflow.save(s);
-      // Always advance to Fasa 4 from current — guard against earlier-fasa skip
-      const target = Math.max(s.fasa + 1, 4);
-      Workflow.advance('PRJ-N9-2024-0042', 4, 'Jana Surat Edaran',
-        `Surat Edaran (Appendix E) dijana — transit Fasa ${s.fasa} → Fasa 4 Pasca-Intervensi`);
-      toast({ type: 'success', title: 'Surat Edaran dijana', desc: 'Templat Appendix E — salinan auto ke CPAB Ibu Pejabat. Fasa 4 dimulakan.' });
-      setTimeout(() => location.href = 'Ruang Catatan.html', 1200);
+      // Pratonton format rasmi sebelum hantar (Garis Panduan 3.6)
+      // No state change yet — surat hanya disahkan selepas Pengarah klik
+      // "Sahkan & Edar" pada Surat Edaran preview page (Appendix E)
+      toast({ type: 'success', title: 'Pratonton Surat Edaran dijana',
+              desc: 'Sila semak format Appendix E sebelum mengedar.' });
+      setTimeout(() => location.href = 'Surat Edaran.html', 1200);
     },
 
     // Fasa 4 — Pasca

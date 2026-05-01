@@ -766,41 +766,56 @@
   }
 
   // =========================================================================
-  // DEMO NAV BAR — extended DEMO_FLOW with new screens
+  // DEMO NAV BAR — DEMO_FLOW reordered to match actual workflow story
+  // Sections: Auth → Discovery → Fasa 1 → Fasa 2 → Fasa 3 → Fasa 4 → Admin
   // =========================================================================
   const DEMO_FLOW = [
+    // ── 1. AUTHENTICATION & SETUP ──────────────────────────────────────────
     ['Log Masuk.html',                'Log Masuk'],
-    ['Daftar Akaun.html',             'Daftar Akaun'],
+    ['Daftar Akaun.html',             'Daftar Akaun Baharu'],
     ['Pengesahan Emel.html',          'Pengesahan Emel'],
     ['Profil Pengguna.html',          'Profil Pengguna'],
-    ['Dashboard.html',                'Dashboard'],
-    ['Senarai Projek.html',           'Senarai Projek'],
-    ['Detail Projek.html',            'Detail Projek'],
-    ['Pilih Projek.html',             'Pilih Projek (Cadangan PSG)'],
-    ['Modal Kunci Maklumat.html',     'Modal Kunci Maklumat'],
-    ['Pra-Intervensi.html',           'Fasa 1 · Pra-Intervensi'],
-    ['Tarikh Intervensi.html',        'Fasa 1 · Tarikh Intervensi'],
-    ['Tetapkan Pasukan.html',         'Fasa 1 · Tetapkan Pasukan'],
-    ['Surat Lantikan.html',           'Fasa 1 · Surat Lantikan (Appendix A)'],
-    ['Lampiran B.html',               'Fasa 2 · Checklist Dokumen (Lampiran B)'],
-    ['Borang Penilaian.html',         'Fasa 2 · Borang Penilaian (Appendix C)'],
-    ['Tindakan Pengesyoran.html',     'Fasa 2 · Tindakan Pengesyoran'],
-    ['Laporan Intervensi.html',       'Fasa 3 · Laporan Intervensi'],
-    ['Laporan Intervensi Form.html',  'Fasa 3 · Laporan Intervensi (Borang)'],
-    ['Semakan Pengesah.html',         'Fasa 3 · Semakan Pengesah'],
-    ['Muktamadkan Laporan.html',      'Fasa 3 · Muktamadkan Laporan'],
-    ['Laporan Diluluskan.html',       'Fasa 3 · Laporan Diluluskan'],
-    ['Jana Surat.html',               'Fasa 3 · Jana Surat Edaran (Appendix E)'],
-    ['Susulan Bulanan.html',          'Fasa 4 · Susulan Bulanan (3 bulan)'],
-    ['Ruang Catatan.html',            'Fasa 4 · Ruang Catatan Tapak'],
-    ['Penilaian Prestasi.html',       'Fasa 4 · Penilaian Prestasi'],
-    ['Mesyuarat Penutup.html',        'Fasa 4 · Mesyuarat Penutup'],
-    ['Workflow Visualizer.html',      'Carta Alir 4 Fasa Intervensi'],
-    ['Pusat Amaran.html',             'Pusat Amaran'],
-    ['Email Notification.html',       'Email Notification'],
-    ['Laporan Kemajuan Bulanan.html', 'Laporan Kemajuan Bulanan'],
-    ['Log Audit.html',                'Log Jejak Audit'],
-    ['Pengurusan Pengguna.html',      'Pengurusan Pengguna (RBAC)'],
+
+    // ── 2. DISCOVERY & PROJECT SELECTION ───────────────────────────────────
+    ['Dashboard.html',                'Dashboard Pengarah'],
+    ['Senarai Projek.html',           'Senarai Projek (Pemantauan SKALA)'],
+    ['Detail Projek.html',            'Detail Projek (Cadangkan Intervensi)'],
+    ['Modal Kunci Maklumat.html',     'Modal Kunci Maklumat Projek'],
+    ['Pilih Projek.html',             'Pilih Projek (Batch Cadangan PSG)'],
+
+    // ── 3. FASA 1 PERANCANGAN (5 langkah Garis Panduan Para 5.2) ──────────
+    ['Tetapkan Pasukan.html',         'Fasa 1 · Langkah 1 · Tetapkan Pasukan'],
+    ['Tarikh Intervensi.html',        'Fasa 1 · Langkah 2 · Tarikh Intervensi'],
+    ['Jana Surat.html',               'Fasa 1 · Langkah 3 · Jana Surat Lantikan (Appendix A)'],
+    ['Surat Lantikan.html',           'Fasa 1 · Langkah 4 · Surat Lantikan (Pratonton)'],
+    ['Pra-Intervensi.html',           'Fasa 1 · Langkah 5 · Pra-Intervensi (Briefing)'],
+
+    // ── 4. FASA 2 PELAKSANAAN (lawatan tapak) ──────────────────────────────
+    ['Lampiran B.html',               'Fasa 2 · Langkah 1 · Checklist Dokumen Tapak (Lampiran B)'],
+    ['Borang Penilaian.html',         'Fasa 2 · Langkah 2 · Borang Penilaian (Appendix C)'],
+    ['Tindakan Pengesyoran.html',     'Fasa 2 · Langkah 3 · Tindakan Pengesyoran'],
+
+    // ── 5. FASA 3 PELAPORAN (Appendix D + E) ──────────────────────────────
+    ['Laporan Intervensi Form.html',  'Fasa 3 · Langkah 1 · Susun Laporan Intervensi (Appendix D)'],
+    ['Laporan Intervensi.html',       'Fasa 3 · Langkah 2 · Pratonton Laporan'],
+    ['Semakan Pengesah.html',         'Fasa 3 · Langkah 3 · Semakan Pengesah'],
+    ['Muktamadkan Laporan.html',      'Fasa 3 · Langkah 4 · Muktamadkan Laporan'],
+    ['Laporan Diluluskan.html',       'Fasa 3 · Langkah 5 · Laporan Diluluskan'],
+    ['Surat Edaran.html',             'Fasa 3 · Langkah 6 · Jana Surat Edaran (Appendix E)'],
+
+    // ── 6. FASA 4 PASCA-INTERVENSI ─────────────────────────────────────────
+    ['Ruang Catatan.html',            'Fasa 4 · Langkah 1 · Ruang Catatan Tapak'],
+    ['Susulan Bulanan.html',          'Fasa 4 · Langkah 2 · Susulan Bulanan (3 bulan)'],
+    ['Laporan Kemajuan Bulanan.html', 'Fasa 4 · Langkah 3 · Laporan Kemajuan Bulanan'],
+    ['Penilaian Prestasi.html',       'Fasa 4 · Langkah 4 · Penilaian Prestasi Pemulihan'],
+    ['Mesyuarat Penutup.html',        'Fasa 4 · Langkah 5 · Mesyuarat Penutup PSG'],
+
+    // ── 7. CROSS-CUTTING & ADMIN ───────────────────────────────────────────
+    ['Workflow Visualizer.html',      'Rujukan · Carta Alir 4-Fasa Intervensi'],
+    ['Pusat Amaran.html',             'Rujukan · Pusat Amaran'],
+    ['Email Notification.html',       'Rujukan · Templat Email Notification'],
+    ['Log Audit.html',                'Compliance · Log Jejak Audit (DKICT)'],
+    ['Pengurusan Pengguna.html',      'Admin · Pengurusan Pengguna (5-tier RBAC)'],
   ];
 
   function injectDemoNav() {

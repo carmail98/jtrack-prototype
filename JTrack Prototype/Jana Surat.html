@@ -165,16 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
     janaBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (window.JT && window.JT.Workflow) {
-        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
-        s.suratLantikan = `LANT-${Date.now()}`;
-        window.JT.Workflow.save(s);
-        window.JT.Audit.log('Jana Surat Lantikan',
-          `Surat Lantikan (Appendix A) dijana · Ruj: ${s.suratLantikan} · Diedar via emel kepada 6 ahli pasukan`);
-      }
-      t('Surat Lantikan dijana', 'success',
-        'Templat Appendix A · Salinan auto ke CPAB. Mengalihkan ke Pra-Intervensi…');
-      setTimeout(() => location.href = 'Pra-Intervensi.html', 1500);
+      // Pratonton format rasmi sebelum hantar (Garis Panduan 1.6)
+      // No state change yet — surat hanya dijana selepas Pengarah sahkan di pratonton page
+      t('Pratonton surat dijana', 'success',
+        'Sila semak format rasmi · Klik "Hantar via Emel" untuk edar.');
+      setTimeout(() => location.href = 'Surat Lantikan.html', 1200);
     });
   }
   // Wire "Muat Turun" button
