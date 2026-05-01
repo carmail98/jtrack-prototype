@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J-TRACK — Demo Navigator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-dark: #13253E;
+    --gold: #D4A017;
+    --gold-light: #F2C94C;
+    --orange: #C7561D;
+    --text: #1A1A2E;
+    --muted: #5A6B7E;
+    --border: #EEF1F5;
+    --bg: #F5F7FA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    color: white;
+    padding: 40px 48px 48px;
+    border-bottom: 4px solid var(--gold);
+  }
+  .brand {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    color: var(--gold-light); text-transform: uppercase; margin-bottom: 8px;
+  }
+  header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+  header p { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 6px; }
+  .meta {
+    margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap;
+    font-size: 12px; color: rgba(255,255,255,0.6);
+  }
+  .meta strong { color: var(--gold-light); font-weight: 600; }
+
+  .role-bar {
+    background: rgba(255,255,255,0.04);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 24px -48px -48px;
+    padding: 14px 48px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .role-bar-label {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gold-light);
+  }
+  .role-pill {
+    height: 30px; padding: 0 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.15s;
+  }
+  .role-pill:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+  .role-pill.active { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); font-weight: 600; }
+  .role-pill .role-tier { font-family: "JetBrains Mono", monospace; font-size: 10px; opacity: 0.7; }
+  .role-pill.active .role-tier { opacity: 0.85; }
+
+  main { padding: 40px 48px 80px; max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: 40px; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700;
+    color: var(--orange); letter-spacing: 1.5px;
+    background: rgba(199,86,29,0.08); padding: 3px 8px; border-radius: 4px;
+  }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .section-desc { font-size: 12.5px; color: var(--muted); margin-left: auto; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: white; border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; text-decoration: none; color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    display: block;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--navy); box-shadow: 0 8px 20px rgba(30, 58, 95, 0.12); }
+  .card img {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left;
+    display: block; background: var(--bg);
+  }
+  .card-thumb-placeholder {
+    width: 100%; aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    color: var(--gold-light);
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    gap: 4px; font-family: "JetBrains Mono", monospace;
+  }
+  .card-thumb-placeholder .ph-fasa {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  }
+  .card-thumb-placeholder .ph-app {
+    font-size: 13px; font-weight: 600; opacity: 0.65;
+  }
+  .card-thumb-placeholder.new::after {
+    content: "BARU"; position: absolute; top: 8px; right: 8px;
+    background: var(--orange); color: white; font-size: 9.5px; font-weight: 700;
+    padding: 2px 6px; border-radius: 3px; letter-spacing: 1px;
+  }
+  .card-thumb-placeholder { position: relative; }
+  .card-body { padding: 12px 14px 14px; }
+  .card-title {
+    font-size: 14px; font-weight: 600; color: var(--navy); line-height: 1.3;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .card-title .new-badge {
+    font-size: 8.5px; font-weight: 700; padding: 1px 5px;
+    background: var(--orange); color: white; border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  .card-desc { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+  .flow-banner {
+    background: linear-gradient(90deg, rgba(199,86,29,0.05), rgba(212,160,23,0.04));
+    border: 1px solid rgba(199,86,29,0.18);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .flow-banner svg { flex-shrink: 0; color: var(--orange); }
+  .flow-banner-text {
+    font-size: 12.5px; color: var(--text);
+  }
+  .flow-banner-text strong { color: var(--orange); font-weight: 600; }
+  .flow-banner-text small { color: var(--muted); display: block; margin-top: 2px; font-size: 11px; }
+
+  footer {
+    padding: 24px 48px; background: var(--navy);
+    color: rgba(255,255,255,0.7); font-size: 11.5px; text-align: center;
+  }
+  footer a { color: var(--gold-light); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Demo Navigator</div>
+  <h1>Sistem J-TRACK — Prototaip UI/UX v2</h1>
+  <p>Pemantauan Program Intervensi Projek Sakit/Bermasalah · JKR Malaysia</p>
+  <div class="meta">
+    <span><strong>32</strong> skrin prototaip</span>
+    <span><strong>4 fasa</strong> intervensi (Garis Panduan v1.0)</span>
+    <span><strong>5 RBAC</strong> roles</span>
+    <span><strong>Auto-wire</strong> butang &amp; modal</span>
+    <span style="margin-left:auto;">Kemaskini · 28 April 2026</span>
+  </div>
+
+  <div class="role-bar">
+    <span class="role-bar-label">Demo sebagai:</span>
+    <button class="role-pill active" data-role="admin">Ir. Rafidah <span class="role-tier">ADMIN</span></button>
+    <button class="role-pill" data-role="penyedia">En. Hafiz <span class="role-tier">PENYEDIA</span></button>
+    <button class="role-pill" data-role="pengesah">Ir. Rosli <span class="role-tier">PENGESAH</span></button>
+    <button class="role-pill" data-role="pengguna">Pn. Aishah <span class="role-tier">PENGGUNA</span></button>
+    <button class="role-pill" data-role="viewer">YBhg. Datuk Idris <span class="role-tier">VIEWER</span></button>
+  </div>
+</header>
+
+<main>
+
+<div class="flow-banner">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+  <div class="flow-banner-text">
+    <strong>Carta Alir Rasmi:</strong> Perancangan (Bab 3) → Pelaksanaan (Bab 4) → Pelaporan (Bab 5) → Pasca Intervensi (Bab 6).
+    <small>Sistem ini selaras dengan Garis Panduan Pelaksanaan Intervensi JKR Versi 1.0 (15 Jun 2021) · CPAB.</small>
+  </div>
+</div>
+
+<!-- =========== A. AUTENTIKASI =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">A · AKAUN</span>
+    <span class="section-title">Autentikasi &amp; Akaun</span>
+    <span class="section-desc">Log masuk JDN SSO, pendaftaran, profil pengguna</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Log Masuk.html"><img src="thumbnails/Log_Masuk.png" alt=""><div class="card-body"><div class="card-title">Log Masuk</div><div class="card-desc">Portal akses rasmi dengan JDN SSO</div></div></a>
+    <a class="card" href="Daftar Akaun.html"><img src="thumbnails/Daftar_Akaun.png" alt=""><div class="card-body"><div class="card-title">Daftar Akaun</div><div class="card-desc">Pendaftaran pengguna baharu</div></div></a>
+    <a class="card" href="Pengesahan Emel.html"><img src="thumbnails/Pengesahan_Emel.png" alt=""><div class="card-body"><div class="card-title">Pengesahan Emel</div><div class="card-desc">OTP pengesahan akaun</div></div></a>
+    <a class="card" href="Profil Pengguna.html"><img src="thumbnails/Profil_Pengguna.png" alt=""><div class="card-body"><div class="card-title">Profil Pengguna</div><div class="card-desc">Maklumat &amp; tetapan pengguna</div></div></a>
+  </div>
+</section>
+
+<!-- =========== B. PEMANTAUAN =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">B · PEMANTAUAN</span>
+    <span class="section-title">Dashboard &amp; Pendaftaran Projek</span>
+    <span class="section-desc">SKALA-driven dashboard, senarai 247 projek aktif</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Dashboard.html"><img src="thumbnails/Dashboard.png" alt=""><div class="card-body"><div class="card-title">Dashboard Utama</div><div class="card-desc">KPI, statistik PSG, top intervensi diperlukan</div></div></a>
+    <a class="card" href="Senarai Projek.html"><img src="thumbnails/Senarai_Projek.png" alt=""><div class="card-body"><div class="card-title">Senarai Projek</div><div class="card-desc">247 projek — auto flag PSG (≥10% atau ≥30 hari)</div></div></a>
+    <a class="card" href="Detail Projek.html"><img src="thumbnails/Detail_Projek.png" alt=""><div class="card-body"><div class="card-title">Detail Projek</div><div class="card-desc">Maklumat projek + kemajuan vs jadual</div></div></a>
+    <a class="card" href="Pilih Projek.html"><img src="thumbnails/Pilih_Projek.png" alt=""><div class="card-body"><div class="card-title">Pilih Projek</div><div class="card-desc">Cadangan projek untuk intervensi</div></div></a>
+    <a class="card" href="Modal Kunci Maklumat.html"><img src="thumbnails/Modal_Kunci_Maklumat.png" alt=""><div class="card-body"><div class="card-title">Modal Kunci Maklumat</div><div class="card-desc">Tambah maklumat penting projek</div></div></a>
+  </div>
+</section>
+
+<!-- =========== FASA 1 — Perancangan (5 langkah Para 5.2) =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">FASA 1</span>
+    <span class="section-title">Perancangan Intervensi</span>
+    <span class="section-desc">Bab 3 Garis Panduan · Lantik pasukan → Tarikh → Surat Lantikan → Briefing</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Tetapkan Pasukan.html"><img src="thumbnails/Tetapkan_Pasukan.png" alt=""><div class="card-body"><div class="card-title">1 · Tetapkan Pasukan</div><div class="card-desc">Lantik Ketua J54/J52/J48 + Penyedia + Ahli (disiplin)</div></div></a>
+    <a class="card" href="Tarikh Intervensi.html"><img src="thumbnails/Tarikh_Intervensi.png" alt=""><div class="card-body"><div class="card-title">2 · Tarikh Intervensi</div><div class="card-desc">Penjadualan lawatan tapak &amp; sesi briefing</div></div></a>
+    <a class="card" href="Jana Surat.html"><img src="thumbnails/Jana_Surat.png" alt=""><div class="card-body"><div class="card-title">3 · Jana Surat Lantikan</div><div class="card-desc">Editor templat Appendix A · auto-emel ke pasukan</div></div></a>
+    <a class="card" href="Surat Lantikan.html">
+      <div class="card-thumb-placeholder new">
+        <span class="ph-fasa">FASA 1</span>
+        <span class="ph-app">Appendix A</span>
+      </div>
+      <div class="card-body"><div class="card-title">4 · Surat Lantikan <span class="new-badge">BARU</span></div><div class="card-desc">Pratonton PDF rasmi · placeholder fields · PDF/DOCX</div></div>
+    </a>
+    <a class="card" href="Pra-Intervensi.html"><img src="thumbnails/Pra-Intervensi.png" alt=""><div class="card-body"><div class="card-title">5 · Pra-Intervensi (Briefing)</div><div class="card-desc">Kajian awal · SKALA pull · S-Curve · Indikator Risiko</div></div></a>
+  </div>
+</section>
+
+<!-- =========== FASA 2 =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">FASA 2</span>
+    <span class="section-title">Pelaksanaan Intervensi</span>
+    <span class="section-desc">Bab 4 Garis Panduan · Lawatan tapak, Borang Penilaian, pengesyoran</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Lampiran B.html">
+      <div class="card-thumb-placeholder new" style="background:linear-gradient(135deg,#854F0B,#BA7517);color:#FAEEDA">
+        <span class="ph-fasa">FASA 2</span>
+        <span class="ph-app">Lampiran B</span>
+      </div>
+      <div class="card-body"><div class="card-title">1 · Checklist Dokumen Tapak <span class="new-badge">BARU</span></div><div class="card-desc">Lampiran B · 10 dokumen wajib (RMP/EMP/Recovery Plan)</div></div>
+    </a>
+    <a class="card" href="Borang Penilaian.html">
+      <div class="card-thumb-placeholder new" style="background:linear-gradient(135deg,#791F1F,#A32D2D);color:#FCEBEB">
+        <span class="ph-fasa">FASA 2</span>
+        <span class="ph-app">Appendix C</span>
+      </div>
+      <div class="card-body"><div class="card-title">2 · Borang Penilaian Isu <span class="new-badge">BARU</span></div><div class="card-desc">Appendix C · Taxonomy A/B/C · 60+ kod isu · Impak SKOP/MASA/KOS</div></div>
+    </a>
+    <a class="card" href="Tindakan Pengesyoran.html"><img src="thumbnails/Tindakan_Pengesyoran.png" alt=""><div class="card-body"><div class="card-title">3 · Tindakan Pengesyoran</div><div class="card-desc">Cadangan tindakan untuk pemulihan projek</div></div></a>
+  </div>
+</section>
+
+<!-- =========== FASA 3 — Pelaporan (5 langkah) =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">FASA 3</span>
+    <span class="section-title">Pelaporan Intervensi</span>
+    <span class="section-desc">Bab 5 Garis Panduan · Susun → Semak → Muktamadkan → Edar (Appendix D + E)</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Laporan Intervensi Form.html"><img src="thumbnails/Laporan_Intervensi_Form.png" alt=""><div class="card-body"><div class="card-title">1 · Susun Laporan (Borang)</div><div class="card-desc">Input Punca Kelewatan &amp; Analisis · Appendix D</div></div></a>
+    <a class="card" href="Laporan Intervensi.html"><img src="thumbnails/Laporan_Intervensi.png" alt=""><div class="card-body"><div class="card-title">2 · Pratonton Laporan</div><div class="card-desc">Paparan format rasmi (Appendix D PDF view)</div></div></a>
+    <a class="card" href="Semakan Pengesah.html"><img src="thumbnails/Semakan_Pengesah.png" alt=""><div class="card-body"><div class="card-title">3 · Semakan Pengesah</div><div class="card-desc">Review &amp; komen Pegawai Penguasa (Sahkan/Pulangkan/Tolak)</div></div></a>
+    <a class="card" href="Muktamadkan Laporan.html"><img src="thumbnails/Muktamadkan_Laporan.png" alt=""><div class="card-body"><div class="card-title">4 · Muktamadkan Laporan</div><div class="card-desc">Senarai kelengkapan 16 item · proses kelulusan akhir</div></div></a>
+    <a class="card" href="Laporan Diluluskan.html"><img src="thumbnails/Laporan_Diluluskan.png" alt=""><div class="card-body"><div class="card-title">5 · Laporan Diluluskan</div><div class="card-desc">3 tandatangan digital · siap untuk diedarkan</div></div></a>
+    <a class="card" href="Surat Edaran.html">
+      <div class="card-thumb-placeholder new">
+        <span class="ph-fasa">FASA 3</span>
+        <span class="ph-app">Appendix E</span>
+      </div>
+      <div class="card-body"><div class="card-title">6 · Surat Edaran <span class="new-badge">BARU</span></div><div class="card-desc">Pratonton Appendix E · Sahkan &amp; Edar ke 6 pihak + CPAB</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- =========== FASA 4 — Pasca-Intervensi (5 langkah) =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">FASA 4</span>
+    <span class="section-title">Pasca Intervensi</span>
+    <span class="section-desc">Bab 6 Garis Panduan · Catatan tapak → 3 bulan susulan → Penilaian → Tutup PSG</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Ruang Catatan.html"><img src="thumbnails/Ruang_Catatan.png" alt=""><div class="card-body"><div class="card-title">1 · Ruang Catatan Tapak</div><div class="card-desc">Log harian pasukan · muat naik gambar · @-mention</div></div></a>
+    <a class="card" href="Susulan Bulanan.html">
+      <div class="card-thumb-placeholder new" style="background:linear-gradient(135deg,#0C447C,#185FA5);color:#E6F1FB">
+        <span class="ph-fasa">FASA 4</span>
+        <span class="ph-app">Bab 6</span>
+      </div>
+      <div class="card-body"><div class="card-title">2 · Susulan Bulanan <span class="new-badge">BARU</span></div><div class="card-desc">M+1, M+2, M+3 progress · cadangan tindakan</div></div>
+    </a>
+    <a class="card" href="Laporan Kemajuan Bulanan.html"><img src="thumbnails/Laporan_Kemajuan_Bulanan.png" alt=""><div class="card-body"><div class="card-title">3 · Laporan Kemajuan</div><div class="card-desc">Output pelaporan automatik bulanan ke pengarah</div></div></a>
+    <a class="card" href="Penilaian Prestasi.html"><img src="thumbnails/Penilaian_Prestasi.png" alt=""><div class="card-body"><div class="card-title">4 · Penilaian Prestasi</div><div class="card-desc">Trend 3 bulan + skor metrik pemulihan</div></div></a>
+    <a class="card" href="Mesyuarat Penutup.html"><img src="thumbnails/Mesyuarat_Penutup.png" alt=""><div class="card-body"><div class="card-title">5 · Mesyuarat Penutup PSG</div><div class="card-desc">Agenda · tandatangan kontraktor · pengesyoran penutupan</div></div></a>
+  </div>
+</section>
+
+<!-- =========== SOKONGAN — Rujukan, Compliance & Admin =========== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">SOKONGAN</span>
+    <span class="section-title">Rujukan, Compliance &amp; Pentadbiran</span>
+    <span class="section-desc">Carta alir, notifikasi, audit DKICT, pengurusan pengguna RBAC</span>
+  </div>
+  <div class="grid">
+    <a class="card" href="Workflow Visualizer.html"><img src="thumbnails/Workflow_Visualizer.png" alt=""><div class="card-body"><div class="card-title">Carta Alir 4-Fasa</div><div class="card-desc">Visualizer end-to-end intervensi (rujukan)</div></div></a>
+    <a class="card" href="Pusat Amaran.html"><img src="thumbnails/Pusat_Amaran.png" alt=""><div class="card-body"><div class="card-title">Pusat Amaran</div><div class="card-desc">In-app notification centre</div></div></a>
+    <a class="card" href="Email Notification.html"><img src="thumbnails/Email_Notification.png" alt=""><div class="card-body"><div class="card-title">Templat Email</div><div class="card-desc">Sample notifikasi yang dihantar</div></div></a>
+    <a class="card" href="Log Audit.html"><img src="thumbnails/Log_Audit.png" alt=""><div class="card-body"><div class="card-title">Log Jejak Audit</div><div class="card-desc">SHA-256 hash-chain · DKICT compliant · 7-tahun retention</div></div></a>
+    <a class="card" href="Pengurusan Pengguna.html"><img src="thumbnails/Pengurusan_Pengguna.png" alt=""><div class="card-body"><div class="card-title">Pengurusan Pengguna</div><div class="card-desc">RBAC 5-tier · kebenaran akses</div></div></a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Prototaip Sistem J-TRACK · Interactive UI/UX Mockup · SULIT ·
+  <a href="Log Masuk.html">Mulakan demo →</a> ·
+  <a href="Workflow Visualizer.html">Lihat Carta Alir 4-Fasa →</a>
+</footer>
+
+<script>
+  // Wire up role pills — switch role via localStorage same as _chrome.js
+  (function() {
+    function getRole() { try { return localStorage.getItem('jtrack.role') || 'admin'; } catch(e) { return 'admin'; } }
+    function setRole(k) { try { localStorage.setItem('jtrack.role', k); } catch(e) {} updatePills(); }
+    function updatePills() {
+      const cur = getRole();
+      document.querySelectorAll('.role-pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.role === cur);
+      });
+    }
+    document.querySelectorAll('.role-pill').forEach(p => {
+      p.addEventListener('click', () => setRole(p.dataset.role));
+    });
+    updatePills();
+  })();
+</script>
+
+</body>
+</html>

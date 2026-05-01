@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J-TRACK — Jana Surat Edaran Laporan (Appendix E)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Tinos:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_shared.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="_tailwind.js"></script>
+<style>
+  .surat-page { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 720px; min-height: 1018px; padding: 56px 64px; font-family: 'Tinos', 'Times New Roman', serif; font-size: 11.5pt; line-height: 1.55; color: #1a1a1a; }
+  .surat-page h2 { font-family: inherit; font-weight: 700; }
+  .surat-para { margin-bottom: 14px; text-align: justify; }
+  .surat-para .num { display: inline-block; min-width: 24px; font-weight: 700; }
+  .placeholder { background: #fef3c7; padding: 0 3px; border-radius: 2px; border-bottom: 1px dashed #d97706; cursor: pointer; }
+  .placeholder:hover { background: #fde68a; }
+</style>
+</head>
+<body class="antialiased min-h-screen">
+<div class="min-h-screen flex">
+  <div id="jt-sidebar"></div>
+  <div class="flex-1 flex flex-col min-w-0">
+    <div id="jt-topbar"></div>
+
+    <main class="flex-1 overflow-auto scrollbar bg-slate-100">
+      <section class="px-6 pt-6 pb-3 bg-white border-b border-border">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-[10.5px] uppercase tracking-[2px] font-semibold text-orange">Fasa 3 · Pelaporan Intervensi</span>
+              <span class="text-[10.5px] text-muted-foreground">·</span>
+              <span class="mono text-[10.5px] text-muted-foreground">Appendix E — Garis Panduan JKR</span>
+            </div>
+            <h1 class="text-[22px] font-bold tracking-tight">Surat Edaran Laporan Intervensi</h1>
+            <p class="mt-1 text-[12.5px] text-muted-foreground">Format rasmi kerajaan · auto-fill dari laporan diluluskan · CC ke CPAB Ibu Pejabat</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Edit Pengganti Field</button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Eksport PDF</button>
+            <button class="h-9 px-3 rounded-md border border-border bg-white text-[12px] font-semibold text-slate-700 hover:bg-muted">Eksport DOCX</button>
+            <button class="h-9 px-3.5 rounded-md bg-navy text-white text-[12px] font-semibold inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Sahkan &amp; Edar
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-[1fr_320px] gap-0">
+        <!-- LEFT: Letter preview -->
+        <div class="p-6 flex justify-center">
+          <div class="surat-page">
+            <!-- Kepala surat -->
+            <div style="display:flex;align-items:center;gap:12px;border-bottom:2px solid #000;padding-bottom:10px;">
+              <div style="width:54px;height:54px;background:#13253E;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border-radius:6px;letter-spacing:1px;">JKR</div>
+              <div style="font-family:'Inter',sans-serif;font-size:9.5pt;line-height:1.3;">
+                <div style="font-weight:700;font-size:10.5pt;">JABATAN KERJA RAYA MALAYSIA</div>
+                <div>Cawangan Pasukan Anggerik Bandar (CPAB), Ibu Pejabat JKR Malaysia</div>
+                <div>Tingkat 28, Menara PJD, No. 50, Jalan Tun Razak, 50400 Kuala Lumpur</div>
+                <div>Telefon: 03-2618 8888 · Faksimili: 03-2618 8800 · Laman Web: www.jkr.gov.my</div>
+              </div>
+            </div>
+
+            <!-- Reference & Date -->
+            <div style="display:flex;justify-content:space-between;font-size:11pt;margin:18px 0 10px;">
+              <div>Ruj. Kami: <span class="placeholder mono" title="Klik untuk edit">JKR.CPAB.500-3/2/PSG-N9-0042 (12)</span></div>
+              <div>Tarikh: <span class="placeholder mono" title="Klik untuk edit">18 Disember 2025</span></div>
+            </div>
+
+            <!-- Penerima -->
+            <div style="margin-bottom:14px;">
+              <div><span class="placeholder">Pengarah</span></div>
+              <div><span class="placeholder">Cawangan Bangunan Awam</span></div>
+              <div><span class="placeholder">Jabatan Kerja Raya Negeri Sembilan</span></div>
+              <div><span class="placeholder">Wisma Negeri, Jalan Yam Tuan</span></div>
+              <div><span class="placeholder">70990 Seremban, Negeri Sembilan</span></div>
+            </div>
+
+            <div style="margin-bottom:14px;">Tuan,</div>
+
+            <h2 style="text-decoration:underline;text-transform:uppercase;text-align:center;margin-bottom:18px;font-size:11.5pt;">
+              EDARAN LAPORAN INTERVENSI PROGRAM PROJEK SAKIT — <br/>
+              <span class="placeholder">PROJEK CADANGAN MEMBINA SEKOLAH MENENGAH KEBANGSAAN KUALA PILAH (2 TINGKAT), NEGERI SEMBILAN</span>
+            </h2>
+
+            <p class="surat-para">Dengan hormatnya saya merujuk kepada perkara di atas.</p>
+
+            <p class="surat-para">
+              <span class="num">2.</span>
+              Sukacita dimaklumkan bahawa <strong>Laporan Intervensi</strong> bagi projek tersebut di atas telah dimuktamadkan dan diluluskan oleh Pengarah UKAT pada <span class="placeholder">15 Disember 2025</span>. Salinan laporan rasmi (Ruj: <span class="placeholder mono">UKAT/LAP/INT/2025/042 v4 Final</span>) disertakan bersama surat ini sebagai <strong>Lampiran A</strong>.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">3.</span>
+              Laporan tersebut mengandungi <strong>5 faktor punca kelewatan utama</strong>, <strong>7 pengesyoran tindakan</strong>, dan <strong>14 pelan tindakan</strong> yang perlu dilaksanakan oleh pihak yang terlibat selaras dengan <em>Garis Panduan Pelaksanaan Intervensi JKR Versi 1.0 (15 Jun 2021)</em>.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">4.</span>
+              Tuan/Puan adalah dipohon untuk:
+            </p>
+            <ol style="margin:0 0 14px 48px;list-style-type:lower-alpha;">
+              <li style="margin-bottom:6px;">Mengambil maklum dan tindakan sewajarnya terhadap pengesyoran yang berkaitan dengan unit/cawangan tuan/puan;</li>
+              <li style="margin-bottom:6px;">Menyediakan <strong>Pelan Pemulihan</strong> yang menyatakan tindakan, tarikh akhir, dan pegawai bertanggungjawab dalam tempoh <strong>14 hari</strong> dari tarikh surat ini;</li>
+              <li style="margin-bottom:6px;">Menghantar <strong>Laporan Kemajuan Bulanan</strong> kepada CPAB Ibu Pejabat selama <strong>3 bulan berturut-turut</strong> sehingga PSG ditutup secara rasmi.</li>
+            </ol>
+
+            <p class="surat-para">
+              <span class="num">5.</span>
+              Pasukan Intervensi akan menyusulkan kemajuan dengan tuan/puan secara bulanan melalui sistem J-TRACK. Sebarang isu yang menjejaskan pelaksanaan pengesyoran hendaklah dimaklumkan kepada CPAB dengan kadar segera.
+            </p>
+
+            <p class="surat-para">
+              <span class="num">6.</span>
+              Sebarang pertanyaan boleh dimajukan kepada Urusetia Intervensi melalui sistem J-TRACK atau emel <span class="placeholder">cpab.intervensi@jkr.gov.my</span>.
+            </p>
+
+            <p class="surat-para">Sekian, terima kasih.</p>
+
+            <div style="text-align:center;margin:18px 0 36px;font-weight:700;">"BERKHIDMAT UNTUK NEGARA"</div>
+
+            <div style="margin-top:36px;">
+              <div>Saya yang menjalankan amanah,</div>
+              <div style="margin-top:48px;">
+                <div style="border-top:1px solid #000;padding-top:4px;display:inline-block;min-width:280px;">
+                  <strong><span class="placeholder">(IR. HJ. MOHD RAZALI BIN HASSAN)</span></strong>
+                </div>
+                <div style="font-style:italic;"><span class="placeholder">Pengarah, Unit Khas Pengurusan Projek Sakit (UKAT)</span></div>
+                <div><span class="placeholder">Cawangan Pasukan Anggerik Bandar, Ibu Pejabat JKR</span></div>
+              </div>
+            </div>
+
+            <div style="margin-top:24px;font-size:10pt;">
+              <div>s.k.:</div>
+              <div style="margin-left:20px;">
+                <div>1. Pengarah Cawangan Pasukan Anggerik Bandar (CPAB) Ibu Pejabat</div>
+                <div>2. Pengarah JKR Negeri Sembilan</div>
+                <div>3. Pegawai Penguasa Projek (HOPT)</div>
+                <div>4. Wakil Kontraktor — Syarikat Binaan Jayamas Sdn. Bhd.</div>
+                <div>5. Setiausaha JTICT</div>
+                <div>6. Fail rujukan UKAT/LAP/INT/2025/042</div>
+              </div>
+            </div>
+
+            <div style="margin-top:36px;padding-top:8px;border-top:1px solid #999;font-size:8pt;color:#555;display:flex;justify-content:space-between;">
+              <span>JKR Malaysia bersijil:</span>
+              <span>ISO 9001:2015 · ISO 14001:2015 · ISO 45001:2018 · ISO 50001:2018</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Field editor sidebar -->
+        <aside class="p-4 bg-white border-l border-border space-y-3 sticky top-0 self-start max-h-screen overflow-y-auto">
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Templat Aktif</div>
+            <select class="w-full h-9 px-2.5 rounded-md border border-border bg-white text-[12.5px] field-focus">
+              <option selected>Appendix E — Surat Edaran Laporan</option>
+              <option>Appendix A — Surat Lantikan Pasukan</option>
+              <option>Appendix B — Surat Makluman Program</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Field Pengganti</div>
+            <div class="space-y-2 text-[12px]">
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Ruj. Laporan Diluluskan</div>
+                <input value="UKAT/LAP/INT/2025/042 v4 Final" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Tarikh Surat Edaran</div>
+                <input type="date" value="2025-12-18" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Tempoh Pelan Pemulihan (hari)</div>
+                <input type="number" value="14" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Tempoh Susulan (bulan)</div>
+                <input type="number" value="3" class="w-full h-7 px-2 rounded border border-input text-[12px] mono field-focus">
+              </label>
+              <label class="block">
+                <div class="text-[10.5px] text-muted-foreground mb-0.5">Pengeluar Surat</div>
+                <select class="w-full h-7 px-2 rounded border border-input text-[12px] bg-white field-focus">
+                  <option selected>Pengarah UKAT</option>
+                  <option>Pengarah CPAB</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Senarai Edaran (s.k.)</div>
+            <div class="space-y-1.5 text-[11.5px]">
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Pengarah CPAB Ibu Pejabat</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Pengarah JKR Negeri</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>HOPT (Pegawai Penguasa)</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Wakil Kontraktor</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx">Setiausaha JTICT</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Fail rujukan</label>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">Lampiran</div>
+            <div class="space-y-1.5 text-[11.5px]">
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Lampiran A — Laporan Intervensi (Appendix D) Final</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx" checked>Lampiran B — Senarai Pengesyoran Lengkap</label>
+              <label class="flex items-center gap-2"><input type="checkbox" class="cbx">Lampiran C — Templat Pelan Pemulihan</label>
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-orange-50 border border-orange-100 rounded-md text-[11px] text-orange-700">
+            <strong>Tip:</strong> Klik "Sahkan &amp; Edar" untuk advance ke Fasa 4 Pasca-Intervensi.
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="_actions.js"></script>
+<script src="_chrome.js"></script>
+<script>JTRACK.mountChrome('surat', ['Surat Rasmi', 'Appendix E — Surat Edaran']);</script>
+<script>
+// Wire "Sahkan & Edar" → final action: set suratEdaran + advance F3→F4 + redirect Ruang Catatan
+document.addEventListener('DOMContentLoaded', () => {
+  const t = (title, type='info', desc) => {
+    if (window.JT && window.JT.toast) return window.JT.toast({ title, type, desc });
+  };
+  const sendBtn = Array.from(document.querySelectorAll('main button')).find(b =>
+    /Sahkan.*Edar/i.test((b.textContent || '').trim())
+  );
+  if (sendBtn) {
+    sendBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (window.JT && window.JT.Workflow) {
+        const s = window.JT.Workflow.state('PRJ-N9-2024-0042');
+        s.suratEdaran = `EDR-${Date.now()}`;
+        window.JT.Workflow.save(s);
+        window.JT.Workflow.advance('PRJ-N9-2024-0042', 4, 'Jana Surat Edaran',
+          `Surat Edaran (Appendix E) dijana · Ruj: ${s.suratEdaran} · Diedar ke 6 pihak + CPAB Ibu Pejabat · Fasa 4 Pasca-Intervensi dimulakan`);
+      }
+      t('Surat Edaran dihantar', 'success',
+        'Templat Appendix E diedar · CC auto ke CPAB · 6 penerima utama. Fasa 4 dimulakan…');
+      setTimeout(() => location.href = 'Ruang Catatan.html', 1800);
+    });
+  }
+  // Eksport PDF / DOCX → toast
+  ['Eksport PDF', 'Eksport DOCX'].forEach(label => {
+    const b = Array.from(document.querySelectorAll('main button')).find(x =>
+      x.textContent.trim() === label
+    );
+    if (b) b.addEventListener('click', () => {
+      t(`${label} dimuat turun`, 'info', 'Surat Edaran (Appendix E) · 312 KB');
+    });
+  });
+});
+</script>
+</body>
+</html>
