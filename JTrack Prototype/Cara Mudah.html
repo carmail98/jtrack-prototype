@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JTrack — Cara Paling Mudah Faham</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Georgia&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e6f0fa 100%);
+    min-height: 100vh;
+    color: #1A1A2E;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 40px; }
+
+  /* Top progress */
+  .progress {
+    display: flex; gap: 10px; margin-bottom: 32px; align-items: center;
+    justify-content: center; padding-top: 12px;
+  }
+  .dot {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #e5e7eb; color: #94a3b8;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    transition: all 0.3s;
+  }
+  .dot.active {
+    background: #1E3A5F; color: #D4A017;
+    box-shadow: 0 0 0 4px rgba(212,160,23,0.25);
+    transform: scale(1.1);
+  }
+  .dot.done { background: #2E7D5B; color: white; }
+  .line { width: 30px; height: 3px; background: #e5e7eb; }
+  .line.done { background: #2E7D5B; }
+
+  /* Card */
+  .card {
+    background: white; border-radius: 20px; padding: 40px 36px;
+    box-shadow: 0 8px 32px rgba(15,23,42,0.10);
+    border: 1px solid #e5e7eb;
+  }
+  .step-label {
+    font-size: 11px; font-weight: 700; color: #D4A017;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .headline {
+    font-family: 'Georgia', serif;
+    font-size: 36px; font-weight: 700; color: #1E3A5F;
+    line-height: 1.15; margin-bottom: 12px;
+  }
+  .subhead {
+    font-size: 16px; color: #5A6B7E; margin-bottom: 28px;
+  }
+
+  /* Mock UI illustration */
+  .mock {
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    border: 2px solid #e5e7eb; border-radius: 14px;
+    padding: 24px; margin-bottom: 28px;
+    min-height: 220px;
+    position: relative;
+  }
+  .mock-header {
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px;
+  }
+  .mock-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #cbd5e1;
+  }
+  .mock-dot.r { background: #ef4444; }
+  .mock-dot.y { background: #f59e0b; }
+  .mock-dot.g { background: #22c55e; }
+  .mock-url {
+    font-family: monospace; font-size: 11px; color: #94a3b8;
+    margin-left: auto;
+  }
+
+  /* Step-specific visuals */
+  .alert-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px; background: #fef2f2; border-left: 4px solid #C7561D;
+    border-radius: 8px; margin-bottom: 10px;
+  }
+  .alert-row.amber { background: #fef3c7; border-color: #D4A017; }
+  .alert-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: #C7561D; color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 20px; flex-shrink: 0;
+  }
+  .alert-icon.amber { background: #D4A017; }
+  .alert-text { flex: 1; min-width: 0; }
+  .alert-title { font-weight: 600; color: #1A1A2E; margin-bottom: 2px; font-size: 14px; }
+  .alert-meta { font-size: 12px; color: #5A6B7E; }
+
+  .btn-mock {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #1E3A5F; color: white; padding: 12px 20px;
+    border-radius: 8px; font-weight: 600; font-size: 14px;
+    pointer-events: none;
+  }
+  .btn-mock.gold { background: #D4A017; color: #1A1A2E; }
+  .btn-mock.success { background: #2E7D5B; }
+
+  .pulse-arrow {
+    position: absolute; left: -10px;
+    color: #D4A017; font-size: 32px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: translateX(0); opacity: 1; }
+    50% { transform: translateX(8px); opacity: 0.6; }
+  }
+
+  /* Letter mock (Step 2 + 4) */
+  .letter {
+    background: white; padding: 16px 18px; border: 1px dashed #cbd5e1;
+    border-radius: 6px; font-size: 12px; line-height: 1.5;
+  }
+  .letter-head {
+    border-bottom: 2px solid #1A1A2E; padding-bottom: 6px; margin-bottom: 10px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .letter-logo {
+    width: 28px; height: 28px; background: #13253E; color: #D4A017;
+    border-radius: 4px; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 9px;
+  }
+  .letter-org { font-size: 10px; font-weight: 700; }
+  .letter-sub { background: #fef3c7; padding: 2px 4px; border-radius: 3px; }
+
+  /* Form mock (Step 3) */
+  .form-row {
+    display: grid; grid-template-columns: 80px 1fr auto; gap: 10px;
+    align-items: center; padding: 10px 12px;
+    border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 6px;
+    background: white;
+  }
+  .form-code { font-family: monospace; font-size: 12px; font-weight: 700; color: #475569; }
+  .form-issue { font-size: 13px; color: #1A1A2E; }
+  .pill { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+  .pill-ya { background: #dcfce7; color: #166534; }
+  .pill-tidak { background: #fee2e2; color: #991b1b; }
+
+  /* Status badge */
+  .status-band {
+    background: linear-gradient(135deg, #2E7D5B 0%, #1B5E20 100%);
+    color: white; padding: 14px 20px; border-radius: 10px;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+  }
+  .status-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); display: flex;
+    align-items: center; justify-content: center; font-size: 18px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* What happens box */
+  .happens {
+    background: #f1f5f9; border-radius: 12px; padding: 16px 18px; margin-bottom: 24px;
+    border-left: 4px solid #1E3A5F;
+  }
+  .happens-label {
+    font-size: 11px; font-weight: 700; color: #1E3A5F;
+    letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .happens-text {
+    font-size: 15px; color: #1A1A2E; font-weight: 500;
+  }
+  .auto-tag {
+    display: inline-block; background: #2E7D5B; color: white;
+    padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+    margin-left: 6px;
+  }
+
+  /* Nav */
+  .nav {
+    display: flex; gap: 12px; margin-top: 8px;
+    justify-content: space-between; align-items: center;
+  }
+  .btn {
+    padding: 14px 28px; border: none; border-radius: 10px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,23,42,0.15); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-prev { background: white; color: #5A6B7E; border: 1px solid #e5e7eb; }
+  .btn-next {
+    background: #1E3A5F; color: white;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 16px 32px; font-size: 16px;
+  }
+  .btn-next.final { background: #2E7D5B; }
+  .step-counter {
+    font-size: 13px; color: #5A6B7E; font-weight: 500;
+  }
+
+  /* Header */
+  .top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    justify-content: center;
+  }
+  .top-logo {
+    background: #1E3A5F; color: #D4A017; padding: 6px 12px;
+    border-radius: 6px; font-weight: 700; font-size: 16px; letter-spacing: 1px;
+  }
+  .top-tag { font-size: 13px; color: #5A6B7E; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 16px 12px 32px; }
+    .card { padding: 24px 20px; border-radius: 14px; }
+    .headline { font-size: 24px; }
+    .subhead { font-size: 14px; }
+    .mock { padding: 16px; min-height: auto; }
+    .progress { gap: 6px; }
+    .dot { width: 32px; height: 32px; font-size: 13px; }
+    .line { width: 18px; }
+    .btn-next { padding: 14px 22px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="top">
+    <div class="top-logo">JTRACK</div>
+    <div class="top-tag">Cara paling mudah faham · 5 langkah sahaja</div>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="progress" id="progress"></div>
+
+  <!-- Card -->
+  <div class="card" id="card">
+    <!-- Content injected by JS -->
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <button class="btn btn-prev" id="btn-prev" onclick="back()">← Kembali</button>
+    <div class="step-counter" id="counter">Langkah 1 dari 5</div>
+    <button class="btn btn-next" id="btn-next" onclick="next()">Seterusnya →</button>
+  </div>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    label: 'LANGKAH 1',
+    headline: 'Sistem nampak projek lewat',
+    subhead: 'JTrack pantau semua projek JKR daripada SKALA setiap hari. Bila projek lewat 30 hari atau lebih, sistem auto-flag KRITIKAL.',
+    happens: 'Pengarah dapat amaran',
+    happensTag: 'AUTO',
+    mock: `
+      <div class="mock-header">
+        <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+        <div class="mock-url">jtrack.gov.my/dashboard</div>
+      </div>
+      <div style="font-size:13px;color:#5A6B7E;margin-bottom:12px;font-weight:600;">⚠ AMARAN HARI INI · 3 PROJEK</div>
+      <div class="alert-row">
+        <div class="alert-icon">!</div>
+        <div class="alert-text">
+          <div class="alert-title">SMK Kuala Pilah · KRITIKAL</div>
+          <div class="alert-meta">Lewat 68 hari · 30.40% fizikal vs 39.28% jadual</div>
+        </div>
+      </div>
+      <div class="alert-row amber">
+        <div class="alert-icon amber">!</div>
+        <div class="alert-text">
+          <div class="alert-title">Klinik Kesihatan Jelebu</div>
+          <div class="alert-meta">Lewat 42 hari · 55% fizikal</div>
+        </div>
+      </div>
+      <div class="alert-row amber">
+        <div class="alert-icon amber">!</div>
+        <div class="alert-text">
+          <div class="alert-title">Jambatan Sungai Pertang</div>
+          <div class="alert-meta">Lewat 35 hari · 68% fizikal</div>
+        </div>
+      </div>
+    `
+  },
+  {
+    label: 'LANGKAH 2',
+    headline: 'Pengarah lulus pasukan',
+    subhead: 'Pengarah pilih projek bermasalah, lantik Ketua Pasukan, dan klik Hantar. Sistem auto-jana surat lantikan rasmi mengikut format JKR.',
+    happens: 'Surat Lantikan Pasukan auto-edar via emel',
+    happensTag: '1 KLIK',
+    mock: `
+      <div class="mock-header">
+        <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+        <div class="mock-url">jtrack.gov.my/lantik</div>
+      </div>
+      <div style="font-size:13px;color:#5A6B7E;margin-bottom:12px;font-weight:600;">PILIH KETUA PASUKAN</div>
+      <div class="form-row" style="background:#fef3c7;border-color:#D4A017;">
+        <div class="form-code">J52</div>
+        <div class="form-issue"><b>Ir. Rafidah Ahmad</b> · UKAT CPAB</div>
+        <div class="pill pill-ya">DIPILIH</div>
+      </div>
+      <div style="font-size:13px;color:#5A6B7E;margin:14px 0 8px;font-weight:600;">PENYEDIA LAPORAN (2 ORANG)</div>
+      <div class="form-row">
+        <div class="form-code">F41</div>
+        <div class="form-issue">Ts. Marlinah Mohamad · PMO N9</div>
+        <div class="pill pill-ya">YA</div>
+      </div>
+      <div class="form-row">
+        <div class="form-code">JA29</div>
+        <div class="form-issue">Nor'Izzati Rahman · UKAT</div>
+        <div class="pill pill-ya">YA</div>
+      </div>
+      <div style="margin-top:14px;text-align:right;">
+        <span class="btn-mock gold">📧 Hantar Surat Lantikan</span>
+      </div>
+    `
+  },
+  {
+    label: 'LANGKAH 3',
+    headline: 'Pasukan turun tapak',
+    subhead: 'Pasukan pergi tapak. Buka borang dalam telefon atau laptop. Tag setiap masalah ikut taxonomy rasmi (Kontraktor / Pelanggan / JKR).',
+    happens: 'Borang Penilaian penuh dengan bukti foto',
+    happensTag: 'TAPAK',
+    mock: `
+      <div class="mock-header">
+        <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+        <div class="mock-url">jtrack.gov.my/borang</div>
+      </div>
+      <div style="font-size:13px;color:#5A6B7E;margin-bottom:12px;font-weight:600;">BORANG PENILAIAN ISU · APPENDIX C</div>
+      <div class="form-row">
+        <div class="form-code">A.1.1</div>
+        <div class="form-issue">Pengurusan kontraktor lemah</div>
+        <div class="pill pill-ya">YA</div>
+      </div>
+      <div class="form-row">
+        <div class="form-code">A.3.2</div>
+        <div class="form-issue">Aliran kewangan tergendala — pembekal tarik kredit</div>
+        <div class="pill pill-ya">YA</div>
+      </div>
+      <div class="form-row">
+        <div class="form-code">B.2.1</div>
+        <div class="form-issue">Peruntukan dilewatkan oleh klien</div>
+        <div class="pill pill-tidak">TIDAK</div>
+      </div>
+      <div class="form-row">
+        <div class="form-code">C.1.1</div>
+        <div class="form-issue">Bayaran interim lewat dari JKR</div>
+        <div class="pill pill-ya">YA</div>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:#5A6B7E;font-style:italic;">3 isu YA · 1 isu TIDAK · 12 lampiran foto</div>
+    `
+  },
+  {
+    label: 'LANGKAH 4',
+    headline: 'Pengarah lulus laporan',
+    subhead: 'Sistem auto-susun laporan dari borang tadi. Pengarah review, klik Lulus, sistem auto-edar Surat Edaran ke 6 pihak (kontraktor, JKR Negeri, HOPT, dll) dengan salinan ke CPAB.',
+    happens: 'Laporan + Surat Edaran auto-jana & edar',
+    happensTag: '1 KLIK',
+    mock: `
+      <div class="mock-header">
+        <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+        <div class="mock-url">jtrack.gov.my/laporan</div>
+      </div>
+      <div class="letter">
+        <div class="letter-head">
+          <div class="letter-logo">JKR</div>
+          <div>
+            <div class="letter-org">JABATAN KERJA RAYA MALAYSIA</div>
+            <div style="font-size:9px;color:#5A6B7E;">Cawangan Pasukan Anggerik Bandar (CPAB)</div>
+          </div>
+        </div>
+        <div style="font-size:10px;margin-bottom:6px;">Ruj: <span class="letter-sub">UKAT/LAP/INT/2025/042</span> · Tarikh: <span class="letter-sub">18 Disember 2025</span></div>
+        <div style="text-align:center;font-weight:700;font-size:11px;text-decoration:underline;margin:10px 0;">
+          EDARAN LAPORAN INTERVENSI — SMK KUALA PILAH
+        </div>
+        <div style="font-size:10px;color:#475569;">Dengan hormatnya saya merujuk perkara di atas. Laporan Intervensi telah dimuktamadkan dan diluluskan...</div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+        <span class="btn-mock">📥 Muat Turun PDF</span>
+        <span class="btn-mock success">✓ Sahkan & Edar</span>
+      </div>
+    `
+  },
+  {
+    label: 'LANGKAH 5',
+    headline: 'Tutup PSG',
+    subhead: 'Sistem auto-track 3 bulan susulan. Setiap bulan, kontraktor hantar laporan kemajuan. Bila projek pulih stabil, Pengarah klik Tutup PSG.',
+    happens: 'Projek pulih · Audit log lengkap 7 tahun',
+    happensTag: 'SELESAI',
+    mock: `
+      <div class="mock-header">
+        <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+        <div class="mock-url">jtrack.gov.my/susulan</div>
+      </div>
+      <div class="status-band">
+        <div class="status-icon">✓</div>
+        <div>
+          <div style="font-weight:700;font-size:15px;">PSG Berjaya Ditutup</div>
+          <div style="font-size:12px;opacity:0.9;">SMK Kuala Pilah · 3 bulan susulan stabil</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#5A6B7E;margin:14px 0 8px;font-weight:600;">SUSULAN BULANAN</div>
+      <div class="form-row" style="background:#dcfce7;border-color:#2E7D5B;">
+        <div class="form-code" style="color:#166534;">M+1</div>
+        <div class="form-issue">Disember 2025 · 35.2% fizikal (+4.8%)</div>
+        <div class="pill pill-ya">PULIH</div>
+      </div>
+      <div class="form-row" style="background:#dcfce7;border-color:#2E7D5B;">
+        <div class="form-code" style="color:#166534;">M+2</div>
+        <div class="form-issue">Januari 2026 · 42.1% fizikal (+6.9%)</div>
+        <div class="pill pill-ya">PULIH</div>
+      </div>
+      <div class="form-row" style="background:#dcfce7;border-color:#2E7D5B;">
+        <div class="form-code" style="color:#166534;">M+3</div>
+        <div class="form-issue">Februari 2026 · 51.3% fizikal (+9.2%)</div>
+        <div class="pill pill-ya">PULIH</div>
+      </div>
+    `
+  }
+];
+
+let cur = 0;
+
+function render() {
+  // Progress dots
+  const prog = document.getElementById('progress');
+  let html = '';
+  for (let i = 0; i < STEPS.length; i++) {
+    const cls = i < cur ? 'done' : (i === cur ? 'active' : '');
+    const num = i < cur ? '✓' : (i + 1);
+    html += `<div class="dot ${cls}">${num}</div>`;
+    if (i < STEPS.length - 1) html += `<div class="line ${i < cur ? 'done' : ''}"></div>`;
+  }
+  prog.innerHTML = html;
+
+  // Card
+  const s = STEPS[cur];
+  document.getElementById('card').innerHTML = `
+    <div class="step-label">${s.label}</div>
+    <h1 class="headline">${s.headline}</h1>
+    <p class="subhead">${s.subhead}</p>
+    <div class="mock">${s.mock}</div>
+    <div class="happens">
+      <div class="happens-label">HASIL</div>
+      <div class="happens-text">${s.happens} <span class="auto-tag">${s.happensTag}</span></div>
+    </div>
+  `;
+
+  // Nav
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('counter').textContent = `Langkah ${cur + 1} dari ${STEPS.length}`;
+  const nextBtn = document.getElementById('btn-next');
+  if (cur === STEPS.length - 1) {
+    nextBtn.textContent = '✓ Mula Semula';
+    nextBtn.classList.add('final');
+  } else {
+    nextBtn.textContent = 'Seterusnya →';
+    nextBtn.classList.remove('final');
+  }
+
+  // Scroll to top of card on mobile
+  if (window.innerWidth < 768) {
+    document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function next() {
+  if (cur === STEPS.length - 1) cur = 0;
+  else cur++;
+  render();
+}
+function back() {
+  if (cur > 0) cur--;
+  render();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); back(); }
+});
+
+render();
+</script>
+</body>
+</html>
