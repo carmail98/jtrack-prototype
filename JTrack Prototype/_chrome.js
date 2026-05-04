@@ -157,7 +157,7 @@
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>
             </button>
           </div>
-          <button id="jt-role-switcher" class="w-full flex items-center gap-2.5 p-2 -m-2 rounded-md hover:bg-muted text-left">
+          <button id="jt-role-switcher" class="w-full flex items-center gap-2.5 p-2 -mx-2 rounded-md hover:bg-muted text-left">
             <div class="avatar w-8 h-8 rounded-full text-[11px]" style="background:${role.bg}">${role.initials}</div>
             <div class="min-w-0 flex-1">
               <div class="text-[12px] font-semibold truncate">${role.name}</div>
@@ -165,6 +165,10 @@
             </div>
             <svg class="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
+          <a href="Log Masuk.html" id="jt-sidebar-logout" data-action="logout" class="mt-1 w-full flex items-center justify-center gap-1.5 p-2 rounded-md text-[12px] font-semibold text-slate-600 hover:bg-red-50 hover:text-red-700 transition" title="Log keluar dari sistem">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Log Keluar</span>
+          </a>
         </div>
       </aside>
     `;
@@ -840,10 +844,9 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.08);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Arial, sans-serif;
             font-size: 12px; user-select: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.25s ease;
           }
-          #jt-demo-nav.jt-hidden { opacity: 0.15; }
-          #jt-demo-nav.jt-hidden:hover { opacity: 1; }
+          #jt-demo-nav.jt-hidden { display: none !important; }
           #jt-demo-nav a, #jt-demo-nav button {
             display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px;
             color: inherit; text-decoration: none; border-radius: 999px;
@@ -861,8 +864,20 @@
             overflow: hidden; text-overflow: ellipsis;
           }
           #jt-demo-nav .jt-dn-disabled { opacity: 0.28; pointer-events: none; }
+          #jt-demo-nav .jt-dn-close { padding: 0 8px !important; opacity: 0.55; }
+          #jt-demo-nav .jt-dn-close:hover { opacity: 1; background: rgba(199,86,29,0.25) !important; }
           #jt-demo-nav svg { width: 14px; height: 14px; flex-shrink: 0; }
-          @media print { #jt-demo-nav { display: none !important; } }
+          /* Reopen tab — small floating dot bottom-right */
+          #jt-demo-nav-reopen { position: fixed; bottom: 20px; right: 20px; z-index: 9997;
+            width: 44px; height: 44px; border-radius: 50%; background: #13253E; color: #D4A017;
+            border: 0; cursor: pointer; display: none; align-items: center; justify-content: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25); transition: transform 0.15s ease;
+            font-family: inherit;
+          }
+          #jt-demo-nav-reopen.jt-show { display: flex !important; }
+          #jt-demo-nav-reopen:hover { transform: scale(1.08); }
+          #jt-demo-nav-reopen svg { width: 18px; height: 18px; }
+          @media print { #jt-demo-nav, #jt-demo-nav-reopen { display: none !important; } }
         </style>
         <a class="jt-dn-home" href="demo.html" title="Kembali ke Demo Navigator (Esc)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -883,18 +898,43 @@
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </a>
-        <button id="jt-dn-toggle" title="Sorok / Paparkan (H)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
+        <button id="jt-dn-close" class="jt-dn-close" title="Tutup demo bar (boleh buka semula)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       `;
       document.body.appendChild(bar);
 
-      document.getElementById('jt-dn-toggle').addEventListener('click', () => {
-        bar.classList.toggle('jt-hidden');
-      });
+      // Floating reopen button
+      const reopenBtn = document.createElement('button');
+      reopenBtn.id = 'jt-demo-nav-reopen';
+      reopenBtn.title = 'Buka semula demo navigator';
+      reopenBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>`;
+      document.body.appendChild(reopenBtn);
+
+      // Persist hidden state across page navigation
+      const HIDDEN_KEY = 'jtrack:demoNavHidden';
+      function applyHiddenState(hidden) {
+        if (hidden) {
+          bar.classList.add('jt-hidden');
+          reopenBtn.classList.add('jt-show');
+          try { localStorage.setItem(HIDDEN_KEY, '1'); } catch {}
+        } else {
+          bar.classList.remove('jt-hidden');
+          reopenBtn.classList.remove('jt-show');
+          try { localStorage.removeItem(HIDDEN_KEY); } catch {}
+        }
+      }
+
+      // Restore previous preference
+      try {
+        if (localStorage.getItem(HIDDEN_KEY) === '1') applyHiddenState(true);
+      } catch {}
+
+      document.getElementById('jt-dn-close').addEventListener('click', () => applyHiddenState(true));
+      reopenBtn.addEventListener('click', () => applyHiddenState(false));
 
       document.addEventListener('keydown', (e) => {
         const t = e.target;
@@ -902,7 +942,7 @@
         if (e.key === 'ArrowLeft' && prev)  { e.preventDefault(); location.href = encodeURI(prev[0]); }
         if (e.key === 'ArrowRight' && next) { e.preventDefault(); location.href = encodeURI(next[0]); }
         if (e.key === 'Escape')             { e.preventDefault(); location.href = 'demo.html'; }
-        if (e.key === 'h' || e.key === 'H') { bar.classList.toggle('jt-hidden'); }
+        if (e.key === 'h' || e.key === 'H') { applyHiddenState(!bar.classList.contains('jt-hidden')); }
       });
     } catch (err) {
       console && console.warn && console.warn('demo-nav inject failed', err);
