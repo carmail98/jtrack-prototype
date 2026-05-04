@@ -191,7 +191,7 @@
     // Authentication
     'login': () => {
       Session.login({
-        nama: 'Ir. Rafidah Ahmad',
+        nama: 'Ir. Aishah Othman',
         peranan: 'Pentadbir Sistem',
         cawangan: 'CPAB Ibu Pejabat',
         avatar: 'RA',
