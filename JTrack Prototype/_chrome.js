@@ -121,36 +121,96 @@
   function renderSidebar(active) {
     const role = getRole();
     let html = `
-      <aside class="w-60 bg-white border-r border-border flex flex-col flex-shrink-0">
-        <div class="px-5 py-4 flex items-center gap-2.5 border-b border-border">
-          <div class="w-9 h-9 rounded-md bg-orange flex items-center justify-center text-white font-bold text-[13px]">JT</div>
-          <div>
-            <div class="text-[14px] font-bold tracking-tight leading-none">J-TRACK</div>
-            <div class="text-[10.5px] text-muted-foreground mt-0.5">JKR Malaysia</div>
+      <style>
+        /* Sticky sidebar — stays visible when page scrolls */
+        aside.jt-sidebar-aside {
+          position: sticky; top: 0;
+          height: 100vh; max-height: 100vh;
+          align-self: flex-start;
+          transition: width 0.22s ease, transform 0.22s ease;
+        }
+        /* Collapsed (icon-only) state */
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside { width: 60px !important; }
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-label,
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-title,
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-subtitle,
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-group,
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-bottom,
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-badge {
+          display: none !important;
+        }
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside nav a {
+          justify-content: center; padding: 10px 0 !important;
+        }
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-header {
+          justify-content: center; padding: 12px 8px !important;
+        }
+        body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-brand-text {
+          display: none !important;
+        }
+        /* Toggle button */
+        .jt-sidebar-toggle {
+          position: absolute; right: -12px; top: 14px;
+          width: 24px; height: 24px; border-radius: 50%;
+          background: white; border: 1px solid #e2e8f0;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; z-index: 10;
+          box-shadow: 0 2px 6px rgba(15,23,42,0.08);
+          transition: transform 0.15s, background 0.12s;
+        }
+        .jt-sidebar-toggle:hover { background: #f1f5f9; transform: scale(1.08); }
+        .jt-sidebar-toggle svg { width: 14px; height: 14px; color: #5A6B7E; transition: transform 0.22s; }
+        body.jt-sidebar-collapsed .jt-sidebar-toggle svg { transform: rotate(180deg); }
+        /* Disable internal nav scroll — show all items */
+        aside.jt-sidebar-aside nav.jt-sidebar-nav {
+          overflow-y: auto; overflow-x: hidden;
+        }
+        @media (max-width: 768px) {
+          aside.jt-sidebar-aside { position: fixed; left: 0; top: 0; z-index: 100; box-shadow: 0 4px 24px rgba(15,23,42,0.18); }
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside { transform: translateX(-100%); width: 240px !important; }
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-label,
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-title,
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-subtitle,
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-group,
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-bottom,
+          body.jt-sidebar-collapsed aside.jt-sidebar-aside .jt-sidebar-brand-text {
+            display: block !important;
+          }
+        }
+      </style>
+      <aside class="jt-sidebar-aside w-60 bg-white border-r border-border flex flex-col flex-shrink-0 relative">
+        <button class="jt-sidebar-toggle" id="jt-sidebar-collapse" title="Tutup/buka sidebar (Cmd+\\)" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="jt-sidebar-header px-5 py-4 flex items-center gap-2.5 border-b border-border">
+          <div class="w-9 h-9 rounded-md bg-orange flex items-center justify-center text-white font-bold text-[13px] flex-shrink-0">JT</div>
+          <div class="jt-sidebar-brand-text">
+            <div class="text-[14px] font-bold tracking-tight leading-none jt-sidebar-title">J-TRACK</div>
+            <div class="text-[10.5px] text-muted-foreground mt-0.5 jt-sidebar-subtitle">JKR Malaysia</div>
           </div>
         </div>
-        <nav class="flex-1 p-3 space-y-0.5 text-[13px] overflow-auto scrollbar">
+        <nav class="jt-sidebar-nav flex-1 p-3 space-y-0.5 text-[13px] scrollbar">
     `;
     NAV.forEach(g => {
       // Hide whole group if all items are hidden for this role
       const visibleItems = g.items.filter(it => !role.hideMenu.includes(it.key));
       if (visibleItems.length === 0) return;
-      html += `<div class="px-2 pt-2 pb-1 text-[10px] uppercase tracking-[1.5px] font-semibold text-muted-foreground">${g.group}</div>`;
+      html += `<div class="jt-sidebar-group px-2 pt-2 pb-1 text-[10px] uppercase tracking-[1.5px] font-semibold text-muted-foreground">${g.group}</div>`;
       visibleItems.forEach(it => {
         const isActive = it.key === active;
         const cls = isActive
           ? 'bg-navy-50 text-navy-800 font-semibold'
           : 'text-slate-700 hover:bg-muted';
-        const badge = it.badge ? `<span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-critical text-white mono tabular">${it.badge}</span>` : '';
-        html += `<a href="${it.href}" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md ${cls}">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${it.icon}</svg>
-          <span>${it.label}</span>${badge}
+        const badge = it.badge ? `<span class="jt-sidebar-badge ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-critical text-white mono tabular">${it.badge}</span>` : '';
+        html += `<a href="${it.href}" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md ${cls}" title="${it.label}">
+          <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${it.icon}</svg>
+          <span class="jt-sidebar-label">${it.label}</span>${badge}
         </a>`;
       });
     });
     html += `
         </nav>
-        <div class="p-3 border-t border-border">
+        <div class="jt-sidebar-bottom p-3 border-t border-border">
           <div class="text-[9.5px] uppercase tracking-[1.5px] font-semibold text-muted-foreground mb-1.5 flex items-center justify-between">
             <span>Demo sebagai</span>
             <button id="jt-role-info" class="text-muted-foreground hover:text-navy" title="Info tentang RBAC">
@@ -740,6 +800,38 @@
   }
 
   // =========================================================================
+  // SIDEBAR COLLAPSE — toggle icon-only mode + persist preference
+  // =========================================================================
+  const SIDEBAR_KEY = 'jtrack:sidebarCollapsed';
+  function setupSidebarCollapse() {
+    // Restore saved state
+    try {
+      if (localStorage.getItem(SIDEBAR_KEY) === '1') {
+        document.body.classList.add('jt-sidebar-collapsed');
+      }
+    } catch {}
+
+    const btn = document.getElementById('jt-sidebar-collapse');
+    if (btn && !btn.dataset.jtBound) {
+      btn.dataset.jtBound = '1';
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !document.body.classList.contains('jt-sidebar-collapsed');
+        document.body.classList.toggle('jt-sidebar-collapsed');
+        try { localStorage.setItem(SIDEBAR_KEY, collapsed ? '1' : '0'); } catch {}
+      });
+    }
+
+    // Keyboard shortcut: Cmd+\ or Ctrl+\
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === '\\') {
+        e.preventDefault();
+        document.getElementById('jt-sidebar-collapse')?.click();
+      }
+    });
+  }
+
+  // =========================================================================
   // PUBLIC API
   // =========================================================================
   window.JTRACK = {
@@ -749,6 +841,7 @@
       if (sb) sb.outerHTML = renderSidebar(active);
       if (tb) tb.outerHTML = renderTopbar(crumbs || []);
       setupDrawer();
+      setupSidebarCollapse();
       autowire();
     },
     role: getRole,
