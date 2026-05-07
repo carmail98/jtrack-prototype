@@ -225,6 +225,10 @@
             </div>
             <svg class="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
+          <button id="jt-demo-reset" class="mt-1 w-full flex items-center justify-center gap-1.5 p-2 rounded-md text-[12px] font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition" title="Reset semua data demo dan mula semula">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            <span>↻ Reset Demo</span>
+          </button>
           <a href="Log Masuk.html" id="jt-sidebar-logout" data-action="logout" class="mt-1 w-full flex items-center justify-center gap-1.5 p-2 rounded-md text-[12px] font-semibold text-slate-600 hover:bg-red-50 hover:text-red-700 transition" title="Log keluar dari sistem">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span>Log Keluar</span>
@@ -829,6 +833,57 @@
         document.getElementById('jt-sidebar-collapse')?.click();
       }
     });
+
+    // Wire Reset Demo button — confirm modal + clear localStorage + redirect
+    const resetBtn = document.getElementById('jt-demo-reset');
+    if (resetBtn && !resetBtn.dataset.jtBound) {
+      resetBtn.dataset.jtBound = '1';
+      resetBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showResetModal();
+      });
+    }
+  }
+
+  // Reset Demo confirmation modal
+  function showResetModal() {
+    // Remove any existing
+    const existing = document.getElementById('jt-reset-modal');
+    if (existing) existing.remove();
+    const modal = document.createElement('div');
+    modal.id = 'jt-reset-modal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,0.55);backdrop-filter:blur(4px);';
+    modal.innerHTML = `
+      <div style="background:#fff;border-radius:14px;max-width:440px;width:90%;padding:24px;box-shadow:0 24px 64px rgba(0,0,0,0.25);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+          <div style="width:42px;height:42px;border-radius:999px;background:#FEF3C7;color:#B45309;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;">↻</div>
+          <div style="flex:1;">
+            <div style="font-size:17px;font-weight:600;color:#1A1A2E;">Reset Demo?</div>
+            <div style="font-size:13.5px;color:#5A6B7E;margin-top:2px;line-height:1.5;">Semua data simulation (audit log, workflow state, draf borang) akan dikosongkan. Anda akan dibawa kembali ke <strong>Cara Mudah</strong> sebagai mula segar.</div>
+          </div>
+        </div>
+        <div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:10px 12px;margin-bottom:18px;font-size:12px;color:#475569;line-height:1.4;">
+          ℹ️ Ini hanya reset data demo dalam browser ini sahaja — tiada data sebenar JKR akan terjejas.
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button id="jt-reset-cancel" style="height:38px;padding:0 16px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#1A1A2E;font-size:13.5px;font-weight:600;cursor:pointer;">Batal</button>
+          <button id="jt-reset-confirm" style="height:38px;padding:0 16px;border-radius:8px;border:none;background:#D4A017;color:#13253E;font-size:13.5px;font-weight:700;cursor:pointer;">↻ Reset & Mula Semula</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector('#jt-reset-cancel').addEventListener('click', () => modal.remove());
+    modal.querySelector('#jt-reset-confirm').addEventListener('click', () => {
+      try {
+        Object.keys(localStorage).filter(k => k.startsWith('jtrack')).forEach(k => localStorage.removeItem(k));
+      } catch {}
+      // Brief flash before redirect
+      modal.querySelector('div div').innerHTML = '<div style="text-align:center;padding:20px;font-size:14px;color:#2E7D5B;font-weight:600;">✓ Demo direset · mengalihkan…</div>';
+      setTimeout(() => location.href = 'Cara Mudah.html', 800);
+    });
+    // Click backdrop to close
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
   }
 
   // =========================================================================
