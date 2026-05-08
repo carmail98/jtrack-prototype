@@ -79,7 +79,12 @@
   }
 
   function setRole(k) {
-    try { localStorage.setItem('jtrack.role', k); } catch (e) {}
+    try {
+      const prevK = localStorage.getItem('jtrack.role') || 'admin';
+      localStorage.setItem('jtrack.role', k);
+      // Flag for post-reload toast confirmation
+      if (prevK !== k) sessionStorage.setItem('jtrack.justSwitchedRole', k);
+    } catch (e) {}
     location.reload();
   }
 
@@ -250,7 +255,22 @@
         ? `<span class="text-foreground font-semibold">${c}</span>`
         : `<a class="hover:text-navy cursor-pointer">${c}</a><span>/</span>`;
     }).join('');
-    return `
+    // Role strip — visible indicator of current RBAC role
+    const roleStripHtml = `
+      <div class="jt-role-strip" style="height:28px;display:flex;align-items:center;gap:10px;padding:0 24px;background:linear-gradient(90deg,${role.bg},${role.bg}dd);color:#fff;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.05);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.95;">RBAC · ${role.tier}</span>
+        <span style="opacity:0.7;">·</span>
+        <span style="opacity:0.95;">${role.name} <span style="opacity:0.7;">(${role.gred})</span></span>
+        <span style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <span style="opacity:0.75;font-size:10.5px;">${role.desc.split('—')[0].split(',')[0].trim()}</span>
+          <button class="jt-role-strip-switch" style="height:20px;padding:0 10px;border-radius:4px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:10.5px;font-weight:600;cursor:pointer;letter-spacing:0.3px;" title="Tukar peranan">
+            Tukar Peranan ↻
+          </button>
+        </span>
+      </div>
+    `;
+    return roleStripHtml + `
       <header class="jt-topbar h-14 bg-white border-b border-border px-6 flex items-center justify-between flex-shrink-0">
         <div class="flex items-center gap-2 text-[12.5px] text-muted-foreground">
           <button class="jt-hamburger p-1.5 -ml-1 rounded-md hover:bg-muted text-slate-700" aria-label="Menu">
@@ -844,6 +864,32 @@
         showResetModal();
       });
     }
+
+    // Wire role strip "Tukar Peranan" button
+    document.querySelectorAll('.jt-role-strip-switch').forEach(b => {
+      if (b.dataset.jtBound) return;
+      b.dataset.jtBound = '1';
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showRoleSwitcher();
+      });
+    });
+
+    // Post-reload toast confirmation if just switched role
+    try {
+      const justSwitched = sessionStorage.getItem('jtrack.justSwitchedRole');
+      if (justSwitched && ROLES[justSwitched]) {
+        sessionStorage.removeItem('jtrack.justSwitchedRole');
+        const r = ROLES[justSwitched];
+        const hiddenCount = (r.hideMenu || []).length;
+        const descTxt = hiddenCount > 0
+          ? `${hiddenCount} menu disembunyi mengikut RBAC.`
+          : 'Akses penuh — semua menu visible.';
+        const msg = `<div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;background:${r.bg};">${r.initials}</div><div><div style="font-weight:600;color:#0f172a;">✓ Peranan ditukar: ${r.tier}</div><div style="font-size:11px;color:#5A6B7E;margin-top:2px;">${r.name} · ${r.gred} · ${descTxt}</div></div></div>`;
+        setTimeout(() => toast(msg, 'success'), 300);
+      }
+    } catch {}
   }
 
   // Reset Demo confirmation modal
