@@ -22,13 +22,28 @@
   .bp-impak input[type="checkbox"] { display: none; }
   .bp-impak label { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 24px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10.5px; font-weight: 700; color: #64748b; cursor: pointer; background: #fff; }
   .bp-impak input[type="checkbox"]:checked + label { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+  /* Segmented YA/TIDAK control — single rounded group, clear states */
+  .bp-yt { display: inline-flex; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px #cbd5e1; transition: box-shadow 0.15s; }
   .bp-yt input[type="radio"] { display: none; }
-  .bp-yt label { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 22px; border: 1px solid #cbd5e1; font-size: 10.5px; font-weight: 700; cursor: pointer; background: #fff; color: #64748b; }
-  .bp-yt label:first-of-type { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
-  .bp-yt label:last-of-type { border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-left: 0; }
-  .bp-yt input[value="ya"]:checked + label { background: #16a34a; color: #fff; border-color: #16a34a; }
-  .bp-yt input[value="tidak"]:checked + label { background: #94a3b8; color: #fff; border-color: #94a3b8; }
+  .bp-yt label { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 24px; font-size: 10.5px; font-weight: 700; cursor: pointer; background: #fff; color: #94a3b8; transition: all 0.12s; border: 0; }
+  .bp-yt label:hover { background: #f8fafc; color: #475569; }
+  .bp-yt input[value="ya"]:checked + label { background: #16a34a; color: #fff; }
+  .bp-yt input[value="tidak"]:checked + label { background: #94a3b8; color: #fff; }
+  /* Unanswered state — amber left border + soft tint */
+  .bp-row.bp-unanswered { border-left: 3px solid #f59e0b; padding-left: calc(1.25rem - 3px); background: #fffbeb33; }
+  .bp-row.bp-unanswered .bp-yt { box-shadow: 0 0 0 1.5px #f59e0b; }
   .bp-row.bp-active { background: #fffbeb; }
+  /* Progress bar — slim, sticky under header */
+  #bp-progress-bar { position: sticky; top: 0; z-index: 5; background: white; border-bottom: 1px solid #e5e7eb; padding: 8px 24px; display: flex; align-items: center; gap: 14px; }
+  #bp-progress-bar .label { font-size: 11.5px; font-weight: 600; color: #1A1A2E; flex-shrink: 0; }
+  #bp-progress-bar .label .count { color: #5A6B7E; font-weight: 500; margin-left: 4px; }
+  #bp-progress-bar .track { flex: 1; height: 6px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
+  #bp-progress-bar .fill { height: 100%; background: linear-gradient(90deg, #16a34a, #22c55e); border-radius: 999px; transition: width 0.3s ease; }
+  #bp-progress-bar .pct { font-size: 11px; font-weight: 700; color: #16a34a; mono: true; min-width: 36px; text-align: right; flex-shrink: 0; }
+  #bp-progress-bar.is-incomplete .fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+  #bp-progress-bar.is-incomplete .pct { color: #B45309; }
+  /* Disabled submit button */
+  button.bp-submit-disabled { opacity: 0.55 !important; cursor: not-allowed !important; pointer-events: none; }
 </style>
 </head>
 <body class="antialiased min-h-screen">
@@ -95,6 +110,13 @@
           </div>
         </div>
       </section>
+
+      <!-- ========== PROGRESS BAR ========== -->
+      <div id="bp-progress-bar" class="is-incomplete">
+        <div class="label">Borang Penilaian <span class="count">· <span id="bp-done">0</span> / <span id="bp-total">14</span> isu lengkap</span></div>
+        <div class="track"><div class="fill" id="bp-fill" style="width:0%"></div></div>
+        <div class="pct mono"><span id="bp-pct">0</span>%</div>
+      </div>
 
       <!-- ========== ISU LIST ========== -->
       <section class="px-6 pb-6 grid grid-cols-[1fr_320px] gap-4">
@@ -962,6 +984,69 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, true);
+
+  // ===========================================================================
+  // OPTION A — UX Quick Wins (4 items)
+  // ===========================================================================
+
+  // Helper: count active rows + completed
+  function bpCountStats() {
+    const activeRows = document.querySelectorAll('.bp-row.bp-active');
+    let done = 0;
+    activeRows.forEach(row => {
+      const tas = row.querySelectorAll('textarea');
+      const hasTexts = tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim();
+      if (hasTexts) done++;
+    });
+    return { done, total: activeRows.length };
+  }
+
+  // Helper: mark unanswered rows with amber border
+  function bpMarkUnanswered() {
+    document.querySelectorAll('.bp-row.bp-active').forEach(row => {
+      const tas = row.querySelectorAll('textarea');
+      const isComplete = tas.length >= 2 && tas[0].value.trim() && tas[1].value.trim();
+      row.classList.toggle('bp-unanswered', !isComplete);
+    });
+  }
+
+  // Helper: update progress bar + submit button state
+  function bpUpdateProgress() {
+    const { done, total } = bpCountStats();
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const pb = document.getElementById('bp-progress-bar');
+    const fill = document.getElementById('bp-fill');
+    if (pb && fill) {
+      document.getElementById('bp-done').textContent = done;
+      document.getElementById('bp-total').textContent = total;
+      document.getElementById('bp-pct').textContent = pct;
+      fill.style.width = pct + '%';
+      pb.classList.toggle('is-incomplete', done < total);
+    }
+
+    // Toggle submit button enabled state — soft disable (still clickable to show modal)
+    const submitBtn = [...document.querySelectorAll('button')].find(b =>
+      /Hantar untuk Semakan/i.test((b.textContent || '').trim())
+    );
+    if (submitBtn) {
+      const isComplete = done >= total && total > 0;
+      submitBtn.classList.toggle('bp-submit-disabled', !isComplete);
+      submitBtn.title = isComplete
+        ? 'Hantar borang lengkap untuk semakan Pengesah'
+        : `${total - done} isu masih belum lengkap. Klik tetap akan tunjuk pilihan override.`;
+    }
+  }
+
+  // Initial paint + reactive update on textarea/radio change
+  setTimeout(() => {
+    bpMarkUnanswered();
+    bpUpdateProgress();
+    // Listen for changes
+    document.querySelectorAll('.bp-row textarea, .bp-row input[type=radio]').forEach(el => {
+      el.addEventListener('input', () => { bpMarkUnanswered(); bpUpdateProgress(); });
+      el.addEventListener('change', () => { bpMarkUnanswered(); bpUpdateProgress(); });
+    });
+  }, 100);
 });
 </script>
 </body>
